@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Db Show</string>
+    <string name="app_title">Android DB Showcase</string>
+    <string name="placeholder_empty">Empty</string>
+    <string name="placeholder_offline">You are offline.\n\nEnable your internet connection and press reload.</string>
+    <string name="placeholder_nopermission">@string/permissions_not_granted</string>
+
+    <string name="permission_fine_location_rationale">Permissions are needed.</string>
+    <string name="permision_available_fine_location">Permissions have been granted.</string>
+    <string name="permissions_not_granted">Permissions were not granted.</string>
+    <string name="manage_permission">Manage permission</string>
+
+    <string name="ok">Ok</string>
+    <string name="view_button">View detail</string>
+
+    <string name="calendar_not_implemented">Calendar not implemented yet!</string>
+   </resources>

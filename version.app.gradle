@@ -1,0 +1,6 @@
+ext {
+    versionMajor = 3 // max two digits
+    versionMinor = 3 // max two digits
+    versionPatch = 20 // max two digits
+    versionBuild = 0 // max three digits
+}
