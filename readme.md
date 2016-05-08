@@ -1,4 +1,5 @@
 <h1>Android local database showcase</h1>
+![DbShowcase](./mobile/src/main/res/mipmap-hdpi/ic_launcher.png "DbShowcase")
 
 <h2>1 SQL Lite vs.  Realm</h2>
 <h3>1.1 Introduction</h3>
