@@ -52,8 +52,5 @@ public class  MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfiguration);
     }
 
-    @Override
-    public void onBackPressed() {
-    }
 
 }

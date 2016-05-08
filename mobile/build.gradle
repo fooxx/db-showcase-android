@@ -7,7 +7,8 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.android.databinding'
 apply plugin: 'io.fabric'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'realm-android'
+
+apply plugin: 'realm-android'//REALM.IO
 
 final VERSION_MAJOR = rootProject.ext.versionMajor // max two digits
 final VERSION_MINOR = rootProject.ext.versionMinor // max two digits
@@ -23,6 +24,12 @@ dependencies
             /**
              *  COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE
              */
+
+            // DBFLOW basic
+            apt "com.github.Raizlabs.DBFlow:dbflow-processor:$rootProject.ext.dbflow_version"
+            // DBFLOW sql-cipher database encyrption (optional)
+            compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$rootProject.ext.dbflow_version"
+
 
             compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
                 transitive = true;
