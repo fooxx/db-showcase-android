@@ -8,9 +8,9 @@
 **Couchbase Lite** (http://developer.couchbase.com/mobile/) - a lightweight embedded NoSQL database engine for Android with the built-in ability to sync to Couchbase Server.  
 
 <h3>Let's compare</h3>
-http://kpgalligan.tumblr.com/post/133281929963/my-talk-at-droidcon-uk
-https://github.com/Raizlabs/AndroidDatabaseLibraryComparison
-http://www.raizlabs.com/dev/2015/02/go-dbflow-fastest-android-orm-database-library/
+http://kpgalligan.tumblr.com/post/133281929963/my-talk-at-droidcon-uk  
+https://github.com/Raizlabs/AndroidDatabaseLibraryComparison  
+http://www.raizlabs.com/dev/2015/02/go-dbflow-fastest-android-orm-database-library/  
 
 
 <h2>2. SQL Lite - DBFlow</h2>
