@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cz.koto.misak.kotipoint.android.mobile.R;
-import cz.koto.misak.kotipoint.android.mobile.entity.MainLayoutState;
 
 public class  MainActivity extends AppCompatActivity {
 
@@ -18,12 +17,10 @@ public class  MainActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
     android.support.v7.widget.Toolbar mToolbar;
 
-    private MainLayoutState viewContainerState = null;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(MainLayoutState.class.getName(), viewContainerState);
     }
 
     @Override
