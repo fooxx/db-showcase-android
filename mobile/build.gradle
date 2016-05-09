@@ -43,8 +43,7 @@ dependencies
             compile "com.android.support:palette-v7:$rootProject.ext.supportLibVersion"
 
             compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
-//GsonConverterFactory 4retrofit
-            compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"//retrofit
+            compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
             compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
 
             compile "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.loggingInterceptor"
