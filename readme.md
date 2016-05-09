@@ -3,9 +3,9 @@
 
 <h2>SQL/NoSQL</h2>
 
-**DBFlow** (https://github.com/Raizlabs/DBFlow/) - fastest ORM on top of SQLLite engine
-**Realm.io** (https://realm.io/) - Replacement for SQLLite.
-**Couchbase Lite** (http://developer.couchbase.com/mobile/) - a lightweight embedded NoSQL database engine for Android with the built-in ability to sync to Couchbase Server on the backend.
+**DBFlow** (https://github.com/Raizlabs/DBFlow/) - fastest ORM on top of SQLLite engine  
+**Realm.io** (https://realm.io/) - Replacement for SQLLite.  
+**Couchbase Lite** (http://developer.couchbase.com/mobile/) - a lightweight embedded NoSQL database engine for Android with the built-in ability to sync to Couchbase Server on the backend.  
 
 <h2>2. SQL Lite - DBFlow</h2>
 _Engine: SQLLite_
