@@ -15,9 +15,9 @@ M:N
 
 What about STRV related structure? :
  
-TechCommunity - tech community such as Android, iOS, backend, frontend. Any community could have anyone from the programmer's pool.
-BaseOffice - base office of the tech guy.
-Programmer - programmer has one base office and could be member of any TechCommunity
+TechCommunity - tech community such as Android, iOS, backend, frontend. Any community could have anyone from the programmer's pool.  
+BaseOffice - base office of the tech guy.  
+Programmer - programmer has one base office and could be member of any TechCommunity.  
 
 <h3>Presentation</h3>
 Choose the simple way, how to graphically present chosen model.
