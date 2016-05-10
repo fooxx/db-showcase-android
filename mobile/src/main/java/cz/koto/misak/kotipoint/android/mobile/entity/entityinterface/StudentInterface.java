@@ -6,14 +6,14 @@ import java.util.Date;
 public interface StudentInterface<T extends SchoolClassInterface>
 {
 
-	long getStudentId();
-	void setStudentId(long id);
+	long getId();
+	void setId(long id);
 
-	String getStudentName();
-	void setStudentName(String name);
+	String getName();
+	void setName(String name);
 
-	Date getStudentBirthDate();
-	void setStudentBirthDate(Date birthDate);
+	Date getBirthDate();
+	void setBirthDate(Date birthDate);
 
 	T getSchoolClass();
 	void setSchoolClass(T schoolClass);

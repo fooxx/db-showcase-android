@@ -3,71 +3,83 @@ package cz.koto.misak.kotipoint.android.mobile.entity.dbflow;
 import android.databinding.Bindable;
 
 import com.google.gson.annotations.SerializedName;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ForeignKey;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.Date;
 
 import cz.koto.misak.kotipoint.android.mobile.BR;
+import cz.koto.misak.kotipoint.android.mobile.db.dbflow.DbFlowDatabase;
 import cz.koto.misak.kotipoint.android.mobile.entity.entityinterface.StudentInterface;
 
-
+@Table(database = DbFlowDatabase.class)
 public class StudentDbFlowEntity extends BaseDbFlowModel implements StudentInterface<SchoolClassDbFlowEntity>
 {
 
+	@PrimaryKey(autoincrement = true)
+	@Column
 	@SerializedName("id")
-	private long mId;
+	private long id;
+	@Column
 	@SerializedName("name")
-	private String mName;
+	private String name;
+	@Column
 	@SerializedName("birthDate")
-	private Date mBirthDate;
+	private Date birthDate;
+	@Column
+	@ForeignKey
 	@SerializedName("schoolClass")
-	private SchoolClassDbFlowEntity mSchoolClass;
+	private SchoolClassDbFlowEntity schoolClass;
 
 
 	@Bindable
 	@Override
-	public long getStudentId()
+	public long getId()
 	{
-		return mId;
+		return id;
 	}
 
 
 	@Override
-	public void setStudentId(long id)
+	public void setId(long id)
 	{
-		mId = id;
-		notifyPropertyChanged(BR.studentId);
-	}
-
-
-	@Bindable
-	@Override
-	public String getStudentName()
-	{
-		return mName;
-	}
-
-
-	@Override
-	public void setStudentName(String name)
-	{
-		mName = name;
-		notifyPropertyChanged(BR.studentName);
+		this.id = id;
+		notifyPropertyChanged(BR.id);
 	}
 
 
 	@Bindable
 	@Override
-	public Date getStudentBirthDate()
+	public String getName()
 	{
-		return mBirthDate;
+		return name;
 	}
 
 
 	@Override
-	public void setStudentBirthDate(Date birthDate)
+	public void setName(String name)
 	{
-		mBirthDate = birthDate;
-		notifyPropertyChanged(BR.studentBirthDate);
+		this.name = name;
+		notifyPropertyChanged(BR.name);
+	}
+
+
+	@Bindable
+	@Override
+	public Date getBirthDate()
+	{
+		return birthDate;
+	}
+
+
+	@Override
+	public void setBirthDate(Date birthDate)
+	{
+		this.birthDate = birthDate;
+		notifyPropertyChanged(BR.birthDate);
 	}
 
 
@@ -75,14 +87,20 @@ public class StudentDbFlowEntity extends BaseDbFlowModel implements StudentInter
 	@Override
 	public SchoolClassDbFlowEntity getSchoolClass()
 	{
-		return mSchoolClass;
+		if(schoolClass == null) {
+			new Select()
+					.from(SchoolClassDbFlowEntity.class)
+					.where(SchoolClassDbFlowEntity_Table.id.eq(id))
+					.querySingle();
+		}
+		return schoolClass;
 	}
 
 
 	@Override
 	public void setSchoolClass(SchoolClassDbFlowEntity schoolClass)
 	{
-		mSchoolClass = schoolClass;
+		this.schoolClass = schoolClass;
 		notifyPropertyChanged(BR.schoolClass);
 	}
 }

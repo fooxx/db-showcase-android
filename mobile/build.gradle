@@ -1,10 +1,9 @@
 plugins {
-    id "me.tatarka.retrolambda" version "3.2.5"
+	id "me.tatarka.retrolambda" version "3.2.5"
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'com.android.databinding'
 apply plugin: 'io.fabric'
 apply plugin: 'com.neenbedankt.android-apt'
 
@@ -16,212 +15,211 @@ final VERSION_PATCH = rootProject.ext.versionPatch // max two digits
 final VERSION_BUILD = rootProject.ext.versionBuild // max three digits
 
 crashlytics {
-    enableNdk true //due to realm db debugging
+	enableNdk true //due to realm db debugging
 }
 
 dependencies
-        {
-            /**
-             *  COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE
-             */
+		{
 
-            // DBFLOW basic
-            apt "com.github.Raizlabs.DBFlow:dbflow-processor:$rootProject.ext.dbflow_version"
-            // DBFLOW sql-cipher database encyrption (optional)
-            compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$rootProject.ext.dbflow_version"
+			/**
+			 *  COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE COMPILE
+			 */
 
+			// DBFLOW basic
+			apt "com.github.Raizlabs.DBFlow:dbflow-processor:$rootProject.ext.dbflow_version"
+			// DBFLOW sql-cipher database encyrption (optional)
+			compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$rootProject.ext.dbflow_version"
+			compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar')
+			{
+				transitive = true;
+			}
+			compile "com.android.support:support-v4:$rootProject.ext.supportLibVersion"
+			compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
+			compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
+			compile "com.android.support:cardview-v7:$rootProject.ext.supportLibVersion"
+			compile "com.android.support:design:$rootProject.ext.supportLibVersion"
+			compile "com.android.support:palette-v7:$rootProject.ext.supportLibVersion"
+			compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
+			compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
+			compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
+			compile "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.loggingInterceptor"
+			compile "io.reactivex:rxandroid:$rootProject.ext.rxJavaVersion"
+			compile "io.reactivex:rxjava:$rootProject.ext.rxJavaVersion"
+			compile "io.reactivex:rxjava-math:$rootProject.ext.rxJavaMathVersion"
+			compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
+			compile "com.jakewharton.timber:timber:$rootProject.ext.timberVersion"
+			compile "org.parceler:parceler-api:$rootProject.ext.parcelerVersion"
+			apt "org.parceler:parceler:$rootProject.ext.parcelerVersion"
+			apt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
+			compile "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
+			provided "javax.annotation:jsr250-api:${rootProject.ext.jsr250Version}"
+			debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+			releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+			testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+			compile fileTree(include: ['*.jar'], dir: 'libs')
+			/**
+			 *  TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
+			 */
 
-            compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
-                transitive = true;
-            }
+			// Dependencies for local unit tests
+			testCompile "junit:junit:$rootProject.ext.junitVersion"
+			testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
+			testCompile "org.hamcrest:hamcrest-all:$rootProject.ext.hamcrestVersion"
+			//Provides AndroidJUnitRunner
+			androidTestCompile("com.android.support.test:runner:$rootProject.ext.runnerVersion") {
+				exclude module: 'support-annotations'
+			}
+			// Provides JUnit 4 rules
+			androidTestCompile("com.android.support.test:rules:$rootProject.ext.rulesVersion") {
+				exclude module: 'support-annotations'
+			}
+			//Due to a bug in the current Android plugin just exclude dependencies which are duplicated in both the app and test app.
+			androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion") {
+				exclude module: 'support-annotations'
+			}
+			androidTestCompile("com.android.support.test.espresso:espresso-contrib:$rootProject.ext.espressoVersion") {
+				exclude module: 'support-annotations'
+				exclude group: 'com.android.support', module: 'appcompat'
+				exclude group: 'com.android.support', module: 'support-v4'
+				exclude module: 'recyclerview-v7'
+			}
+			// Espresso- Intents and Web dependencies are not used in this project.
 
-            compile "com.android.support:support-v4:$rootProject.ext.supportLibVersion"
-            compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
-            compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
-            compile "com.android.support:cardview-v7:$rootProject.ext.supportLibVersion"
-            compile "com.android.support:design:$rootProject.ext.supportLibVersion"
-            compile "com.android.support:palette-v7:$rootProject.ext.supportLibVersion"
+			/*
+						androidTestCompile 'com.android.support.test.espresso:espresso-intents:' + rootProject.ext.espressoVersion
+						androidTestCompile 'com.android.support.test.espresso:espresso-web:' + rootProject.ext.espressoVersion
+						 */
 
-            compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
-            compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
-            compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
+			// Set this dependency to build and run UI Automator tests
 
-            compile "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.loggingInterceptor"
+			// For support main minsdk under 18 just override androidTest/AndroidManifest.xml (to have tests with minsdk set to 18)
 
-
-            compile "io.reactivex:rxandroid:$rootProject.ext.rxJavaVersion"
-            compile "io.reactivex:rxjava:$rootProject.ext.rxJavaVersion"
-            compile "io.reactivex:rxjava-math:$rootProject.ext.rxJavaMathVersion"
-
-            compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
-            compile "com.jakewharton.timber:timber:$rootProject.ext.timberVersion"
-
-            compile "org.parceler:parceler-api:$rootProject.ext.parcelerVersion"
-            apt "org.parceler:parceler:$rootProject.ext.parcelerVersion"
-
-            apt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
-            compile "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
-            provided "javax.annotation:jsr250-api:${rootProject.ext.jsr250Version}"
-
-            debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
-            releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-            testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-
-            compile fileTree(dir: 'libs', include: ['*.jar'])
-
-            /**
-             *  TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
-             */
-
-            // Dependencies for local unit tests
-            testCompile "junit:junit:$rootProject.ext.junitVersion"
-            testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
-            testCompile "org.hamcrest:hamcrest-all:$rootProject.ext.hamcrestVersion"
-
-            //Provides AndroidJUnitRunner
-            androidTestCompile("com.android.support.test:runner:$rootProject.ext.runnerVersion") {
-                exclude module: 'support-annotations'
-            }
-            // Provides JUnit 4 rules
-            androidTestCompile("com.android.support.test:rules:$rootProject.ext.rulesVersion") {
-                exclude module: 'support-annotations'
-            }
-
-            //Due to a bug in the current Android plugin just exclude dependencies which are duplicated in both the app and test app.
-            androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion") {
-                exclude module: 'support-annotations'
-            }
-
-            androidTestCompile("com.android.support.test.espresso:espresso-contrib:$rootProject.ext.espressoVersion") {
-                exclude module: 'support-annotations'
-                exclude group: 'com.android.support', module: 'appcompat'
-                exclude group: 'com.android.support', module: 'support-v4'
-                exclude module: 'recyclerview-v7'
-            }
-
-            // Espresso- Intents and Web dependencies are not used in this project.
-            /*
-            androidTestCompile 'com.android.support.test.espresso:espresso-intents:' + rootProject.ext.espressoVersion
-            androidTestCompile 'com.android.support.test.espresso:espresso-web:' + rootProject.ext.espressoVersion
-             */
-
-            // Set this dependency to build and run UI Automator tests
-            // For support main minsdk under 18 just override androidTest/AndroidManifest.xml (to have tests with minsdk set to 18)
-            // For mote details see: https://github.com/googlesamples/android-testing-templates/tree/master/AndroidTestingBlueprint
-            androidTestCompile "com.android.support.test.uiautomator:uiautomator-v18:$rootProject.ext.uiautomatorVersion"
-        }
+			// For mote details see: https://github.com/googlesamples/android-testing-templates/tree/master/AndroidTestingBlueprint
+			androidTestCompile "com.android.support.test.uiautomator:uiautomator-v18:$rootProject.ext.uiautomatorVersion"
+			compile 'com.facebook.stetho:stetho:1.3.1'
+		}
 
 
 android
-        {
-            compileSdkVersion rootProject.ext.compileSdkVersion
-            buildToolsVersion rootProject.ext.buildToolsVersion
+		{
+			compileSdkVersion rootProject.ext.compileSdkVersion
+			buildToolsVersion rootProject.ext.buildToolsVersion
 
-            lintOptions {
-                abortOnError false
-            }
+			lintOptions {
+				abortOnError false
+			}
 
-            compileOptions {
-                sourceCompatibility JavaVersion.VERSION_1_8
-                targetCompatibility JavaVersion.VERSION_1_8
-            }
+			compileOptions {
+				sourceCompatibility JavaVersion.VERSION_1_8
+				targetCompatibility JavaVersion.VERSION_1_8
+			}
 
-            defaultConfig
-                    {
-                        minSdkVersion rootProject.ext.minSdkVersion
-                        targetSdkVersion rootProject.ext.targetSdkVersion
-                        versionCode VERSION_MAJOR * 10000000 + VERSION_MINOR * 100000 + VERSION_PATCH * 1000 + VERSION_BUILD
-                        versionName "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
-                    }
+			defaultConfig
+					{
+						minSdkVersion rootProject.ext.minSdkVersion
+						targetSdkVersion rootProject.ext.targetSdkVersion
+						versionCode VERSION_MAJOR * 10000000 + VERSION_MINOR * 100000 + VERSION_PATCH * 1000 + VERSION_BUILD
+						versionName "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+					}
 
-            signingConfigs
-                    {
-                        release
-                                {
-                                    // passwords and alias are obtained via askForPasswords task
-                                    storeFile file("../${project.property('keystore.file')}")
-                                    storePassword ""
-                                    keyAlias ""
-                                    keyPassword ""
-                                }
-                    }
+			signingConfigs
+					{
+						release
+								{
+									// passwords and alias are obtained via askForPasswords task
+									storeFile file("../${project.property('keystore.file')}")
+									storePassword ""
+									keyAlias ""
+									keyPassword ""
+								}
+					}
 
-            buildTypes
-                    {
-                        debug
-                                {
-                                    buildConfigField "boolean", "LOGS", "true"
-                                    buildConfigField "boolean", "DEV_API", "true"
+			buildTypes
+					{
+						debug
+								{
+									buildConfigField "boolean", "LOGS", "true"
+									buildConfigField "boolean", "DEV_API", "true"
 
-                                    versionNameSuffix "-debug"
-                                }
+									versionNameSuffix "-debug"
+								}
 
-                        release
-                                {
-                                    buildConfigField "boolean", "LOGS", "false"
-                                    buildConfigField "boolean", "DEV_API", "false"
+						release
+								{
+									buildConfigField "boolean", "LOGS", "false"
+									buildConfigField "boolean", "DEV_API", "false"
 
-                                    signingConfig signingConfigs.release
-                                    zipAlignEnabled true
-                                    minifyEnabled false
-                                    shrinkResources false
-                                    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-                                }
-                    }
+									signingConfig signingConfigs.release
+									zipAlignEnabled true
+									minifyEnabled false
+									shrinkResources false
+									proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+								}
+					}
 
-            applicationVariants.all
-                    {
-                        variant ->
-                            if (variant.buildType.name.equals("release")) {
-                                variant.outputs.each
-                                        {
-                                            output ->
-                                                def outputFile = output.outputFile
-                                                def date = new Date()
-                                                if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                                                    def fileName = outputFile.name.replace(
-                                                            "mobile",
-                                                            "db-showcase" + defaultConfig.versionName + "-" + defaultConfig.versionCode + "-" + date.format('yyyyMMdd'))
-                                                    output.outputFile = new File((String) outputFile.parent, (String) fileName)
-                                                }
-                                        }
-                            }
-                    }
-        }
+			applicationVariants.all
+					{
+						variant ->
+							if(variant.buildType.name.equals("release"))
+							{
+								variant.outputs.each
+										{
+											output ->
+												def outputFile = output.outputFile
+												def date = new Date()
+												if(outputFile != null && outputFile.name.endsWith('.apk'))
+												{
+													def fileName = outputFile.name.replace(
+															"mobile",
+															"db-showcase" + defaultConfig.versionName + "-" + defaultConfig.versionCode + "-" + date.format('yyyyMMdd'))
+													output.outputFile = new File((String) outputFile.parent, (String) fileName)
+												}
+										}
+							}
+					}
+			dataBinding
+					{
+						enabled = true
+					}
+		}
 
 
 task askForPasswords <<
-        {
-            def storePass
-            def keyAlias
-            def keyPass
+		{
+			def storePass
+			def keyAlias
+			def keyPass
 
-            def keystorePropertiesFile = new File((String) project.property("keystore.properties"))
+			def keystorePropertiesFile = new File((String) project.property("keystore.properties"))
 
-            if (project.hasProperty("keystore.properties") && keystorePropertiesFile.exists()) {
-                println "Loading keystore passwords from property file..."
-                Properties properties = new Properties()
-                properties.load(new FileInputStream(keystorePropertiesFile))
-                storePass = properties['keystore.store.password']
-                keyAlias = properties['keystore.key.alias']
-                keyPass = properties['keystore.key.password']
-            } else {
-                println "Getting keystore passwords from user input..."
-                storePass = new String(System.console().readPassword("\nStore password: "))
-                keyAlias = new String(System.console().readLine("Key alias: "))
-                keyPass = new String(System.console().readPassword("Key password: "))
-            }
+			if(project.hasProperty("keystore.properties") && keystorePropertiesFile.exists())
+			{
+				println "Loading keystore passwords from property file..."
+				Properties properties = new Properties()
+				properties.load(new FileInputStream(keystorePropertiesFile))
+				storePass = properties['keystore.store.password']
+				keyAlias = properties['keystore.key.alias']
+				keyPass = properties['keystore.key.password']
+			}
+			else
+			{
+				println "Getting keystore passwords from user input..."
+				storePass = new String(System.console().readPassword("\nStore password: "))
+				keyAlias = new String(System.console().readLine("Key alias: "))
+				keyPass = new String(System.console().readPassword("Key password: "))
+			}
 
-            android.signingConfigs.release.storePassword = storePass
-            android.signingConfigs.release.keyAlias = keyAlias
-            android.signingConfigs.release.keyPassword = keyPass
-        }
+			android.signingConfigs.release.storePassword = storePass
+			android.signingConfigs.release.keyAlias = keyAlias
+			android.signingConfigs.release.keyPassword = keyPass
+		}
 
 
 tasks.whenTaskAdded
-        {
-            theTask ->
-                if (theTask.name.equals("packageRelease")) {
-                    theTask.dependsOn "askForPasswords"
-                }
-        }
+		{
+			theTask ->
+				if(theTask.name.equals("packageRelease"))
+				{
+					theTask.dependsOn "askForPasswords"
+				}
+		}

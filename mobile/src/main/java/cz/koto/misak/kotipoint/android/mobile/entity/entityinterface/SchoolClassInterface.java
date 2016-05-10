@@ -5,14 +5,14 @@ import java.util.List;
 public interface SchoolClassInterface<S extends StudentInterface, T extends TeacherInterface>
 {
 
-	long getClassId();
-	void setClassId(long id);
+	long getId();
+	void setId(long id);
 
-	String getClassName();
-	void setClassName(String name);
+	String getName();
+	void setName(String name);
 
-	int getClassGrade();
-	void setClassGrade(int grade);
+	int getGrade();
+	void setGrade(int grade);
 
 	List<S> getStudentList();
 	void setStudentList(List<S> list);

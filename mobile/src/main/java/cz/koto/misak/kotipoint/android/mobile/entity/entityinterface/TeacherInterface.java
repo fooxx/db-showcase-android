@@ -5,11 +5,11 @@ import java.util.List;
 public interface TeacherInterface<S extends SchoolClassInterface>
 {
 
-	long getTeacherId();
-	void setTeacherId(long id);
+	long getId();
+	void setId(long id);
 
-	String getTeacherName();
-	void setTeacherName(String name);
+	String getName();
+	void setName(String name);
 
 	List<S> getSchoolClassList();
 	void setSchoolClassList(List<S> schoolClassList);

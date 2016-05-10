@@ -29,4 +29,5 @@ public class DbConfig
 
 
 	public static final String VERSION_NAME = BuildConfig.VERSION_NAME;
+	public static final String BASE_URL = "";
 }

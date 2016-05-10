@@ -23,6 +23,5 @@ ext {
     parcelerVersion = "1.0.4"
     daggerVersion = "2.2"
     jsr250Version = "1.0"
-
     dbflow_version = "3.0.0-beta6"
 }
