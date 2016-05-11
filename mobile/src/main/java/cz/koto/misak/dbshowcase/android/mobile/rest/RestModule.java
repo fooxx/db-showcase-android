@@ -72,7 +72,7 @@ public class RestModule {
         return client;
     }
 
-    @DbRetrofitAdapter
+    @DbShowcaseRetrofitAdapter
     @Provides
     @Singleton
     Retrofit provideDbRetrofit(GsonConverterFactory gsonConverterFactory, OkHttpClient.Builder client) {

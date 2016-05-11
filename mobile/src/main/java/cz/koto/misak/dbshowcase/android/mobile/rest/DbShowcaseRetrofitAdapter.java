@@ -9,5 +9,5 @@ import javax.inject.Qualifier;
 @Qualifier
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DbRetrofitAdapter {
+public @interface DbShowcaseRetrofitAdapter {
 }

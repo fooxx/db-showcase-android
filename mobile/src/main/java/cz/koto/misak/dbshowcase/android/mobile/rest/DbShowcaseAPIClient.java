@@ -11,7 +11,7 @@ public class DbShowcaseAPIClient {
     private DbShowcaseAPIService mDbShowcaseService;
 
     @Inject
-    @DbRetrofitAdapter
+    @DbShowcaseRetrofitAdapter
     Retrofit mDbRetrofit;
 
     private DbShowcaseAPIClient() {
