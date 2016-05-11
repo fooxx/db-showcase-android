@@ -13,10 +13,10 @@ import retrofit2.Retrofit;
 @Component(modules = {RestModule.class})
 public interface NetComponent {
 
-    void inject(DbShowcaseAPIClient apiInstagram);
+    void inject(DbShowcaseAPIClient dbShowcaseAPIClient);
 
     // downstream components need these exposed
     @DbShowcaseRetrofitAdapter
-    Retrofit retrofitSparkAdapter();
+    Retrofit retrofitDbShowcaseAdapter();
 
 }
