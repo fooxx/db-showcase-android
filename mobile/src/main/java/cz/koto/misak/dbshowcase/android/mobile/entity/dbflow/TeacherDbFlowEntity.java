@@ -8,6 +8,7 @@ import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class TeacherDbFlowEntity extends BaseDbFlowModel implements TeacherInter
 	public List<SchoolClassDbFlowEntity> getSchoolClassList()
 	{
 		if (schoolClassList == null || schoolClassList.isEmpty()) {
-			schoolClassList = SQLite.select()
+			schoolClassList = new Select()
 					.from(SchoolClassDbFlowEntity.class)
 					.innerJoin(SchoolClassDbFlowEntity_TeacherDbFlowEntity.class)
 					.on(TeacherDbFlowEntity_Table.id.eq(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.teacherDbFlowEntity_id))

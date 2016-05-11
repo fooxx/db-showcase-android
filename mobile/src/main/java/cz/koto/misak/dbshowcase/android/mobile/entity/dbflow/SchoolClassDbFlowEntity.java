@@ -9,6 +9,8 @@ import com.raizlabs.android.dbflow.annotation.ManyToMany;
 import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.List;
 
@@ -90,7 +92,7 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	{
 		if(studentList == null || studentList.isEmpty())
 		{
-			studentList = SQLite.select()
+			studentList = new Select()
 					.from(StudentDbFlowEntity.class)
 					.where(StudentDbFlowEntity_Table.schoolClass_id.is(id))
 					.queryList();
@@ -113,7 +115,7 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	{
 		if(teacherList == null || teacherList.isEmpty())
 		{
-			teacherList = SQLite.select()
+			teacherList = new Select()
 					.from(TeacherDbFlowEntity.class)
 					.innerJoin(SchoolClassDbFlowEntity_TeacherDbFlowEntity.class)
 					.on(SchoolClassDbFlowEntity_Table.id.eq(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.schoolClassDbFlowEntity_id))

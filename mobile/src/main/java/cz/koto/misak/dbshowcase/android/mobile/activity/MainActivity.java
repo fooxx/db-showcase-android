@@ -3,32 +3,27 @@ package cz.koto.misak.dbshowcase.android.mobile.activity;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
 import com.raizlabs.android.dbflow.structure.database.transaction.ITransaction;
-import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
-import com.squareup.haha.perflib.Main;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
-import cz.koto.misak.kotipoint.android.mobile.R;
-import cz.koto.misak.kotipoint.android.mobile.databinding.ActivityMainBinding;
-import cz.koto.misak.kotipoint.android.mobile.db.dbflow.DbFlowDatabase;
-import cz.koto.misak.kotipoint.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
-import cz.koto.misak.kotipoint.android.mobile.entity.dbflow.SchoolClassDbFlowEntity_TeacherDbFlowEntity;
-import cz.koto.misak.kotipoint.android.mobile.entity.dbflow.StudentDbFlowEntity;
-import cz.koto.misak.kotipoint.android.mobile.entity.dbflow.TeacherDbFlowEntity;
+import cz.koto.misak.dbshowcase.android.mobile.R;
+import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
+import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbFlowDatabase;
+import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
+import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity_TeacherDbFlowEntity;
+import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;
+import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.TeacherDbFlowEntity;
 
 
 public class  MainActivity extends AppCompatActivity {
