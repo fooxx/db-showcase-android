@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="cz.koto.misak.kotipoint.android.mobile"
+	package="cz.koto.misak.dbshowcase.android.mobile"
 	android:installLocation="auto">
 	
 	<!-- versionCode, versionName, minSdkVersion, targetSdkVersion properties are set via Gradle script -->
