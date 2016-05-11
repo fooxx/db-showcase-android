@@ -23,10 +23,10 @@ public class TeacherDbFlowEntity extends BaseDbFlowModel implements TeacherInter
 	@PrimaryKey(autoincrement = true)
 	@Column
 	@SerializedName("id")
-	private long id;
+	long id;
 	@Column
 	@SerializedName("name")
-	private String name;
+	String name;
 	List<SchoolClassDbFlowEntity> schoolClassList;
 
 

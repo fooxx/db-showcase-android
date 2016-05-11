@@ -8,6 +8,7 @@ import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.Date;
@@ -22,17 +23,18 @@ public class StudentDbFlowEntity extends BaseDbFlowModel implements StudentInter
 	@PrimaryKey(autoincrement = true)
 	@Column
 	@SerializedName("id")
-	private long id;
+	long id;
 	@Column
 	@SerializedName("name")
-	private String name;
+	String name;
 	@Column
 	@SerializedName("birthDate")
-	private Date birthDate;
+	Date birthDate;
+	@SerializedName("schoolClassId")
+	long schoolClassId;
 	@Column
 	@ForeignKey
-	@SerializedName("schoolClass")
-	private SchoolClassDbFlowEntity schoolClass;
+	SchoolClassDbFlowEntity schoolClass;
 
 
 	@Bindable
@@ -90,7 +92,7 @@ public class StudentDbFlowEntity extends BaseDbFlowModel implements StudentInter
 		if(schoolClass == null) {
 			new Select()
 					.from(SchoolClassDbFlowEntity.class)
-					.where(SchoolClassDbFlowEntity_Table.id.eq(id))
+					.where(SchoolClassDbFlowEntity_Table.id.eq(schoolClassId))
 					.querySingle();
 		}
 		return schoolClass;

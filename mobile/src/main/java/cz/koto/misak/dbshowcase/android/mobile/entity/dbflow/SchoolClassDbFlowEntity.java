@@ -26,13 +26,13 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	@Column
 	@PrimaryKey(autoincrement = true)
 	@SerializedName("id")
-	private long id;
+	long id;
 	@Column
 	@SerializedName("name")
-	private String name;
+	String name;
 	@Column
 	@SerializedName("grade")
-	private int grade;
+	int grade;
 	List<StudentDbFlowEntity> studentList;
 	List<TeacherDbFlowEntity> teacherList;
 
