@@ -22,17 +22,17 @@ public class StudentDbFlowEntity extends BaseDbFlowModel implements StudentInter
 	@PrimaryKey(autoincrement = true)
 	@Column
 	@SerializedName("id")
-	private long id;
+	protected long id;
 	@Column
 	@SerializedName("name")
-	private String name;
+	protected String name;
 	@Column
 	@SerializedName("birthDate")
-	private Date birthDate;
+	protected Date birthDate;
 	@Column
 	@ForeignKey
 	@SerializedName("schoolClass")
-	private SchoolClassDbFlowEntity schoolClass;
+	protected SchoolClassDbFlowEntity schoolClass;
 
 
 	@Bindable

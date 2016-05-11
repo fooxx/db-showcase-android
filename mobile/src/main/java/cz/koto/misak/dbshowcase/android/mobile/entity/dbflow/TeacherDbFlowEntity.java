@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.List;
@@ -23,10 +22,13 @@ public class TeacherDbFlowEntity extends BaseDbFlowModel implements TeacherInter
 	@PrimaryKey(autoincrement = true)
 	@Column
 	@SerializedName("id")
-	private long id;
+	protected long id;
+
 	@Column
 	@SerializedName("name")
-	private String name;
+	protected String name;
+
+
 	List<SchoolClassDbFlowEntity> schoolClassList;
 
 
