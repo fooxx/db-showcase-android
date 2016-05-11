@@ -14,17 +14,17 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class ApiLoadModule {
+public class APILoadModule {
 
-    private static ApiLoadModule mInstance = null;
+    private static APILoadModule mInstance = null;
 
-    private ApiLoadModule() {
+    private APILoadModule() {
 
     }
 
-    public static ApiLoadModule getInstance() {
+    public static APILoadModule getInstance() {
         if (mInstance == null) {
-            mInstance = new ApiLoadModule();
+            mInstance = new APILoadModule();
         }
         return mInstance;
     }
