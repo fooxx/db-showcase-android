@@ -87,6 +87,22 @@ public class StudentDbFlowEntity extends BaseDbFlowModel implements StudentInter
 
 	@Bindable
 	@Override
+	public long getSchoolClassId()
+	{
+		return schoolClassId;
+	}
+
+
+	@Override
+	public void setSchoolClassId(long id)
+	{
+		schoolClassId = id;
+		notifyPropertyChanged(BR.schoolClassId);
+	}
+
+
+	@Bindable
+	@Override
 	public SchoolClassDbFlowEntity getSchoolClass()
 	{
 		if(schoolClass == null) {

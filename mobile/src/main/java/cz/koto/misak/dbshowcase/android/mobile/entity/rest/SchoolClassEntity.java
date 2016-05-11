@@ -7,103 +7,139 @@ import java.util.List;
 
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
 
-public class SchoolClassEntity implements SchoolClassInterface<StudentEntity, TeacherEntity> {
 
-    @SerializedName("id")
-    private long id;
+public class SchoolClassEntity implements SchoolClassInterface<StudentEntity, TeacherEntity>
+{
 
-    @SerializedName("name")
-    private String name;
+	@SerializedName("id")
+	private long id;
 
-    @SerializedName("grade")
-    private int grade;
+	@SerializedName("name")
+	private String name;
 
-    @SerializedName("studentIdList")
-    List<Long> studentIdList;
+	@SerializedName("grade")
+	private int grade;
 
-    @SerializedName("teacherIdList")
-    List<Long> teacherIdList;
+	@SerializedName("studentIdList")
+	List<Long> studentIdList;
 
-    List<StudentEntity> studentList;
+	@SerializedName("teacherIdList")
+	List<Long> teacherIdList;
 
-    List<TeacherEntity> teacherList;
+	List<StudentEntity> studentList;
 
-    @Override
-    public long getId() {
-        return this.id;
-    }
+	List<TeacherEntity> teacherList;
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
 
-    @Override
-    public String getName() {
-        return this.name;
-    }
+	@Override
+	public long getId()
+	{
+		return this.id;
+	}
 
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    @Override
-    public int getGrade() {
-        return this.grade;
-    }
+	@Override
+	public void setId(long id)
+	{
+		this.id = id;
+	}
 
-    @Override
-    public void setGrade(int grade) {
-        this.grade = grade;
-    }
 
-    @Override
-    public List<StudentEntity> getStudentList() {
-        return this.studentList;
-    }
+	@Override
+	public String getName()
+	{
+		return this.name;
+	}
 
-    @Override
-    public void setStudentList(List<StudentEntity> list) {
-        this.studentList = list;
-    }
 
-    @Override
-    public List<TeacherEntity> getTeacherList() {
-        return this.teacherList;
-    }
+	@Override
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 
-    @Override
-    public void setTeacherList(List<TeacherEntity> list) {
-        this.teacherList = list;
-    }
 
-    public List<Long> getStudentIdList() {
-        return studentIdList;
-    }
+	@Override
+	public int getGrade()
+	{
+		return this.grade;
+	}
 
-    public void setStudentIdList(List<Long> studentIdList) {
-        this.studentIdList = studentIdList;
-    }
 
-    public List<Long> getTeacherIdList() {
-        return teacherIdList;
-    }
+	@Override
+	public void setGrade(int grade)
+	{
+		this.grade = grade;
+	}
 
-    public void setTeacherIdList(List<Long> teacherIdList) {
-        this.teacherIdList = teacherIdList;
-    }
 
-    @Override
-    public String toString() {
-        return "SchoolClassEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", grade=" + grade +
-                ", studentIdList=" + studentIdList +
-                ", teacherIdList=" + teacherIdList +
-                ", studentList=" + studentList +
-                ", teacherList=" + teacherList +
-                '}';
-    }
+	@Override
+	public List<StudentEntity> getStudentList()
+	{
+		return this.studentList;
+	}
+
+
+	@Override
+	public void setStudentList(List<StudentEntity> list)
+	{
+		this.studentList = list;
+	}
+
+
+	@Override
+	public List<TeacherEntity> getTeacherList()
+	{
+		return this.teacherList;
+	}
+
+
+	@Override
+	public void setTeacherList(List<TeacherEntity> list)
+	{
+		this.teacherList = list;
+	}
+
+
+	@Override
+	public List<Long> getStudentIdList()
+	{
+		return studentIdList;
+	}
+
+
+	@Override
+	public void setStudentIdList(List<Long> studentIdList)
+	{
+		this.studentIdList = studentIdList;
+	}
+
+
+	@Override
+	public List<Long> getTeacherIdList()
+	{
+		return teacherIdList;
+	}
+
+
+	@Override
+	public void setTeacherIdList(List<Long> teacherIdList)
+	{
+		this.teacherIdList = teacherIdList;
+	}
+
+
+	@Override
+	public String toString()
+	{
+		return "SchoolClassEntity{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", grade=" + grade +
+				", studentIdList=" + studentIdList +
+				", teacherIdList=" + teacherIdList +
+				", studentList=" + studentList +
+				", teacherList=" + teacherList +
+				'}';
+	}
 }

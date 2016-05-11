@@ -7,71 +7,105 @@ import java.util.Date;
 
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.StudentInterface;
 
-public class StudentEntity implements StudentInterface<SchoolClassEntity> {
 
-    @SerializedName("id")
-    protected long id;
+public class StudentEntity implements StudentInterface<SchoolClassEntity>
+{
 
-    @SerializedName("name")
-    protected String name;
+	@SerializedName("id")
+	protected long id;
 
-    @SerializedName("birthDate")
-    protected Date birthDate;
+	@SerializedName("name")
+	protected String name;
 
-    @SerializedName("schoolClassId")
-    protected long schoolClassId;
+	@SerializedName("birthDate")
+	protected Date birthDate;
 
-    @SerializedName(value = "schoolClass")
-    protected SchoolClassEntity schoolClass;
+	@SerializedName("schoolClassId")
+	protected long schoolClassId;
 
-    @Override
-    public long getId() {
-        return id;
-    }
+	@SerializedName(value = "schoolClass")
+	protected SchoolClassEntity schoolClass;
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
 
-    @Override
-    public String getName() {
-        return this.name;
-    }
+	@Override
+	public long getId()
+	{
+		return id;
+	}
 
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    @Override
-    public Date getBirthDate() {
-        return this.birthDate;
-    }
+	@Override
+	public void setId(long id)
+	{
+		this.id = id;
+	}
 
-    @Override
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
 
-    @Override
-    public SchoolClassEntity getSchoolClass() {
-        return this.schoolClass;
-    }
+	@Override
+	public String getName()
+	{
+		return this.name;
+	}
 
-    @Override
-    public void setSchoolClass(SchoolClassEntity schoolClass) {
-        this.schoolClass = schoolClass;
-    }
 
-    @Override
-    public String toString() {
-        return "StudentEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", birthDate=" + birthDate +
-                ", schoolClassId=" + schoolClassId +
-                ", schoolClass=" + schoolClass +
-                '}';
-    }
+	@Override
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+
+	@Override
+	public Date getBirthDate()
+	{
+		return this.birthDate;
+	}
+
+
+	@Override
+	public void setBirthDate(Date birthDate)
+	{
+		this.birthDate = birthDate;
+	}
+
+
+	@Override
+	public long getSchoolClassId()
+	{
+		return schoolClassId;
+	}
+
+
+	@Override
+	public void setSchoolClassId(long id)
+	{
+		schoolClassId = id;
+	}
+
+
+	@Override
+	public SchoolClassEntity getSchoolClass()
+	{
+		return this.schoolClass;
+	}
+
+
+	@Override
+	public void setSchoolClass(SchoolClassEntity schoolClass)
+	{
+		this.schoolClass = schoolClass;
+	}
+
+
+	@Override
+	public String toString()
+	{
+		return "StudentEntity{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", birthDate=" + birthDate +
+				", schoolClassId=" + schoolClassId +
+				", schoolClass=" + schoolClass +
+				'}';
+	}
 }

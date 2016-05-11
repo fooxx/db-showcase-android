@@ -3,7 +3,6 @@ package cz.koto.misak.dbshowcase.android.mobile.activity;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
@@ -17,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
+import cz.kinst.jakub.viewmodelbinding.ViewModelActivity;
+import cz.kinst.jakub.viewmodelbinding.ViewModelBindingConfig;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbFlowDatabase;
@@ -24,14 +25,24 @@ import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEn
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity_TeacherDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.TeacherDbFlowEntity;
+import cz.koto.misak.dbshowcase.android.mobile.viewModel.MainActivityViewModel;
 
 
-public class  MainActivity extends AppCompatActivity {
+public class  MainActivity extends ViewModelActivity<ActivityMainBinding, MainActivityViewModel>
+{
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
     @Bind(R.id.toolbar)
     android.support.v7.widget.Toolbar mToolbar;
+
+
+    @Override
+    public ViewModelBindingConfig getViewModelBindingConfig()
+    {
+        return new ViewModelBindingConfig(R.layout.activity_main, MainActivityViewModel.class);
+    }
+
 
 
     @Override
@@ -49,7 +60,7 @@ public class  MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        binding.button.setOnClickListener(v -> saveToDb());
+        binding.button.setOnClickListener(v -> getViewModel().loadApiData());
     }
 
 

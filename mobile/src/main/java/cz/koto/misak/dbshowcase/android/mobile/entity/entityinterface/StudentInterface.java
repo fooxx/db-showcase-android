@@ -15,6 +15,9 @@ public interface StudentInterface<T extends SchoolClassInterface>
 	Date getBirthDate();
 	void setBirthDate(Date birthDate);
 
+	long getSchoolClassId();
+	void setSchoolClassId(long id);
+
 	T getSchoolClass();
 	void setSchoolClass(T schoolClass);
 

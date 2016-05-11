@@ -14,6 +14,12 @@ public interface SchoolClassInterface<S extends StudentInterface, T extends Teac
 	int getGrade();
 	void setGrade(int grade);
 
+	List<Long> getStudentIdList();
+	void setStudentIdList(List<Long> list);
+
+	List<Long> getTeacherIdList();
+	void setTeacherIdList(List<Long> list);
+
 	List<S> getStudentList();
 	void setStudentList(List<S> list);
 

@@ -49,6 +49,7 @@ dependencies
 			compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
 			compile "com.jakewharton.timber:timber:$rootProject.ext.timberVersion"
 			compile "org.parceler:parceler-api:$rootProject.ext.parcelerVersion"
+			compile 'cz.kinst.jakub:viewmodelbinding:0.8.1'
 			apt "org.parceler:parceler:$rootProject.ext.parcelerVersion"
 			apt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
 			compile "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"

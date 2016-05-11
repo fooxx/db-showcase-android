@@ -9,14 +9,12 @@ import com.raizlabs.android.dbflow.annotation.ManyToMany;
 import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.List;
 
 import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbFlowDatabase;
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
-
 
 
 @Table(database = DbFlowDatabase.class)
@@ -33,6 +31,10 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	@Column
 	@SerializedName("grade")
 	int grade;
+	@SerializedName("studentIdList")
+	List<Long> studentIdList;
+	@SerializedName("teacherIdList")
+	List<Long> teacherIdList;
 	List<StudentDbFlowEntity> studentList;
 	List<TeacherDbFlowEntity> teacherList;
 
@@ -82,6 +84,34 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	{
 		this.grade = grade;
 		notifyPropertyChanged(BR.grade);
+	}
+
+
+	@Override
+	public List<Long> getStudentIdList()
+	{
+		return studentIdList;
+	}
+
+
+	@Override
+	public void setStudentIdList(List<Long> list)
+	{
+		studentIdList = list;
+	}
+
+
+	@Override
+	public List<Long> getTeacherIdList()
+	{
+		return teacherIdList;
+	}
+
+
+	@Override
+	public void setTeacherIdList(List<Long> list)
+	{
+		teacherIdList = list;
 	}
 
 

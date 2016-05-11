@@ -62,7 +62,7 @@ public class DbApplication extends Application {
 
         Realm.setDefaultConfiguration(ShowcaseRealm.getInstance().getmRealmConfiguration());
 
-        ApiLoadModule.getInstance().loadApiData();
+//        APILoadModule.getInstance().loadApiData();
     }
 
     public static DbApplication get() {
