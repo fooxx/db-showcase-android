@@ -60,13 +60,13 @@ public class RestModule {
 
     @Provides
     @Singleton
-    OkHttpClient.Builder provideOkHttpClientBuilder(){
+    OkHttpClient.Builder provideOkHttpClientBuilder(HttpLoggingInterceptor httpLoggingInterceptor){
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.connectTimeout(TIMEOUT, TimeUnit.SECONDS);
         client.readTimeout(TIMEOUT, TimeUnit.SECONDS);
         client.writeTimeout(TIMEOUT, TimeUnit.SECONDS);
         if (DbConfig.LOGS){
-            client.addInterceptor(getHttpLoggingInterceptor());
+            client.addInterceptor(httpLoggingInterceptor);
         }
 
         return client;
@@ -89,12 +89,13 @@ public class RestModule {
 
     /**
      * Ensure logging of okhttp3.OkHttpClient
-     * Add this as last interceptor!
+     * Add this always as the last interceptor!
      *
      * @return
      */
+    @Provides
     @NonNull
-    public static HttpLoggingInterceptor getHttpLoggingInterceptor() {
+    public static HttpLoggingInterceptor provideHttpLoggingInterceptor() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         return logging;

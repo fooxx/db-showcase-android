@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import cz.koto.misak.dbshowcase.android.mobile.DbConfig;
+import cz.koto.misak.dbshowcase.android.mobile.BuildConfig;
 import cz.koto.misak.dbshowcase.android.mobile.adapter.AutoLoadingRecyclerViewAdapter;
 import cz.koto.misak.dbshowcase.android.mobile.entity.DataLoadType;
 import cz.koto.misak.dbshowcase.android.mobile.entity.autoloading.AutoLoadingRecyclerViewException;
@@ -280,7 +280,7 @@ public class AutoLoadingRecyclerView<T, U extends RecyclerView.ViewHolder> exten
             try {
                 loadNewItemsSubscription.unsubscribe();
             } catch (Throwable th) {
-                if (DbConfig.DEV_API) {
+                if (BuildConfig.DEBUG) {
                     Timber.e(th, "https://github.com/kaushikgopal/RxJava-Android-Samples/pull/26");
                 }
             }
