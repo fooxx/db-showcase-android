@@ -16,6 +16,7 @@ import java.util.List;
 import cz.koto.misak.kotipoint.android.mobile.db.dbflow.DbFlowDatabase;
 import cz.koto.misak.kotipoint.android.mobile.entity.entityinterface.SchoolClassInterface;
 
+
 @Table(database = DbFlowDatabase.class)
 @ManyToMany(referencedTable = TeacherDbFlowEntity.class)
 public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolClassInterface<StudentDbFlowEntity, TeacherDbFlowEntity>
@@ -87,12 +88,13 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	@Override
 	public List<StudentDbFlowEntity> getStudentList()
 	{
-//		if (studentList == null || studentList.isEmpty()) {
-//			studentList = SQLite.select()
-//					.from(StudentDbFlowEntity.class)
-//					.where(StudentDbFlowEntity_Table.id.eq(id))
-//					.queryList();
-//		}
+		if(studentList == null || studentList.isEmpty())
+		{
+			studentList = SQLite.select()
+					.from(StudentDbFlowEntity.class)
+					.where(StudentDbFlowEntity_Table.schoolClass_id.is(id))
+					.queryList();
+		}
 		return studentList;
 	}
 
@@ -109,12 +111,15 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	@Override
 	public List<TeacherDbFlowEntity> getTeacherList()
 	{
-//		if (teacherList == null || teacherList.isEmpty()) {
-//			teacherList = SQLite.select()
-//					.from(TeacherDbFlowEntity.class)
-//					.where(TeacherDbFlowEntity_Table.id.eq(id))
-//					.queryList();
-//		}
+		if(teacherList == null || teacherList.isEmpty())
+		{
+			teacherList = SQLite.select()
+					.from(TeacherDbFlowEntity.class)
+					.innerJoin(SchoolClassDbFlowEntity_TeacherDbFlowEntity.class)
+					.on(SchoolClassDbFlowEntity_Table.id.eq(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.schoolClassDbFlowEntity_id))
+					.where(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.schoolClassDbFlowEntity_id.eq(id))
+					.queryList();
+		}
 		return teacherList;
 	}
 
