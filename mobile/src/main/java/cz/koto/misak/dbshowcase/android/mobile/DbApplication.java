@@ -21,21 +21,21 @@ public class DbApplication extends Application {
 
     private static DbApplication sInstance;
 
-    private NetComponent netComponent;
+    private NetComponent mNetComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        netComponent = DaggerNetComponent.builder()
+        mNetComponent = DaggerNetComponent.builder()
                 .restModule(new RestModule())
                 .build();
 
         sInstance = this;
 
-        //Use fabric for non-dev api only.
+        //Use fabric for non-debug only.
         CrashlyticsCore core = new CrashlyticsCore.Builder()
-                .disabled(DbConfig.DEV_API)
+                .disabled(BuildConfig.DEBUG)
                 .build();
         /**
          * Attention!
@@ -69,6 +69,6 @@ public class DbApplication extends Application {
     }
 
     public NetComponent getNetComponent() {
-        return netComponent;
+        return mNetComponent;
     }
 }
