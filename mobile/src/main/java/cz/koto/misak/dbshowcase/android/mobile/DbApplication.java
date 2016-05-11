@@ -62,6 +62,7 @@ public class DbApplication extends Application {
 
         Realm.setDefaultConfiguration(ShowcaseRealm.getInstance().getmRealmConfiguration());
 
+        ApiLoadModule.getInstance().loadApiData();
     }
 
     public static DbApplication get() {
@@ -71,4 +72,6 @@ public class DbApplication extends Application {
     public NetComponent getNetComponent() {
         return mNetComponent;
     }
+
+
 }
