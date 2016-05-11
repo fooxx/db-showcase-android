@@ -21,6 +21,7 @@ import cz.kinst.jakub.viewmodelbinding.ViewModelBindingConfig;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbFlowDatabase;
+import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbHelper;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity_TeacherDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;
@@ -60,7 +61,7 @@ public class  MainActivity extends ViewModelActivity<ActivityMainBinding, MainAc
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        binding.button.setOnClickListener(v -> getViewModel().loadApiData());
+        binding.button.setOnClickListener(v -> DbHelper.deleteAllTables());
     }
 
 
