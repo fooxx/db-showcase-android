@@ -6,20 +6,20 @@ import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import retrofit2.Retrofit;
 
 
-public class APIDbShowcase {
-    private static final APIDbShowcase INSTANCE = new APIDbShowcase();
+public class DbShowcaseAPIClient {
+    private static final DbShowcaseAPIClient INSTANCE = new DbShowcaseAPIClient();
     private DbShowcaseAPIService mDbShowcaseService;
 
     @Inject
     @DbRetrofitAdapter
     Retrofit mDbRetrofit;
 
-    private APIDbShowcase() {
+    private DbShowcaseAPIClient() {
         DbApplication.get().getNetComponent().inject(this);
         mDbShowcaseService = mDbRetrofit.create(DbShowcaseAPIService.class);
     }
 
-    public static APIDbShowcase getInstance() {
+    public static DbShowcaseAPIClient getInstance() {
         return INSTANCE;
     }
 
