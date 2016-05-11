@@ -9,6 +9,10 @@ import rx.Observable;
 
 public interface DbShowcaseAPIService {
 
+    /**
+     * Data on the server defined by dev file: https://github.com/kotomisak/kotinode/blob/master/app/data/dbshowcase.class.json
+     * @return
+     */
     @GET("/api/dbshowcase/class")
     Observable<List<SchoolClassInterface>> classList();
 
