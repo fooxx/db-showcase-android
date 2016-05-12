@@ -1,7 +1,9 @@
-package cz.koto.misak.dbshowcase.android.mobile;
+package cz.koto.misak.dbshowcase.android.mobile.db.realm;
 
 
 import java.util.List;
+
+import javax.inject.Singleton;
 
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.entity.rest.SchoolClassEntity;
@@ -9,36 +11,23 @@ import cz.koto.misak.dbshowcase.android.mobile.entity.rest.StudentEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.rest.TeacherEntity;
 import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseAPIClient;
 import cz.koto.misak.dbshowcase.android.mobile.util.BackgroundExecutor;
-import rx.Observable;
+import dagger.Module;
+import dagger.Provides;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func3;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 
-public class APILoadModule
+@Module
+public class ShowcaseRealmLoadModule
 {
 
-	private static APILoadModule mInstance = null;
-
-
-	private APILoadModule()
-	{
-
+	@Provides
+	@Singleton
+	public ShowcaseRealmLoadModule provideShowcaseRealmLoadModule(){
+		return new ShowcaseRealmLoadModule();
 	}
-
-
-	public static APILoadModule getInstance()
-	{
-		if(mInstance == null)
-		{
-			mInstance = new APILoadModule();
-		}
-		return mInstance;
-	}
-
 
 	public void loadApiData()
 	{
@@ -59,7 +48,7 @@ public class APILoadModule
 	{
 		return new Subscriber<List<SchoolClassEntity>>()
 		{
-			//Realm realm = Realm.getInstance(ShowcaseRealm.getInstance().getmRealmConfiguration());
+			//Realm realm = Realm.getInstance(ShowcaseRealmConfigModule.getInstance().getmRealmConfiguration());
 
 
 			@Override
@@ -108,7 +97,7 @@ public class APILoadModule
 	{
 		return new Subscriber<List<TeacherEntity>>()
 		{
-			//Realm realm = Realm.getInstance(ShowcaseRealm.getInstance().getmRealmConfiguration());
+			//Realm realm = Realm.getInstance(ShowcaseRealmConfigModule.getInstance().getmRealmConfiguration());
 
 
 			@Override
@@ -151,7 +140,7 @@ public class APILoadModule
 	{
 		return new Subscriber<List<StudentEntity>>()
 		{
-			//Realm realm = Realm.getInstance(ShowcaseRealm.getInstance().getmRealmConfiguration());
+			//Realm realm = Realm.getInstance(ShowcaseRealmConfigModule.getInstance().getmRealmConfiguration());
 
 
 			@Override

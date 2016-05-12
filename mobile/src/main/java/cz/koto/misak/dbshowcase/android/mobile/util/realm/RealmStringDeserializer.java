@@ -1,4 +1,4 @@
-package cz.koto.misak.dbshowcase.android.mobile.db.realm;
+package cz.koto.misak.dbshowcase.android.mobile.util.realm;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -8,6 +8,7 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
+import cz.koto.misak.dbshowcase.android.mobile.entity.realm.RealmString;
 import io.realm.RealmList;
 
 /**

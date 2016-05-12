@@ -1,8 +1,10 @@
-package cz.koto.misak.dbshowcase.android.mobile.db.realm;
+package cz.koto.misak.dbshowcase.android.mobile.util.realm;
 
 import android.os.Parcel;
 
 import org.parceler.Parcels;
+
+import cz.koto.misak.dbshowcase.android.mobile.entity.realm.RealmString;
 
 /**
  * https://gist.github.com/cmelchior/72c35fcb55cec33a71e1

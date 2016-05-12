@@ -9,7 +9,7 @@ import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.squareup.leakcanary.LeakCanary;
 
-import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealm;
+import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmConfigModule;
 import cz.koto.misak.dbshowcase.android.mobile.rest.RestModule;
 import cz.koto.misak.dbshowcase.android.mobile.util.CrashlyticsTree;
 import io.fabric.sdk.android.Fabric;
@@ -23,12 +23,18 @@ public class DbApplication extends Application {
 
     private NetComponent mNetComponent;
 
+    private DbComponent mDbComponent;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         mNetComponent = DaggerNetComponent.builder()
                 .restModule(new RestModule())
+                .build();
+
+        mDbComponent = DaggerDbComponent.builder()
+                .showcaseRealmConfigModule(new ShowcaseRealmConfigModule())
                 .build();
 
         sInstance = this;
@@ -60,9 +66,9 @@ public class DbApplication extends Application {
 
         FlowManager.init(new FlowConfig.Builder(this).openDatabasesOnInit(true).build());
 
-        Realm.setDefaultConfiguration(ShowcaseRealm.getInstance().getmRealmConfiguration());
+        Realm.setDefaultConfiguration(mDbComponent.provideRealmConfiguration());
 
-//        APILoadModule.getInstance().loadApiData();
+//        ShowcaseRealmLoadModule.getInstance().loadApiData();
     }
 
     public static DbApplication get() {

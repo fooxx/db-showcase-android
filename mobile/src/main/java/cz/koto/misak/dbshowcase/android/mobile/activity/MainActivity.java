@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.Bind;
 import cz.kinst.jakub.viewmodelbinding.ViewModelActivity;
 import cz.kinst.jakub.viewmodelbinding.ViewModelBindingConfig;
 import cz.koto.misak.dbshowcase.android.mobile.R;
@@ -33,10 +32,6 @@ public class  MainActivity extends ViewModelActivity<ActivityMainBinding, MainAc
 {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-
-    @Bind(R.id.toolbar)
-    android.support.v7.widget.Toolbar mToolbar;
-
 
     @Override
     public ViewModelBindingConfig getViewModelBindingConfig()

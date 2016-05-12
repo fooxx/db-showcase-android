@@ -1,4 +1,4 @@
-package cz.koto.misak.dbshowcase.android.mobile.db.realm;
+package cz.koto.misak.dbshowcase.android.mobile.entity.realm;
 
 import org.parceler.Parcel;
 

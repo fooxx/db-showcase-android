@@ -2,8 +2,6 @@ package cz.koto.misak.dbshowcase.android.mobile.rest;
 
 import android.support.annotation.NonNull;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -15,12 +13,11 @@ import javax.inject.Singleton;
 import cz.koto.misak.dbshowcase.android.mobile.DbConfig;
 import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbFlowExclusionStrategy;
 import cz.koto.misak.dbshowcase.android.mobile.db.realm.RealmExclusionStrategy;
-import cz.koto.misak.dbshowcase.android.mobile.db.realm.RealmString;
-import cz.koto.misak.dbshowcase.android.mobile.db.realm.RealmStringDeserializer;
+import cz.koto.misak.dbshowcase.android.mobile.entity.realm.RealmString;
+import cz.koto.misak.dbshowcase.android.mobile.util.realm.RealmStringDeserializer;
 import dagger.Module;
 import dagger.Provides;
 import io.realm.RealmList;
-import io.realm.RealmObject;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
