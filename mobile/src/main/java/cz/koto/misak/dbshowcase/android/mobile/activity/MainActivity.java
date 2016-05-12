@@ -34,114 +34,15 @@ public class  MainActivity extends ViewModelActivity<ActivityMainBinding, MainAc
     public static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
-    public ViewModelBindingConfig getViewModelBindingConfig()
+    public ViewModelBindingConfig<MainActivityViewModel> getViewModelBindingConfig()
     {
-        return new ViewModelBindingConfig(R.layout.activity_main, MainActivityViewModel.class);
-    }
-
-
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
+        return new ViewModelBindingConfig<>(R.layout.activity_main, MainActivityViewModel.class);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
-        binding.button.setOnClickListener(v -> DbHelper.deleteAllTables());
-    }
-
-
-    private void saveToDb() {
-
-        Log.d(TAG, "save start");
-        TeacherDbFlowEntity teacher = new TeacherDbFlowEntity();
-        teacher.setName("Muller");
-
-
-        TeacherDbFlowEntity teacher1 = new TeacherDbFlowEntity();
-        teacher1.setName("Zimmer");
-
-
-        TeacherDbFlowEntity teacher2 = new TeacherDbFlowEntity();
-        teacher2.setName("Faust");
-
-
-        SchoolClassDbFlowEntity schoolClass = new SchoolClassDbFlowEntity();
-        schoolClass.setName("1st Grade");
-        schoolClass.setGrade(5);
-
-
-        SchoolClassDbFlowEntity schoolClass1 = new SchoolClassDbFlowEntity();
-        schoolClass1.setName("2nd Grade");
-        schoolClass1.setGrade(2);
-
-
-        List<StudentDbFlowEntity> studentList = generateStudents(5, schoolClass);
-
-        SchoolClassDbFlowEntity_TeacherDbFlowEntity classTeacher = new SchoolClassDbFlowEntity_TeacherDbFlowEntity();
-        classTeacher.setSchoolClassDbFlowEntity(schoolClass);
-        classTeacher.setTeacherDbFlowEntity(teacher);
-
-
-        SchoolClassDbFlowEntity_TeacherDbFlowEntity classTeacher1 = new SchoolClassDbFlowEntity_TeacherDbFlowEntity();
-        classTeacher1.setSchoolClassDbFlowEntity(schoolClass1);
-        classTeacher1.setTeacherDbFlowEntity(teacher);
-
-
-        SchoolClassDbFlowEntity_TeacherDbFlowEntity classTeacher2 = new SchoolClassDbFlowEntity_TeacherDbFlowEntity();
-        classTeacher2.setSchoolClassDbFlowEntity(schoolClass1);
-        classTeacher2.setTeacherDbFlowEntity(teacher2);
-
-
-        SchoolClassDbFlowEntity_TeacherDbFlowEntity classTeacher3 = new SchoolClassDbFlowEntity_TeacherDbFlowEntity();
-        classTeacher3.setSchoolClassDbFlowEntity(schoolClass);
-        classTeacher3.setTeacherDbFlowEntity(teacher1);
-
-
-        DatabaseDefinition database = FlowManager.getDatabase(DbFlowDatabase.class);
-        database.executeTransaction(new ITransaction() {
-            @Override
-            public void execute(DatabaseWrapper databaseWrapper) {
-                teacher.save();
-                teacher1.save();
-                teacher2.save();
-                schoolClass.save();
-                schoolClass1.save();
-                classTeacher.save();
-                classTeacher1.save();
-                classTeacher2.save();
-                classTeacher3.save();
-                for(StudentDbFlowEntity s: studentList) {
-                    s.save();
-                }
-                Log.d(MainActivity.class.getSimpleName(), "saved");
-            }
-        });
-
-        Log.d(TAG, "save end");
-    }
-
-
-    private List<StudentDbFlowEntity> generateStudents(int count, SchoolClassDbFlowEntity schoolClass) {
-        List<StudentDbFlowEntity> list = new ArrayList<>();
-        for(int i =0; i < count; i++)
-        {
-            StudentDbFlowEntity student = new StudentDbFlowEntity();
-            student.setBirthDate(new Date());
-            student.setName("John" + i);
-            student.setSchoolClass(schoolClass);
-            list.add(student);
-        }
-        return list;
     }
 
 
@@ -157,17 +58,5 @@ public class  MainActivity extends ViewModelActivity<ActivityMainBinding, MainAc
         SchoolClassDbFlowEntity schoolClassForStudent = studentList.get(0).getSchoolClass();
 
         Log.d(MainActivity.class.getSimpleName(), classList.toString());
-    }
-
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-    }
-
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfiguration) {
-        super.onConfigurationChanged(newConfiguration);
     }
 }

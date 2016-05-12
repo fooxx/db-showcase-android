@@ -102,6 +102,20 @@ public class SchoolClassEntity implements SchoolClassInterface<StudentEntity, Te
 
 
 	@Override
+	public String getTeacherListString()
+	{
+		return null;
+	}
+
+
+	@Override
+	public String getStudentListString()
+	{
+		return null;
+	}
+
+
+	@Override
 	public List<Long> getStudentIdList()
 	{
 		return studentIdList;

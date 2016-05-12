@@ -14,4 +14,10 @@
     <string name="view_button">View detail</string>
 
     <string name="calendar_not_implemented">Calendar not implemented yet!</string>
+
+    <string name="add_student">Add student</string>
+    <string name="add_teacher">Add teacher</string>
+    <string name="remove_student">Remove student</string>
+    <string name="remove_teacher">Remove teacher</string>
+
    </resources>

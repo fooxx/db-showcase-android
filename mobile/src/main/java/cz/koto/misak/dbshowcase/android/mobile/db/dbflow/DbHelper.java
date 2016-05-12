@@ -8,7 +8,7 @@ import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 
 import java.util.List;
 
-import cz.koto.misak.dbshowcase.android.mobile.viewModel.OnDataSavedToDbListener;
+import cz.koto.misak.dbshowcase.android.mobile.listener.OnDataSavedToDbListener;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity_TeacherDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;
@@ -81,6 +81,7 @@ public class DbHelper
 
 	public static void deleteAllTables()
 	{
+		new Delete().from(SchoolClassDbFlowEntity_TeacherDbFlowEntity.class).execute();
 		new Delete().from(SchoolClassDbFlowEntity.class).execute();
 		new Delete().from(TeacherDbFlowEntity.class).execute();
 		new Delete().from(StudentDbFlowEntity.class).execute();

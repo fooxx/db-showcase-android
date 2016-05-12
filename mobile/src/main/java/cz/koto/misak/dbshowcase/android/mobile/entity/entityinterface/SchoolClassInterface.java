@@ -26,4 +26,7 @@ public interface SchoolClassInterface<S extends StudentInterface, T extends Teac
 	List<T> getTeacherList();
 	void setTeacherList(List<T> list);
 
+	String getTeacherListString();
+	String getStudentListString();
+
 }

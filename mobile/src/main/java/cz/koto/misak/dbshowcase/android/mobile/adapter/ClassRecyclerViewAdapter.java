@@ -1,0 +1,121 @@
+package cz.koto.misak.dbshowcase.android.mobile.adapter;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.List;
+
+import cz.koto.misak.dbshowcase.android.mobile.R;
+import cz.koto.misak.dbshowcase.android.mobile.databinding.ListItemBinding;
+import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
+import cz.koto.misak.dbshowcase.android.mobile.listener.OnClassItemClickListener;
+
+import static android.view.LayoutInflater.from;
+import static android.databinding.DataBindingUtil.inflate;
+
+
+public class ClassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+{
+	private static final int VIEW_TYPE_USER = 0;
+
+	private List<SchoolClassInterface> mPhotoEntityList;
+	private final OnClassItemClickListener mOnItemClickListener;
+
+
+	public ClassRecyclerViewAdapter(List<SchoolClassInterface> schoolClassList, OnClassItemClickListener onItemClickListener)
+	{
+		this.mOnItemClickListener = onItemClickListener;
+		this.mPhotoEntityList = schoolClassList;
+	}
+
+
+	@Override
+	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+	{
+		LayoutInflater inflater = from(parent.getContext());
+
+		switch(viewType)
+		{
+			case VIEW_TYPE_USER:
+				ListItemBinding binding = inflate(inflater, R.layout.list_item, parent, false);
+				return new ClassViewHolder(binding.getRoot(), binding, mOnItemClickListener);
+			default:
+				throw new RuntimeException("No such type found");
+		}
+	}
+
+
+	@Override
+	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
+	{
+		if(holder instanceof ClassViewHolder)
+		{
+			SchoolClassInterface entity = this.mPhotoEntityList.get(position);
+
+			if(entity != null)
+			{
+				((ClassViewHolder) holder).bindData(entity);
+			}
+		}
+	}
+
+
+	@Override
+	public int getItemCount()
+	{
+		return this.mPhotoEntityList.size();
+	}
+
+
+	public static class ClassViewHolder extends RecyclerView.ViewHolder
+	{
+		private ListItemBinding mBinding;
+
+
+		public ClassViewHolder(final View itemView, ListItemBinding binding, final OnClassItemClickListener listener)
+		{
+			super(itemView);
+
+			mBinding = binding;
+
+			itemView.setOnClickListener(new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View v)
+				{
+					final int adapterPosition = getAdapterPosition();
+
+					if(adapterPosition >= 0)
+					{
+						switch(v.getId()) {
+							case R.id.add_student:
+								listener.onAddStudentClick(adapterPosition);
+								break;
+							case R.id.add_teacher:
+								listener.onAddTeacherClick(adapterPosition);
+								break;
+							case R.id.remove_student:
+								listener.onRemoveStudentClick(adapterPosition);
+								break;
+							case R.id.remove_teacher:
+								listener.onRemoveTeacherClick(adapterPosition);
+								break;
+						}
+
+					}
+				}
+			});
+		}
+
+
+		public void bindData(SchoolClassInterface entity)
+		{
+			mBinding.className.setText(entity.getName());
+			mBinding.teachers.setText(entity.getTeacherListString());
+			mBinding.students.setText(entity.getStudentListString());
+			mBinding.executePendingBindings();
+		}
+	}
+}

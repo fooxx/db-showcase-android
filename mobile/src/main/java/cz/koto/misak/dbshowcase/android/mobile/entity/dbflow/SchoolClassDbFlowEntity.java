@@ -162,4 +162,30 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 		teacherList = list;
 		notifyPropertyChanged(BR.teacherList);
 	}
+
+
+	@Override
+	public String getTeacherListString()
+	{
+		StringBuilder builder = new StringBuilder();
+		getTeacherList();
+		for(TeacherDbFlowEntity t: teacherList) {
+			builder.append(t.getName());
+			builder.append("\n");
+		}
+		return builder.toString();
+	}
+
+
+	@Override
+	public String getStudentListString()
+	{
+		StringBuilder builder = new StringBuilder();
+		getStudentList();
+		for(StudentDbFlowEntity s: studentList) {
+			builder.append(s.getName());
+			builder.append("\n");
+		}
+		return builder.toString();
+	}
 }
