@@ -22,7 +22,7 @@ import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClas
 public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolClassInterface<StudentDbFlowEntity, TeacherDbFlowEntity>
 {
 	@Column
-	@PrimaryKey(autoincrement = true)
+	@PrimaryKey
 	@SerializedName("id")
 	long id;
 	@Column
@@ -148,7 +148,7 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 			teacherList = new Select()
 					.from(TeacherDbFlowEntity.class)
 					.innerJoin(SchoolClassDbFlowEntity_TeacherDbFlowEntity.class)
-					.on(SchoolClassDbFlowEntity_Table.id.eq(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.schoolClassDbFlowEntity_id))
+					.on(TeacherDbFlowEntity_Table.id.eq(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.teacherDbFlowEntity_id))
 					.where(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.schoolClassDbFlowEntity_id.eq(id))
 					.queryList();
 		}

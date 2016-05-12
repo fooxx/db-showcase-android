@@ -14,7 +14,7 @@ public class TeacherEntity implements TeacherInterface<SchoolClassDbFlowEntity> 
 
 
     @SerializedName("id")
-    protected long id;
+    protected long serverId;
 
     @SerializedName("name")
     protected String name;
@@ -24,15 +24,18 @@ public class TeacherEntity implements TeacherInterface<SchoolClassDbFlowEntity> 
 
     protected List<SchoolClassDbFlowEntity> schoolClassList = new ArrayList<>();
 
-    @Override
-    public long getId() {
-        return this.id;
+
+    public long getId()
+    {
+        return serverId;
     }
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
+
+    public void setId(long serverId)
+    {
+        this.serverId = serverId;
     }
+
 
     @Override
     public String getName() {
@@ -66,7 +69,7 @@ public class TeacherEntity implements TeacherInterface<SchoolClassDbFlowEntity> 
     @Override
     public String toString() {
         return "TeacherEntity{" +
-                "id=" + id +
+                "id=" + serverId +
                 ", name='" + name + '\'' +
                 ", birthDate=" + birthDate +
                 ", schoolClassList=" + schoolClassList +

@@ -83,7 +83,7 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 					DbHelper.saveDataToDb(schoolClassEntities, teacherEntities, studentEntities, () -> {
 						List<SchoolClassInterface> list = DbHelper.getClassListDbFlow();
 						Log.d(MainActivityViewModel.class.getSimpleName(), "onDataSavedToDb " + list.size());
-						//state.set(StatefulLayout.State.CONTENT);
+						state.set(StatefulLayout.State.CONTENT);
 						adapter.refill(list);
 					});
 					return null;
