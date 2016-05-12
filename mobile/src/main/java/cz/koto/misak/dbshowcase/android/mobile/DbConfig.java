@@ -2,7 +2,7 @@ package cz.koto.misak.dbshowcase.android.mobile;
 
 
 /**
- * KoTiPointConfigBase is base config for application.
+ * DbConfig is base config for application.
  */
 public class DbConfig {
 	public static final String API_DB_PROTOCOL = "http";
