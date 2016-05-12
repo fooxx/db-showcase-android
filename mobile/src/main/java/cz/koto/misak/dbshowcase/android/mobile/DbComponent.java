@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmConfigModule;
 import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmLoadModule;
+import cz.koto.misak.dbshowcase.android.mobile.viewModel.MainActivityViewModel;
 import dagger.Component;
 import io.realm.RealmConfiguration;
 
@@ -14,8 +15,10 @@ import io.realm.RealmConfiguration;
         ShowcaseRealmLoadModule.class})
 public interface DbComponent {
 
-    //void inject(DbShowcaseAPIClient dbShowcaseAPIClient);
+    void inject(MainActivityViewModel mainActivityViewModel);
 
     // downstream components need these exposed
     RealmConfiguration provideRealmConfiguration();
+
+    ShowcaseRealmLoadModule provideShowcaseRealmLoadModule();
 }

@@ -29,7 +29,7 @@ public class ShowcaseRealmLoadModule
 		return new ShowcaseRealmLoadModule();
 	}
 
-	public void loadApiData()
+	public void loadRealmFromApi()
 	{
 		loadClassData(createClassDataSubscriber());
 	}
@@ -54,7 +54,7 @@ public class ShowcaseRealmLoadModule
 			@Override
 			public void onCompleted()
 			{
-				Timber.v("Load/save classes for realm completed!");
+				Timber.v("Realm Load/save classes for realm completed!");
 				//realm.close();
 			}
 
@@ -62,7 +62,7 @@ public class ShowcaseRealmLoadModule
 			@Override
 			public void onError(Throwable e)
 			{
-				Timber.e(e, "Load/save classes for realm error!");
+				Timber.e(e, "Realm Load/save classes for realm error!");
 			}
 
 
@@ -71,7 +71,7 @@ public class ShowcaseRealmLoadModule
 			{
 				for(SchoolClassInterface schoolClassInterface : ts)
 				{
-					Timber.v("SchoolClass from API: %s", schoolClassInterface);
+					Timber.v("Realm SchoolClass from API: %s", schoolClassInterface);
 				}
 
 				// Copy elements from Retrofit to Realm to persist them.
@@ -103,7 +103,7 @@ public class ShowcaseRealmLoadModule
 			@Override
 			public void onCompleted()
 			{
-				Timber.v("Load/save teachers completed!");
+				Timber.v("Realm Load/save teachers completed!");
 				//realm.close();
 			}
 
@@ -111,7 +111,7 @@ public class ShowcaseRealmLoadModule
 			@Override
 			public void onError(Throwable e)
 			{
-				Timber.e(e, "Load/save teachers error!");
+				Timber.e(e, "Realm Load/save teachers error!");
 			}
 
 
@@ -146,7 +146,7 @@ public class ShowcaseRealmLoadModule
 			@Override
 			public void onCompleted()
 			{
-				Timber.v("Load/save students completed!");
+				Timber.v("Realm Load/save students completed!");
 				//realm.close();
 			}
 
@@ -154,7 +154,7 @@ public class ShowcaseRealmLoadModule
 			@Override
 			public void onError(Throwable e)
 			{
-				Timber.e(e, "Load/save students error!");
+				Timber.e(e, "Realm Load/save students error!");
 			}
 
 

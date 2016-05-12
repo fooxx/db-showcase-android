@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
-import cz.koto.misak.dbshowcase.android.mobile.listener.OnDataSavedToDbListener;
+import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveStateListener;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity_TeacherDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;
@@ -21,7 +21,7 @@ import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.TeacherDbFlowEntity
 public class DbHelper
 {
 
-	public static void saveDataToDb(List<SchoolClassDbFlowEntity> schoolClassEntities, List<TeacherDbFlowEntity> teacherEntities, List<StudentDbFlowEntity> studentEntities, OnDataSavedToDbListener listener)
+	public static void saveDataToDb(List<SchoolClassDbFlowEntity> schoolClassEntities, List<TeacherDbFlowEntity> teacherEntities, List<StudentDbFlowEntity> studentEntities, DataSaveStateListener listener)
 	{
 
 		Transaction transaction = FlowManager.getDatabase(DbFlowDatabase.class).beginTransactionAsync(new ITransaction()

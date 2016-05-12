@@ -1,18 +1,20 @@
 package cz.koto.misak.dbshowcase.android.mobile.viewModel;
 
 import android.databinding.ObservableField;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import cz.kinst.jakub.view.StatefulLayout;
 import cz.kinst.jakub.viewmodelbinding.ViewModel;
-import cz.koto.misak.dbshowcase.android.mobile.R;
+import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.adapter.ClassRecyclerViewAdapter;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbHelper;
+import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmLoadModule;
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.listener.OnClassItemClickListener;
 import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseAPIClient;
@@ -24,6 +26,13 @@ import rx.schedulers.Schedulers;
 
 public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 {
+
+    public MainActivityViewModel(){
+        DbApplication.get().getDbComponent().inject(this);
+    }
+
+	@Inject
+	ShowcaseRealmLoadModule realmLoadModule;
 
 	public final ObservableField<StatefulLayout.State> state = new ObservableField<>();
 
@@ -70,11 +79,12 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 
 			}
 		});
-		loadApiData();
+        realmLoadModule.loadRealmFromApi();
+		loadDbFlowFromApi();
 	}
 
 
-	public void loadApiData()
+	public void loadDbFlowFromApi()
 	{
 		Observable.zip(DbShowcaseAPIClient.getAPIService().classListDbFlow(),
 				DbShowcaseAPIClient.getAPIService().teacherListDbFlow(),
