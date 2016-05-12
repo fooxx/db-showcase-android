@@ -40,7 +40,7 @@ dependencies
 			compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
 			compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
 			compile "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.loggingInterceptor"
-			compile "io.reactivex:rxandroid:$rootProject.ext.rxJavaVersion"
+			compile "io.reactivex:rxandroid:$rootProject.ext.rxAndroid"
 			compile "io.reactivex:rxjava:$rootProject.ext.rxJavaVersion"
 			compile "io.reactivex:rxjava-math:$rootProject.ext.rxJavaMathVersion"
 			compile "com.jakewharton.timber:timber:$rootProject.ext.timberVersion"
