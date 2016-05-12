@@ -5,7 +5,6 @@ import android.util.Log;
 import java.util.List;
 
 import cz.kinst.jakub.viewmodelbinding.ViewModel;
-import cz.koto.misak.dbshowcase.android.mobile.OnDataSavedToDbListener;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbHelper;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
