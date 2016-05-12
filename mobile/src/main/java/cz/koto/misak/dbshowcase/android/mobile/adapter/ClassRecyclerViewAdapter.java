@@ -16,18 +16,18 @@ import static android.view.LayoutInflater.from;
 import static android.databinding.DataBindingUtil.inflate;
 
 
-public class ClassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class ClassRecyclerViewAdapter extends RecyclerView.Adapter<android.support.v7.widget.RecyclerView.ViewHolder>
 {
 	private static final int VIEW_TYPE_USER = 0;
 
-	private List<SchoolClassInterface> mPhotoEntityList;
+	private List<SchoolClassInterface> mClassList;
 	private final OnClassItemClickListener mOnItemClickListener;
 
 
 	public ClassRecyclerViewAdapter(List<SchoolClassInterface> schoolClassList, OnClassItemClickListener onItemClickListener)
 	{
 		this.mOnItemClickListener = onItemClickListener;
-		this.mPhotoEntityList = schoolClassList;
+		this.mClassList = schoolClassList;
 	}
 
 
@@ -52,7 +52,7 @@ public class ClassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 	{
 		if(holder instanceof ClassViewHolder)
 		{
-			SchoolClassInterface entity = this.mPhotoEntityList.get(position);
+			SchoolClassInterface entity = this.mClassList.get(position);
 
 			if(entity != null)
 			{
@@ -65,7 +65,7 @@ public class ClassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 	@Override
 	public int getItemCount()
 	{
-		return this.mPhotoEntityList.size();
+		return this.mClassList.size();
 	}
 
 
@@ -117,5 +117,11 @@ public class ClassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 			mBinding.students.setText(entity.getStudentListString());
 			mBinding.executePendingBindings();
 		}
+	}
+
+
+	public void refill(List<SchoolClassInterface> list) {
+		mClassList = list;
+		notifyDataSetChanged();
 	}
 }

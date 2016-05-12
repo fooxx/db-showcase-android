@@ -5,7 +5,7 @@ ext {
 
     buildToolsVersion = "23.0.2"
     retroLambdaVersion = "3.2.4"
-    supportLibVersion = "23.3.0"
+    supportLibVersion = "23.4.0"
 
     retrofitVersion = "2.0.2"
     loggingInterceptor = "3.2.0"

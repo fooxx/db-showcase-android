@@ -116,7 +116,7 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 
 
 	@Bindable
-	@OneToMany(methods = {OneToMany.Method.ALL}, variableName = "studentList")
+//	@OneToMany(methods = {OneToMany.Method.ALL}, variableName = "studentList")
 	@Override
 	public List<StudentDbFlowEntity> getStudentList()
 	{
