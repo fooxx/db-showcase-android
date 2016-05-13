@@ -69,44 +69,55 @@ public class ClassRecyclerViewAdapter extends RecyclerView.Adapter<android.suppo
 	}
 
 
-	public static class ClassViewHolder extends RecyclerView.ViewHolder
+	public SchoolClassInterface getItem(int position)
+	{
+		return mClassList.get(position);
+	}
+
+
+	public static class ClassViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 	{
 		private ListItemBinding mBinding;
-
+		private OnClassItemClickListener mListener;
 
 		public ClassViewHolder(final View itemView, ListItemBinding binding, final OnClassItemClickListener listener)
 		{
 			super(itemView);
 
 			mBinding = binding;
+			mListener = listener;
 
-			itemView.setOnClickListener(new View.OnClickListener()
+			itemView.setOnClickListener(this);
+			mBinding.addStudent.setOnClickListener(this);
+			mBinding.addTeacher.setOnClickListener(this);
+			mBinding.removeStudent.setOnClickListener(this);
+			mBinding.removeTeacher.setOnClickListener(this);
+		}
+
+
+		@Override
+		public void onClick(View v)
+		{
+			final int adapterPosition = getAdapterPosition();
+
+			if(adapterPosition >= 0)
 			{
-				@Override
-				public void onClick(View v)
-				{
-					final int adapterPosition = getAdapterPosition();
-
-					if(adapterPosition >= 0)
-					{
-						switch(v.getId()) {
-							case R.id.add_student:
-								listener.onAddStudentClick(adapterPosition);
-								break;
-							case R.id.add_teacher:
-								listener.onAddTeacherClick(adapterPosition);
-								break;
-							case R.id.remove_student:
-								listener.onRemoveStudentClick(adapterPosition);
-								break;
-							case R.id.remove_teacher:
-								listener.onRemoveTeacherClick(adapterPosition);
-								break;
-						}
-
-					}
+				switch(v.getId()) {
+					case R.id.add_student:
+						mListener.onAddStudentClick(adapterPosition);
+						break;
+					case R.id.add_teacher:
+						mListener.onAddTeacherClick(adapterPosition);
+						break;
+					case R.id.remove_student:
+						mListener.onRemoveStudentClick(adapterPosition);
+						break;
+					case R.id.remove_teacher:
+						mListener.onRemoveTeacherClick(adapterPosition);
+						break;
 				}
-			});
+
+			}
 		}
 
 

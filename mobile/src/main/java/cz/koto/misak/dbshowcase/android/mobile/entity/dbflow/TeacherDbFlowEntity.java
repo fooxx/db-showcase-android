@@ -19,7 +19,7 @@ import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.TeacherInt
 public class TeacherDbFlowEntity extends BaseDbFlowModel implements TeacherInterface<SchoolClassDbFlowEntity>
 {
 
-	@PrimaryKey
+	@PrimaryKey(autoincrement = true)
 	@Column
 	@SerializedName("id")
 	long id;

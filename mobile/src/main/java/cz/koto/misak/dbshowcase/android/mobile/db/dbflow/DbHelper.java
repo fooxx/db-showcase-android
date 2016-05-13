@@ -2,6 +2,7 @@ package cz.koto.misak.dbshowcase.android.mobile.db.dbflow;
 
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.language.Insert;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
 import com.raizlabs.android.dbflow.structure.database.transaction.ITransaction;
@@ -10,6 +11,7 @@ import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity_Table;
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.listener.OnDataSavedToDbListener;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
@@ -29,7 +31,8 @@ public class DbHelper
 			@Override
 			public void execute(DatabaseWrapper databaseWrapper)
 			{
-				deleteAllTables();
+				//deleteAllTables();
+				deleteTeacherClassRelationship();
 				//save all classes
 				for(SchoolClassDbFlowEntity sc : schoolClassEntities)
 				{
@@ -82,17 +85,36 @@ public class DbHelper
 	}
 
 
-	public static void deleteAllTables()
+	private static void deleteTeacherClassRelationship()
 	{
 		new Delete().from(SchoolClassDbFlowEntity_TeacherDbFlowEntity.class).execute();
-		new Delete().from(SchoolClassDbFlowEntity.class).execute();
-		new Delete().from(TeacherDbFlowEntity.class).execute();
-		new Delete().from(StudentDbFlowEntity.class).execute();
 	}
 
 
 	public static List<SchoolClassInterface> getClassListDbFlow() {
 		return new ArrayList<>(new Select().from(SchoolClassDbFlowEntity.class).queryList());
+	}
+
+
+	public static void insertNewStudentForClass(StudentDbFlowEntity student, SchoolClassDbFlowEntity schoolClass, OnDataSavedToDbListener listener) {
+		Transaction transaction = FlowManager.getDatabase(DbFlowDatabase.class).beginTransactionAsync(new ITransaction()
+		{
+			@Override
+			public void execute(DatabaseWrapper databaseWrapper)
+			{
+				student.setSchoolClass(schoolClass);
+				student.save();
+			}
+		}).success(new Transaction.Success()
+		{
+			@Override
+			public void onSuccess(Transaction transaction)
+			{
+				listener.onDataSavedToDb();
+			}
+		}).build();
+
+		transaction.execute();
 	}
 
 }

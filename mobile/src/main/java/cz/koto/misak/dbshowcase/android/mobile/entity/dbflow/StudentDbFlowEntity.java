@@ -14,13 +14,14 @@ import com.raizlabs.android.dbflow.sql.language.Select;
 import java.util.Date;
 
 import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbFlowDatabase;
+import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.StudentInterface;
 
 @Table(database = DbFlowDatabase.class)
 public class StudentDbFlowEntity extends BaseDbFlowModel implements StudentInterface<SchoolClassDbFlowEntity>
 {
 
-	@PrimaryKey
+	@PrimaryKey(autoincrement = true)
 	@Column
 	@SerializedName("id")
 	long id;
