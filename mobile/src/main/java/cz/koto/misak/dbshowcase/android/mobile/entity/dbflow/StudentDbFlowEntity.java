@@ -23,8 +23,10 @@ public class StudentDbFlowEntity extends BaseDbFlowModel implements StudentInter
 
 	@PrimaryKey(autoincrement = true)
 	@Column
+	long dbId;
+	@Column
 	@SerializedName("id")
-	long id;
+	long serverId;
 	@Column
 	@SerializedName("name")
 	String name;
@@ -42,15 +44,27 @@ public class StudentDbFlowEntity extends BaseDbFlowModel implements StudentInter
 	@Override
 	public long getId()
 	{
-		return id;
+		return dbId;
 	}
 
 
 	@Override
 	public void setId(long id)
 	{
-		this.id = id;
+		this.dbId = id;
 		notifyPropertyChanged(BR.id);
+	}
+
+
+	public long getServerId()
+	{
+		return serverId;
+	}
+
+
+	public void setServerId(long serverId)
+	{
+		this.serverId = serverId;
 	}
 
 
@@ -121,5 +135,13 @@ public class StudentDbFlowEntity extends BaseDbFlowModel implements StudentInter
 	{
 		this.schoolClass = schoolClass;
 		notifyPropertyChanged(BR.schoolClass);
+	}
+
+
+	public void update(StudentDbFlowEntity entity) {
+		serverId = entity.getServerId();
+		name = entity.getName();
+		birthDate = entity.getBirthDate();
+		schoolClassId = entity.getSchoolClassId();
 	}
 }

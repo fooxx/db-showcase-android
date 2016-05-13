@@ -1,6 +1,7 @@
 package cz.koto.misak.dbshowcase.android.mobile.viewModel;
 
 import android.databinding.ObservableField;
+import android.graphics.Point;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,10 +74,7 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 					@Override
 					public void onDataSavedToDb()
 					{
-						SchoolClassInterface schoolClass = adapter.getItem(position);
-						if(schoolClass.getStudentList() != null) schoolClass.getStudentList().clear();
-						if(schoolClass.getStudentIdList() != null) schoolClass.getStudentIdList().clear();
-						adapter.notifyItemChanged(position);
+						updateItemIfStudentsWereChanged(position);
 					}
 				});
 			}
@@ -90,10 +88,7 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 					@Override
 					public void onDataSavedToDb()
 					{
-						SchoolClassInterface schoolClass = adapter.getItem(position);
-						if(schoolClass.getTeacherList() != null) schoolClass.getTeacherList().clear();
-						if(schoolClass.getTeacherIdList() != null) schoolClass.getTeacherIdList().clear();
-						adapter.notifyItemChanged(position);
+						updateItemIfTeachersWereChanged(position);
 					}
 				});
 			}
@@ -102,14 +97,28 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 			@Override
 			public void onRemoveStudentClick(int position)
 			{
-
+				DbFlowCrudModule.deleteFirstStudentFromClass((SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveStateListener()
+				{
+					@Override
+					public void onDataSavedToDb()
+					{
+						updateItemIfStudentsWereChanged(position);
+					}
+				});
 			}
 
 
 			@Override
 			public void onRemoveTeacherClick(int position)
 			{
-
+				DbFlowCrudModule.deleteFirstTeacherFromClass((SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveStateListener()
+				{
+					@Override
+					public void onDataSavedToDb()
+					{
+						updateItemIfTeachersWereChanged(position);
+					}
+				});
 			}
 		});
 
@@ -123,6 +132,22 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 
 
 		loadDbFlowFromApi();
+	}
+
+
+	private void updateItemIfStudentsWereChanged(int position) {
+		SchoolClassInterface schoolClass = adapter.getItem(position);
+		if(schoolClass.getStudentList() != null) schoolClass.getStudentList().clear();
+		if(schoolClass.getStudentIdList() != null) schoolClass.getStudentIdList().clear();
+		adapter.notifyItemChanged(position);
+	}
+
+
+	private void updateItemIfTeachersWereChanged(int position) {
+		SchoolClassInterface schoolClass = adapter.getItem(position);
+		if(schoolClass.getTeacherList() != null) schoolClass.getTeacherList().clear();
+		if(schoolClass.getTeacherIdList() != null) schoolClass.getTeacherIdList().clear();
+		adapter.notifyItemChanged(position);
 	}
 
 

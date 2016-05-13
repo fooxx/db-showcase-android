@@ -21,8 +21,10 @@ public class TeacherDbFlowEntity extends BaseDbFlowModel implements TeacherInter
 
 	@PrimaryKey(autoincrement = true)
 	@Column
+	long dbId;
+	@Column
 	@SerializedName("id")
-	long id;
+	long serverId;
 	@Column
 	@SerializedName("name")
 	String name;
@@ -33,14 +35,26 @@ public class TeacherDbFlowEntity extends BaseDbFlowModel implements TeacherInter
 	@Bindable
 	public long getId()
 	{
-		return id;
+		return dbId;
 	}
 
 
 	public void setId(long id)
 	{
-		this.id = id;
+		this.dbId = id;
 		notifyPropertyChanged(BR.id);
+	}
+
+
+	public long getServerId()
+	{
+		return serverId;
+	}
+
+
+	public void setServerId(long serverId)
+	{
+		this.serverId = serverId;
 	}
 
 
@@ -68,8 +82,8 @@ public class TeacherDbFlowEntity extends BaseDbFlowModel implements TeacherInter
 			schoolClassList = new Select()
 					.from(SchoolClassDbFlowEntity.class)
 					.innerJoin(SchoolClassDbFlowEntity_TeacherDbFlowEntity.class)
-					.on(TeacherDbFlowEntity_Table.id.eq(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.teacherDbFlowEntity_id))
-					.where(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.teacherDbFlowEntity_id.eq(id))
+					.on(TeacherDbFlowEntity_Table.dbId.eq(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.teacherDbFlowEntity_dbId))
+					.where(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.teacherDbFlowEntity_dbId.eq(dbId))
 					.queryList();
 		}
 		return schoolClassList;
@@ -81,5 +95,11 @@ public class TeacherDbFlowEntity extends BaseDbFlowModel implements TeacherInter
 	{
 		this.schoolClassList = schoolClassList;
 		notifyPropertyChanged(BR.schoolClassList);
+	}
+
+
+	public void update(TeacherDbFlowEntity entity) {
+		serverId = entity.getServerId();
+		name = entity.getName();
 	}
 }

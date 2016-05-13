@@ -22,8 +22,10 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 {
 	@Column
 	@PrimaryKey(autoincrement = true)
+	long dbId;
+	@Column
 	@SerializedName("id")
-	long id;
+	long serverId;
 	@Column
 	@SerializedName("name")
 	String name;
@@ -42,15 +44,27 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	@Override
 	public long getId()
 	{
-		return id;
+		return dbId;
 	}
 
 
 	@Override
 	public void setId(long id)
 	{
-		this.id = id;
+		this.dbId = id;
 		notifyPropertyChanged(BR.id);
+	}
+
+
+	public long getServerId()
+	{
+		return serverId;
+	}
+
+
+	public void setServerId(long serverId)
+	{
+		this.serverId = serverId;
 	}
 
 
@@ -121,7 +135,7 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 		{
 			studentList = new Select()
 					.from(StudentDbFlowEntity.class)
-					.where(StudentDbFlowEntity_Table.schoolClass_id.is(id))
+					.where(StudentDbFlowEntity_Table.schoolClass_dbId.is(dbId))
 					.queryList();
 		}
 		return studentList;
@@ -144,8 +158,8 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 			teacherList = new Select()
 					.from(TeacherDbFlowEntity.class)
 					.innerJoin(SchoolClassDbFlowEntity_TeacherDbFlowEntity.class)
-					.on(TeacherDbFlowEntity_Table.id.eq(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.teacherDbFlowEntity_id))
-					.where(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.schoolClassDbFlowEntity_id.eq(id))
+					.on(TeacherDbFlowEntity_Table.dbId.eq(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.teacherDbFlowEntity_dbId))
+					.where(SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table.schoolClassDbFlowEntity_dbId.eq(dbId))
 					.queryList();
 		}
 		return teacherList;
@@ -164,7 +178,8 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	{
 		StringBuilder builder = new StringBuilder();
 		getTeacherList();
-		for(TeacherDbFlowEntity t: teacherList) {
+		for(TeacherDbFlowEntity t : teacherList)
+		{
 			builder.append(t.getName());
 			builder.append("\n");
 		}
@@ -177,10 +192,18 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	{
 		StringBuilder builder = new StringBuilder();
 		getStudentList();
-		for(StudentDbFlowEntity s: studentList) {
+		for(StudentDbFlowEntity s : studentList)
+		{
 			builder.append(s.getName());
 			builder.append("\n");
 		}
 		return builder.toString();
+	}
+
+
+	public void update(SchoolClassDbFlowEntity entity) {
+		serverId = entity.getServerId();
+		name = entity.getName();
+		grade = entity.getGrade();
 	}
 }
