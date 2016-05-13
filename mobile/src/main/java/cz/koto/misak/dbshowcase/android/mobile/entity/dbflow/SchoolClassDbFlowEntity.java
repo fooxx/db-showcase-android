@@ -6,7 +6,6 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.google.gson.annotations.SerializedName;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ManyToMany;
-import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.sql.language.Select;
@@ -94,7 +93,6 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	}
 
 
-	@Override
 	public void setStudentIdList(List<Long> list)
 	{
 		studentIdList = list;
@@ -108,7 +106,6 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	}
 
 
-	@Override
 	public void setTeacherIdList(List<Long> list)
 	{
 		teacherIdList = list;
@@ -131,7 +128,6 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	}
 
 
-	@Override
 	public void setStudentList(List<StudentDbFlowEntity> list)
 	{
 		studentList = list;
@@ -156,7 +152,6 @@ public class SchoolClassDbFlowEntity extends BaseDbFlowModel implements SchoolCl
 	}
 
 
-	@Override
 	public void setTeacherList(List<TeacherDbFlowEntity> list)
 	{
 		teacherList = list;

@@ -4,8 +4,6 @@ plugins {
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'io.fabric'
-apply plugin: 'com.neenbedankt.android-apt'
 
 apply plugin: 'realm-android'//REALM.IO
 
@@ -13,10 +11,6 @@ final VERSION_MAJOR = rootProject.ext.versionMajor // max two digits
 final VERSION_MINOR = rootProject.ext.versionMinor // max two digits
 final VERSION_PATCH = rootProject.ext.versionPatch // max two digits
 final VERSION_BUILD = rootProject.ext.versionBuild // max three digits
-
-crashlytics {
-	enableNdk true //due to realm db debugging
-}
 
 dependencies
 		{
@@ -26,10 +20,6 @@ dependencies
 			// DBFLOW sql-cipher database encyrption (optional)
 			compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$rootProject.ext.dbflow_version"
 
-			compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar')
-			{
-				transitive = true;
-			}
 			compile "com.android.support:support-v4:$rootProject.ext.supportLibVersion"
 			compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
 			compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"

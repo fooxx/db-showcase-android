@@ -1,4 +1,4 @@
-package cz.koto.misak.dbshowcase.android.mobile.entity.rest;
+package cz.koto.misak.dbshowcase.android.mobile.entity.realm;
 
 
 import com.google.gson.annotations.SerializedName;
@@ -6,11 +6,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.StudentInterface;
+import io.realm.RealmModel;
+import io.realm.annotations.RealmClass;
 
-
-public class StudentEntity implements StudentInterface<SchoolClassEntity>
+@RealmClass
+public class StudentRealmEntity implements StudentInterface<SchoolClassRealmEntity>, RealmModel
 {
 
+	@io.realm.annotations.PrimaryKey
 	@SerializedName("id")
 	protected long id;
 
@@ -24,7 +27,7 @@ public class StudentEntity implements StudentInterface<SchoolClassEntity>
 	protected long schoolClassId;
 
 	@SerializedName(value = "schoolClass")
-	protected SchoolClassEntity schoolClass;
+	protected SchoolClassRealmEntity schoolClass;
 
 
 	@Override
@@ -84,14 +87,14 @@ public class StudentEntity implements StudentInterface<SchoolClassEntity>
 
 
 	@Override
-	public SchoolClassEntity getSchoolClass()
+	public SchoolClassRealmEntity getSchoolClass()
 	{
 		return this.schoolClass;
 	}
 
 
 	@Override
-	public void setSchoolClass(SchoolClassEntity schoolClass)
+	public void setSchoolClass(SchoolClassRealmEntity schoolClass)
 	{
 		this.schoolClass = schoolClass;
 	}
@@ -100,7 +103,7 @@ public class StudentEntity implements StudentInterface<SchoolClassEntity>
 	@Override
 	public String toString()
 	{
-		return "StudentEntity{" +
+		return "StudentRealmEntity{" +
 				"id=" + id +
 				", name='" + name + '\'' +
 				", birthDate=" + birthDate +

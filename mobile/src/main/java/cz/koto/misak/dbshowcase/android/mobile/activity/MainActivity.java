@@ -1,6 +1,5 @@
 package cz.koto.misak.dbshowcase.android.mobile.activity;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 
@@ -13,8 +12,6 @@ import cz.koto.misak.dbshowcase.android.mobile.viewModel.MainActivityViewModel;
 
 public class  MainActivity extends ViewModelActivity<ActivityMainBinding, MainActivityViewModel>
 {
-
-    public static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     public ViewModelBindingConfig<MainActivityViewModel> getViewModelBindingConfig()

@@ -1,18 +1,21 @@
-package cz.koto.misak.dbshowcase.android.mobile.entity.rest;
+package cz.koto.misak.dbshowcase.android.mobile.entity.realm;
 
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.TeacherInterface;
+import io.realm.RealmList;
+import io.realm.RealmModel;
+import io.realm.annotations.RealmClass;
 
-public class TeacherEntity implements TeacherInterface<SchoolClassDbFlowEntity> {
+@RealmClass
+public class TeacherRealmEntity implements TeacherInterface<SchoolClassRealmEntity>, RealmModel {
 
 
+    @io.realm.annotations.PrimaryKey
     @SerializedName("id")
     protected long serverId;
 
@@ -22,7 +25,8 @@ public class TeacherEntity implements TeacherInterface<SchoolClassDbFlowEntity> 
     @SerializedName(value = "birthDate")
     protected Date birthDate;
 
-    protected List<SchoolClassDbFlowEntity> schoolClassList = new ArrayList<>();
+    protected RealmList<SchoolClassRealmEntity> schoolClassList = new RealmList<>();
+
 
 
     public long getId()
@@ -48,12 +52,12 @@ public class TeacherEntity implements TeacherInterface<SchoolClassDbFlowEntity> 
     }
 
     @Override
-    public List<SchoolClassDbFlowEntity> getSchoolClassList() {
+    public List<SchoolClassRealmEntity> getSchoolClassList() {
         return schoolClassList;
     }
 
     @Override
-    public void setSchoolClassList(List<SchoolClassDbFlowEntity> schoolClassList) {
+    public void setSchoolClassList(List<SchoolClassRealmEntity> schoolClassList) {
         schoolClassList.clear();
         schoolClassList.addAll(schoolClassList);
     }
@@ -68,7 +72,7 @@ public class TeacherEntity implements TeacherInterface<SchoolClassDbFlowEntity> 
 
     @Override
     public String toString() {
-        return "TeacherEntity{" +
+        return "TeacherRealmEntity{" +
                 "id=" + serverId +
                 ", name='" + name + '\'' +
                 ", birthDate=" + birthDate +
