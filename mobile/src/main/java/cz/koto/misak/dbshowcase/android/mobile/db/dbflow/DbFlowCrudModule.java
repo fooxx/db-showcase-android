@@ -1,5 +1,7 @@
 package cz.koto.misak.dbshowcase.android.mobile.db.dbflow;
 
+import android.provider.ContactsContract;
+
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Insert;
@@ -98,7 +100,7 @@ public class DbFlowCrudModule
 	}
 
 
-	public static void insertNewStudentForClass(StudentDbFlowEntity student, SchoolClassDbFlowEntity schoolClass, OnDataSavedToDbListener listener) {
+	public static void insertNewStudentForClass(StudentDbFlowEntity student, SchoolClassDbFlowEntity schoolClass, DataSaveStateListener listener) {
 		Transaction transaction = FlowManager.getDatabase(DbFlowDatabase.class).beginTransactionAsync(new ITransaction()
 		{
 			@Override
@@ -106,6 +108,31 @@ public class DbFlowCrudModule
 			{
 				student.setSchoolClass(schoolClass);
 				student.save();
+			}
+		}).success(new Transaction.Success()
+		{
+			@Override
+			public void onSuccess(Transaction transaction)
+			{
+				listener.onDataSavedToDb();
+			}
+		}).build();
+
+		transaction.execute();
+	}
+
+
+	public static void insertNewTeacherForClass(TeacherDbFlowEntity teacher, SchoolClassDbFlowEntity schoolClass, DataSaveStateListener listener) {
+		Transaction transaction = FlowManager.getDatabase(DbFlowDatabase.class).beginTransactionAsync(new ITransaction()
+		{
+			@Override
+			public void execute(DatabaseWrapper databaseWrapper)
+			{
+				teacher.save();
+				SchoolClassDbFlowEntity_TeacherDbFlowEntity entity = new SchoolClassDbFlowEntity_TeacherDbFlowEntity();
+				entity.setSchoolClassDbFlowEntity(schoolClass);
+				entity.setTeacherDbFlowEntity(teacher);
+				entity.save();
 			}
 		}).success(new Transaction.Success()
 		{

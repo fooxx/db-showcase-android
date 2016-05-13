@@ -13,16 +13,16 @@ import cz.kinst.jakub.viewmodelbinding.ViewModel;
 import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.adapter.ClassRecyclerViewAdapter;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
-import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbHelper;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbFlowCrudModule;
 import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmConfigurationMarker;
 import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmCrudModule;
+import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.TeacherDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.StudentInterface;
+import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveStateListener;
 import cz.koto.misak.dbshowcase.android.mobile.listener.OnClassItemClickListener;
-import cz.koto.misak.dbshowcase.android.mobile.listener.OnDataSavedToDbListener;
 import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseAPIClient;
 import cz.koto.misak.dbshowcase.android.mobile.util.RandomString;
 import io.realm.RealmConfiguration;
@@ -68,8 +68,7 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 			@Override
 			public void onAddStudentClick(int position)
 			{
-				StudentDbFlowEntity student = getRandomStudent();
-				DbHelper.insertNewStudentForClass(student, (SchoolClassDbFlowEntity) adapter.getItem(position), new OnDataSavedToDbListener()
+				DbFlowCrudModule.insertNewStudentForClass(getRandomStudent(), (SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveStateListener()
 				{
 					@Override
 					public void onDataSavedToDb()
@@ -86,7 +85,17 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 			@Override
 			public void onAddTeacherClick(int position)
 			{
-
+				DbFlowCrudModule.insertNewTeacherForClass(getRandomTeacher(), (SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveStateListener()
+				{
+					@Override
+					public void onDataSavedToDb()
+					{
+						SchoolClassInterface schoolClass = adapter.getItem(position);
+						if(schoolClass.getTeacherList() != null) schoolClass.getTeacherList().clear();
+						if(schoolClass.getTeacherIdList() != null) schoolClass.getTeacherIdList().clear();
+						adapter.notifyItemChanged(position);
+					}
+				});
 			}
 
 
@@ -166,6 +175,14 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 		student.setName(new RandomString(8).nextString());
 		student.setBirthDate(new Date());
 		return student;
+	}
+
+
+	private TeacherDbFlowEntity getRandomTeacher()
+	{
+		TeacherDbFlowEntity teacher = new TeacherDbFlowEntity();
+		teacher.setName(new RandomString(8).nextString());
+		return teacher;
 	}
 
 }
