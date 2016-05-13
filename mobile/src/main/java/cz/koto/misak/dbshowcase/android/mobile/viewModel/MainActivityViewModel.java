@@ -1,7 +1,6 @@
 package cz.koto.misak.dbshowcase.android.mobile.viewModel;
 
 import android.databinding.ObservableField;
-import android.graphics.Point;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,15 +13,14 @@ import cz.kinst.jakub.viewmodelbinding.ViewModel;
 import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.adapter.ClassRecyclerViewAdapter;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
-import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
-import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbFlowCrudModule;
 import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmConfigurationMarker;
 import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmCrudModule;
+import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
+import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.TeacherDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
-import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.StudentInterface;
-import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveStateListener;
+import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveSuccessListener;
 import cz.koto.misak.dbshowcase.android.mobile.listener.OnClassItemClickListener;
 import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseAPIClient;
 import cz.koto.misak.dbshowcase.android.mobile.util.RandomString;
@@ -69,10 +67,10 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 			@Override
 			public void onAddStudentClick(int position)
 			{
-				DbFlowCrudModule.insertNewStudentForClass(getRandomStudent(), (SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveStateListener()
+				DbFlowCrudModule.insertNewStudentForClass(getRandomStudent(), (SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveSuccessListener()
 				{
 					@Override
-					public void onDataSavedToDb()
+					public void onDataSaveSuccess()
 					{
 						updateItemIfStudentsWereChanged(position);
 					}
@@ -83,10 +81,10 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 			@Override
 			public void onAddTeacherClick(int position)
 			{
-				DbFlowCrudModule.insertNewTeacherForClass(getRandomTeacher(), (SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveStateListener()
+				DbFlowCrudModule.insertNewTeacherForClass(getRandomTeacher(), (SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveSuccessListener()
 				{
 					@Override
-					public void onDataSavedToDb()
+					public void onDataSaveSuccess()
 					{
 						updateItemIfTeachersWereChanged(position);
 					}
@@ -97,10 +95,10 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 			@Override
 			public void onRemoveStudentClick(int position)
 			{
-				DbFlowCrudModule.deleteFirstStudentFromClass((SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveStateListener()
+				DbFlowCrudModule.deleteFirstStudentFromClass((SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveSuccessListener()
 				{
 					@Override
-					public void onDataSavedToDb()
+					public void onDataSaveSuccess()
 					{
 						updateItemIfStudentsWereChanged(position);
 					}
@@ -111,10 +109,10 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 			@Override
 			public void onRemoveTeacherClick(int position)
 			{
-				DbFlowCrudModule.deleteFirstTeacherFromClass((SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveStateListener()
+				DbFlowCrudModule.deleteFirstTeacherFromClass((SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveSuccessListener()
 				{
 					@Override
-					public void onDataSavedToDb()
+					public void onDataSaveSuccess()
 					{
 						updateItemIfTeachersWereChanged(position);
 					}
@@ -131,7 +129,20 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 //        });
 
 
-		loadDbFlowFromApi();
+		if (false /*use REALM*/) {
+			realmLoadModule.loadRealmFromApi(showcaseRealmConfiguration, () -> {
+
+				List<? extends SchoolClassInterface> list = realmLoadModule.provideSchoolClassRealmEntityList(showcaseRealmConfiguration);
+				Timber.d("onDataSaveSuccess %s", list.size());
+				state.set(StatefulLayout.State.CONTENT);
+				adapter.refill(list);
+
+			}, () -> {
+				state.set(StatefulLayout.State.EMPTY);
+			});
+		}else { /*use DBFlow*/
+			loadDbFlowFromApi();
+		}
 	}
 
 

@@ -9,7 +9,8 @@ import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClas
 import cz.koto.misak.dbshowcase.android.mobile.entity.realm.SchoolClassRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.realm.StudentRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.realm.TeacherRealmEntity;
-import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveStateListener;
+import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveErrorListener;
+import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveSuccessListener;
 import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseAPIClient;
 import cz.koto.misak.dbshowcase.android.mobile.util.BackgroundExecutor;
 import dagger.Module;
@@ -17,6 +18,7 @@ import dagger.Provides;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import rx.Observable;
+import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -37,35 +39,88 @@ public class ShowcaseRealmCrudModule {
     }
 
     @Provides
-    public List<? extends SchoolClassInterface> provideSchoolClassRealmEntityList(RealmConfiguration realmConfiguration){
+    public List<? extends SchoolClassInterface> provideSchoolClassRealmEntityList(RealmConfiguration realmConfiguration) {
         Realm realm = Realm.getInstance(realmConfiguration);
         return realm.where(SchoolClassRealmEntity.class).findAll();
     }
 
-    public void loadRealmFromApi(RealmConfiguration realmConfiguration, DataSaveStateListener saveStateListener) {
+    public void loadRealmFromApi(RealmConfiguration realmConfiguration,
+                                 DataSaveSuccessListener saveSuccessListener,
+                                 DataSaveErrorListener saveErrorListener) {
         //loadClassData(createClassDataSubscriber(realmConfiguration));
 
         Observable.zip(DbShowcaseAPIClient.getAPIService().classList(),
                 DbShowcaseAPIClient.getAPIService().teacherList(),
                 DbShowcaseAPIClient.getAPIService().studentList(),
                 (schoolClassEntities, teacherEntities, studentEntities) -> {
-                    saveRealmData(schoolClassEntities, teacherEntities, studentEntities, saveStateListener);
+                    saveRealmData(schoolClassEntities, teacherEntities, studentEntities, saveSuccessListener, saveErrorListener, realmConfiguration);
                     return null;
                 })
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());//TODO subscribe it!
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Object>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.v("saved to Db");
+                    }
 
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e("not saved to Db - error");
+                        saveErrorListener.onDataSaveError();
+                        e.printStackTrace();
+                    }
+
+
+                    @Override
+                    public void onNext(Object o) {
+                        Timber.v("saving to db on next");
+                    }
+                });
 
     }
 
     private void saveRealmData(List<SchoolClassRealmEntity> schoolClassRealmEntityList,
                                List<TeacherRealmEntity> teacherRealmEntityList,
                                List<StudentRealmEntity> studentRealmEntityList,
-                               DataSaveStateListener saveStateListener) {
+                               DataSaveSuccessListener saveSuccessListener,
+                               DataSaveErrorListener saveErrorListener,
+                               RealmConfiguration realmConfiguration) {
+
+        for (SchoolClassRealmEntity schoolClass : schoolClassRealmEntityList) {
+            for (TeacherRealmEntity teacher : teacherRealmEntityList) {
+                if (schoolClass.getTeacherIdRealmList().contains(teacher.getId())) {
+                    schoolClass.getTeacherRealmList().add(teacher);
+                }
+            }
+            for (StudentRealmEntity student : studentRealmEntityList) {
+                if (schoolClass.getStudentIdRealmList().contains(student.getId())) {
+                    schoolClass.getStudentRealmList().add(student);
+                }
+            }
+        }
+
+        Realm realm = Realm.getInstance(realmConfiguration);
+
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                List<SchoolClassRealmEntity> dispatchedSchoolClassRealmEntity = realm.copyToRealmOrUpdate(schoolClassRealmEntityList);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                saveSuccessListener.onDataSaveSuccess();
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                saveErrorListener.onDataSaveError();
+            }
+        });
 
     }
-
-
 
 
     private void loadClassData(Subscriber<List<SchoolClassRealmEntity>> subscriber) {

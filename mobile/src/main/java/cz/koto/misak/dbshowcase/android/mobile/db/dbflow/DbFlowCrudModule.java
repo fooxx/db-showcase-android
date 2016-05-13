@@ -17,7 +17,7 @@ import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity_Table;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.TeacherDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
-import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveStateListener;
+import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveSuccessListener;
 
 
 /**
@@ -26,7 +26,7 @@ import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveStateListener;
 public class DbFlowCrudModule
 {
 
-	public static void saveDataToDb(List<SchoolClassDbFlowEntity> schoolClassEntities, List<TeacherDbFlowEntity> teacherEntities, List<StudentDbFlowEntity> studentEntities, DataSaveStateListener listener)
+	public static void saveDataToDb(List<SchoolClassDbFlowEntity> schoolClassEntities, List<TeacherDbFlowEntity> teacherEntities, List<StudentDbFlowEntity> studentEntities, DataSaveSuccessListener listener)
 	{
 
 		Transaction transaction = FlowManager.getDatabase(DbFlowDatabase.class).beginTransactionAsync(new ITransaction()
@@ -125,7 +125,7 @@ public class DbFlowCrudModule
 			@Override
 			public void onSuccess(Transaction transaction)
 			{
-				listener.onDataSavedToDb();
+				listener.onDataSaveSuccess();
 			}
 		}).build();
 
@@ -158,7 +158,7 @@ public class DbFlowCrudModule
 	}
 
 
-	public static void insertNewStudentForClass(StudentDbFlowEntity student, SchoolClassDbFlowEntity schoolClass, DataSaveStateListener listener)
+	public static void insertNewStudentForClass(StudentDbFlowEntity student, SchoolClassDbFlowEntity schoolClass, DataSaveSuccessListener listener)
 	{
 		Transaction transaction = FlowManager.getDatabase(DbFlowDatabase.class).beginTransactionAsync(new ITransaction()
 		{
@@ -173,7 +173,7 @@ public class DbFlowCrudModule
 			@Override
 			public void onSuccess(Transaction transaction)
 			{
-				listener.onDataSavedToDb();
+				listener.onDataSaveSuccess();
 			}
 		}).build();
 
@@ -181,7 +181,7 @@ public class DbFlowCrudModule
 	}
 
 
-	public static void insertNewTeacherForClass(TeacherDbFlowEntity teacher, SchoolClassDbFlowEntity schoolClass, DataSaveStateListener listener)
+	public static void insertNewTeacherForClass(TeacherDbFlowEntity teacher, SchoolClassDbFlowEntity schoolClass, DataSaveSuccessListener listener)
 	{
 		Transaction transaction = FlowManager.getDatabase(DbFlowDatabase.class).beginTransactionAsync(new ITransaction()
 		{
@@ -199,7 +199,7 @@ public class DbFlowCrudModule
 			@Override
 			public void onSuccess(Transaction transaction)
 			{
-				listener.onDataSavedToDb();
+				listener.onDataSaveSuccess();
 			}
 		}).build();
 
@@ -207,7 +207,7 @@ public class DbFlowCrudModule
 	}
 
 
-	public static void deleteFirstStudentFromClass(SchoolClassDbFlowEntity schoolClass, DataSaveStateListener listener)
+	public static void deleteFirstStudentFromClass(SchoolClassDbFlowEntity schoolClass, DataSaveSuccessListener listener)
 	{
 		Transaction transaction = FlowManager.getDatabase(DbFlowDatabase.class).beginTransactionAsync(new ITransaction()
 		{
@@ -225,7 +225,7 @@ public class DbFlowCrudModule
 			@Override
 			public void onSuccess(Transaction transaction)
 			{
-				listener.onDataSavedToDb();
+				listener.onDataSaveSuccess();
 			}
 		}).build();
 
@@ -233,7 +233,7 @@ public class DbFlowCrudModule
 	}
 
 
-	public static void deleteFirstTeacherFromClass(SchoolClassDbFlowEntity schoolClass, DataSaveStateListener listener)
+	public static void deleteFirstTeacherFromClass(SchoolClassDbFlowEntity schoolClass, DataSaveSuccessListener listener)
 	{
 		Transaction transaction = FlowManager.getDatabase(DbFlowDatabase.class).beginTransactionAsync(new ITransaction()
 		{
@@ -264,7 +264,7 @@ public class DbFlowCrudModule
 			@Override
 			public void onSuccess(Transaction transaction)
 			{
-				listener.onDataSavedToDb();
+				listener.onDataSaveSuccess();
 			}
 		}).build();
 
