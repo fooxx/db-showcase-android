@@ -22,7 +22,8 @@ public class ShowcaseRealmConfigModule {
                 .name(ShowcaseRealmConfigModule.NAME)
                 .schemaVersion(ShowcaseRealmConfigModule.VERSION)
                 //.modules(new ShowcaseRealmModule())
-                .migration(new ShowcaseRealmMigration())
+                .deleteRealmIfMigrationNeeded() //TODO this is for fast development purpose only!
+                //.migration(new ShowcaseRealmMigration())//TODO use this instead of deleteRealmIf...
                 .build();
     }
 }

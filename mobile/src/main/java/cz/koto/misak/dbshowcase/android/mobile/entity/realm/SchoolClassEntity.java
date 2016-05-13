@@ -3,13 +3,16 @@ package cz.koto.misak.dbshowcase.android.mobile.entity.realm;
 
 import com.google.gson.annotations.SerializedName;
 
-import cz.koto.misak.dbshowcase.android.mobile.entity.realm.RealmLong;
+import java.util.ArrayList;
+import java.util.List;
+
+import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
 import io.realm.RealmList;
 import io.realm.RealmModel;
 import io.realm.annotations.RealmClass;
 
 @RealmClass
-public class SchoolClassEntity implements /*SchoolClassInterface<StudentEntity, TeacherEntity>,*/ RealmModel
+public class SchoolClassEntity implements SchoolClassInterface<StudentEntity, TeacherEntity>, RealmModel
 {
 
 	@io.realm.annotations.PrimaryKey
@@ -23,14 +26,14 @@ public class SchoolClassEntity implements /*SchoolClassInterface<StudentEntity, 
 	private int grade;
 
 	@SerializedName("studentIdList")
-	RealmList<RealmLong> studentIdList;
+	RealmList<RealmLong> studentIdRealmList;
 
 	@SerializedName("teacherIdList")
-	RealmList<RealmLong> teacherIdList;
+	RealmList<RealmLong> teacherIdRealmList;
 
-//	List<StudentEntity> studentList;
-//
-//	List<TeacherEntity> teacherList;
+	RealmList<StudentEntity> studentRealmList;
+
+	RealmList<TeacherEntity> teacherRealmList;
 
 
 	//@Override
@@ -74,86 +77,120 @@ public class SchoolClassEntity implements /*SchoolClassInterface<StudentEntity, 
 		this.grade = grade;
 	}
 
-
-//	@Override
-//	public List<StudentEntity> getStudentList()
-//	{
-//		return this.studentList;
-//	}
-
-
-//	@Override
-//	public void setStudentList(List<StudentEntity> list)
-//	{
-//		this.studentList = list;
-//	}
-//
-//
-//	@Override
-//	public List<TeacherEntity> getTeacherList()
-//	{
-//		return this.teacherList;
-//	}
-//
-//
-//	@Override
-//	public void setTeacherList(List<TeacherEntity> list)
-//	{
-//		this.teacherList = list;
-//	}
-
-
-	//@Override
-	public String getTeacherListString()
+	public RealmList<StudentEntity> getStudentRealmList()
 	{
-		return null;
+		return this.studentRealmList;
 	}
 
 
-	//@Override
-	public String getStudentListString()
+	public void setStudentList(RealmList<StudentEntity> realmList)
 	{
-		return null;
+		this.studentRealmList = realmList;
 	}
 
 
-	//@Override
-	public RealmList<RealmLong> getStudentIdList()
+	public RealmList<TeacherEntity> getTeacherRealmList()
 	{
-		return studentIdList;
+		return this.teacherRealmList;
 	}
 
 
-	//@Override
-	public void setStudentIdList(RealmList<RealmLong> studentIdList)
+	public void setTeacherRealmList(RealmList<TeacherEntity> realmList)
 	{
-		this.studentIdList = studentIdList;
-	}
-
-
-	//@Override
-	public RealmList<RealmLong> getTeacherIdList()
-	{
-		return teacherIdList;
-	}
-
-
-	//@Override
-	public void setTeacherIdList(RealmList<RealmLong> teacherIdList)
-	{
-		this.teacherIdList = teacherIdList;
+		this.teacherRealmList = realmList;
 	}
 
 
 	@Override
+	public String getTeacherListString()
+	{
+        StringBuilder builder = new StringBuilder();
+        getTeacherList();
+        for(TeacherEntity t: teacherRealmList) {
+            builder.append(t.getName());
+            builder.append("\n");
+        }
+        return builder.toString();
+	}
+
+
+	@Override
+	public String getStudentListString()
+	{
+        StringBuilder builder = new StringBuilder();
+        getTeacherList();
+        for(StudentEntity t: studentRealmList) {
+            builder.append(t.getName());
+            builder.append("\n");
+        }
+        return builder.toString();
+	}
+
+
+	public RealmList<RealmLong> getStudentIdRealmList()
+	{
+		return studentIdRealmList;
+	}
+
+
+	public void setStudentIdRealmList(RealmList<RealmLong> studentIdList)
+	{
+		this.studentIdRealmList = studentIdList;
+	}
+
+    public RealmList<RealmLong> getTeacherIdRealmList()
+    {
+        return teacherIdRealmList;
+    }
+
+
+
+	public void setTeacherIdRealmList(RealmList<RealmLong> teacherIdList)
+	{
+		this.teacherIdRealmList = teacherIdList;
+	}
+
+
+    @Override
+    public List<Long> getStudentIdList() {
+        List<Long> ret = new ArrayList<>();
+        //TODO try to replace with collect all
+        for (RealmLong realmLong:this.studentIdRealmList){
+            ret.add(realmLong.getLongValue());
+        }
+        return ret;
+    }
+
+    @Override
+    public List<Long> getTeacherIdList() {
+        List<Long> ret = new ArrayList<>();
+        //TODO try to replace with collect all
+        for (RealmLong realmLong:this.teacherIdRealmList){
+            ret.add(realmLong.getLongValue());
+        }
+        return ret;
+    }
+
+    @Override
+    public List<StudentEntity> getStudentList() {
+        return this.studentRealmList;
+    }
+
+    @Override
+    public List<TeacherEntity> getTeacherList() {
+        return this.teacherRealmList;
+    }
+
+
+    @Override
 	public String toString()
 	{
 		return "SchoolClassEntity{" +
 				"id=" + id +
 				", name='" + name + '\'' +
 				", grade=" + grade +
-				", studentIdList=" + studentIdList +
-				", teacherIdList=" + teacherIdList +
+				", studentIdRealmList=" + studentIdRealmList +
+				", teacherIdRealmList=" + teacherIdRealmList +
 //				", studentList=" + studentList +
 //				", teacherList=" + teacherList +
 				'}';
