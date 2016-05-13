@@ -20,7 +20,7 @@ public class ClassRecyclerViewAdapter extends RecyclerView.Adapter<android.suppo
 {
 	private static final int VIEW_TYPE_USER = 0;
 
-	private List<SchoolClassInterface> mClassList;
+	private List<? extends SchoolClassInterface> mClassList;
 	private final OnClassItemClickListener mOnItemClickListener;
 
 
@@ -131,7 +131,7 @@ public class ClassRecyclerViewAdapter extends RecyclerView.Adapter<android.suppo
 	}
 
 
-	public void refill(List<SchoolClassInterface> list) {
+	public void refill(List<? extends SchoolClassInterface> list) {
 		mClassList = list;
 		notifyDataSetChanged();
 	}

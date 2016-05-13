@@ -38,6 +38,7 @@ public class RestModule {
         GsonBuilder gsonBuilder = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'")//ISO-8601
                 .setExclusionStrategies(new DbFlowExclusionStrategy(), new RealmExclusionStrategy())
+                //Realm adapters
                 .registerTypeAdapter(new TypeToken<RealmList<RealmString>>() {
                 }.getType(), new RealmStringDeserializer())
                 .registerTypeAdapter(new TypeToken<RealmList<RealmLong>> () {
