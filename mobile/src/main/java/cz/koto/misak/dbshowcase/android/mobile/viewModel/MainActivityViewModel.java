@@ -1,7 +1,6 @@
 package cz.koto.misak.dbshowcase.android.mobile.viewModel;
 
 import android.databinding.ObservableField;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +23,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 
 public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
@@ -85,7 +85,16 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 
 			}
 		});
-        realmLoadModule.loadRealmFromApi(showcaseRealmConfiguration);
+
+
+//        realmLoadModule.loadRealmFromApi(showcaseRealmConfiguration, () -> {
+//            List<? extends SchoolClassInterface> list = realmLoadModule.provideSchoolClassRealmEntityList(showcaseRealmConfiguration);
+//            Timber.d("onDataSavedToDb %s", list.size());
+//            state.set(StatefulLayout.State.CONTENT);
+//            adapter.refill(list);
+//        });
+
+
 		loadDbFlowFromApi();
 	}
 
@@ -98,7 +107,7 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 				(schoolClassEntities, teacherEntities, studentEntities) -> {
 					DbFlowCrudModule.saveDataToDb(schoolClassEntities, teacherEntities, studentEntities, () -> {
 						List<SchoolClassInterface> list = DbFlowCrudModule.getClassListDbFlow();
-						Log.d(MainActivityViewModel.class.getSimpleName(), "onDataSavedToDb " + list.size());
+						Timber.d("onDataSavedToDb %s", list.size());
 						state.set(StatefulLayout.State.CONTENT);
 						adapter.refill(list);
 					});
@@ -111,14 +120,14 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 					@Override
 					public void onCompleted()
 					{
-						Log.d(MainActivityViewModel.class.getSimpleName(), "saved to Db");
+						Timber.d("saved to Db");
 					}
 
 
 					@Override
 					public void onError(Throwable e)
 					{
-						Log.d(MainActivityViewModel.class.getSimpleName(), "not saved to Db - error");
+						Timber.d("not saved to Db - error");
 						state.set(StatefulLayout.State.OFFLINE);
 						e.printStackTrace();
 					}
@@ -127,7 +136,7 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 					@Override
 					public void onNext(Object o)
 					{
-						Log.d(MainActivityViewModel.class.getSimpleName(), "saving to db on next");
+						Timber.d("saving to db on next");
 					}
 				});
 	}

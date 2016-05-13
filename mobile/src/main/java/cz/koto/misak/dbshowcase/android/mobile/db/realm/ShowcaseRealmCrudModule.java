@@ -5,15 +5,18 @@ import java.util.List;
 
 import javax.inject.Singleton;
 
+import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.entity.realm.SchoolClassRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.realm.StudentRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.realm.TeacherRealmEntity;
+import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveStateListener;
 import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseAPIClient;
 import cz.koto.misak.dbshowcase.android.mobile.util.BackgroundExecutor;
 import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -33,9 +36,36 @@ public class ShowcaseRealmCrudModule {
         return new ShowcaseRealmCrudModule();
     }
 
-    public void loadRealmFromApi(RealmConfiguration realmConfiguration) {
-        loadClassData(createClassDataSubscriber(realmConfiguration));
+    @Provides
+    public List<? extends SchoolClassInterface> provideSchoolClassRealmEntityList(RealmConfiguration realmConfiguration){
+        Realm realm = Realm.getInstance(realmConfiguration);
+        return realm.where(SchoolClassRealmEntity.class).findAll();
     }
+
+    public void loadRealmFromApi(RealmConfiguration realmConfiguration, DataSaveStateListener saveStateListener) {
+        //loadClassData(createClassDataSubscriber(realmConfiguration));
+
+        Observable.zip(DbShowcaseAPIClient.getAPIService().classList(),
+                DbShowcaseAPIClient.getAPIService().teacherList(),
+                DbShowcaseAPIClient.getAPIService().studentList(),
+                (schoolClassEntities, teacherEntities, studentEntities) -> {
+                    saveRealmData(schoolClassEntities, teacherEntities, studentEntities, saveStateListener);
+                    return null;
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());//TODO subscribe it!
+
+
+    }
+
+    private void saveRealmData(List<SchoolClassRealmEntity> schoolClassRealmEntityList,
+                               List<TeacherRealmEntity> teacherRealmEntityList,
+                               List<StudentRealmEntity> studentRealmEntityList,
+                               DataSaveStateListener saveStateListener) {
+
+    }
+
+
 
 
     private void loadClassData(Subscriber<List<SchoolClassRealmEntity>> subscriber) {
@@ -48,13 +78,13 @@ public class ShowcaseRealmCrudModule {
 
     private Subscriber<List<SchoolClassRealmEntity>> createClassDataSubscriber(RealmConfiguration realmConfiguration) {
         return new Subscriber<List<SchoolClassRealmEntity>>() {
-            Realm realm = Realm.getInstance(realmConfiguration);
+            //Realm realm = Realm.getInstance(realmConfiguration);
 
 
             @Override
             public void onCompleted() {
                 Timber.v("Realm Load/save classes for realm completed!");
-                realm.close();
+                //realm.close();
             }
 
 
@@ -66,14 +96,14 @@ public class ShowcaseRealmCrudModule {
 
             @Override
             public void onNext(List<SchoolClassRealmEntity> ts) {
-                for (SchoolClassRealmEntity schoolClassRealmEntity : ts) {
-                    Timber.v("Realm SchoolClass from API: %s", schoolClassRealmEntity);
-                    // Copy elements from Retrofit to Realm to persist them.
-                    realm.beginTransaction();
-                    SchoolClassRealmEntity dispatchedSchoolClassRealmEntity = realm.copyToRealmOrUpdate(schoolClassRealmEntity);
-                    realm.commitTransaction();
-
-                }
+//                for (SchoolClassRealmEntity schoolClassRealmEntity : ts) {
+//                    Timber.v("Realm SchoolClass from API: %s", schoolClassRealmEntity);
+//                    // Copy elements from Retrofit to Realm to persist them.
+//                    realm.beginTransaction();
+//                    SchoolClassRealmEntity dispatchedSchoolClassRealmEntity = realm.copyToRealmOrUpdate(schoolClassRealmEntity);
+//                    realm.commitTransaction();
+//
+//                }
 
             }
         };
