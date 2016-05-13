@@ -177,7 +177,7 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 					});
 					return null;
 				})
-				.subscribeOn(Schedulers.newThread())
+				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(new Observer<Object>()
 				{

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
+import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity_Table;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity_TeacherDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;

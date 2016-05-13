@@ -56,7 +56,7 @@ public class ShowcaseRealmCrudModule {
                     saveRealmData(schoolClassEntities, teacherEntities, studentEntities, saveSuccessListener, saveErrorListener, realmConfiguration);
                     return null;
                 })
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Object>() {
                     @Override

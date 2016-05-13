@@ -14,9 +14,9 @@ public class DbFlowDatabase
 
 	public static final String NAME = "MyDataBase";
 
-	public static final int VERSION = 1;
+	public static final int VERSION = 2;
 
-
+//
 //	@Migration(version = 2, database = DbFlowDatabase.class)
 //	public static class AddEmailToUserMigration extends AlterTableMigration<StudentDbFlowEntity>
 //	{
