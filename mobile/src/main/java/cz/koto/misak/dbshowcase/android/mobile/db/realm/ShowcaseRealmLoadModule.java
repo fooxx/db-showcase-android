@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.inject.Singleton;
 
-import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.entity.rest.SchoolClassEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.rest.StudentEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.rest.TeacherEntity;
@@ -13,6 +12,7 @@ import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseAPIClient;
 import cz.koto.misak.dbshowcase.android.mobile.util.BackgroundExecutor;
 import dagger.Module;
 import dagger.Provides;
+import io.realm.RealmConfiguration;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -29,9 +29,9 @@ public class ShowcaseRealmLoadModule
 		return new ShowcaseRealmLoadModule();
 	}
 
-	public void loadRealmFromApi()
+	public void loadRealmFromApi(RealmConfiguration realmConfiguration)
 	{
-		loadClassData(createClassDataSubscriber());
+		loadClassData(createClassDataSubscriber(realmConfiguration));
 	}
 
 
@@ -44,11 +44,11 @@ public class ShowcaseRealmLoadModule
 	}
 
 
-	private Subscriber<List<SchoolClassEntity>> createClassDataSubscriber()
+	private Subscriber<List<SchoolClassEntity>> createClassDataSubscriber(RealmConfiguration realmConfiguration)
 	{
 		return new Subscriber<List<SchoolClassEntity>>()
 		{
-			//Realm realm = Realm.getInstance(ShowcaseRealmConfigModule.getInstance().getmRealmConfiguration());
+			//Realm realm = Realm.getInstance(/*DbApplication.get().getDbComponent().provideRealmConfiguration()*/realmConfiguration);
 
 
 			@Override
@@ -69,15 +69,16 @@ public class ShowcaseRealmLoadModule
 			@Override
 			public void onNext(List<SchoolClassEntity> ts)
 			{
-				for(SchoolClassInterface schoolClassInterface : ts)
+				for(SchoolClassEntity schoolClassEntity : ts)
 				{
-					Timber.v("Realm SchoolClass from API: %s", schoolClassInterface);
+					Timber.v("Realm SchoolClass from API: %s", schoolClassEntity);
+                    // Copy elements from Retrofit to Realm to persist them.
+//                    realm.beginTransaction();
+//                    SchoolClassEntity dispatchedSchoolClassEntity  = realm.copyToRealmOrUpdate(schoolClassEntity);
+//                    realm.commitTransaction();
+
 				}
 
-				// Copy elements from Retrofit to Realm to persist them.
-				//realm.beginTransaction();
-				//List<SchoolClassInterface> realmRepos = realm.copyToRealmOrUpdate(ts);
-				//realm.commitTransaction();
 			}
 		};
 	}

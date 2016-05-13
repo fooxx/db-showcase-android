@@ -16,6 +16,7 @@ public class ShowcaseRealmConfigModule {
 
     @Provides
     @Singleton
+    @ShowcaseRealmConfigurationMarker
     public RealmConfiguration provideRealmConfiguration() {
         return new RealmConfiguration.Builder(DbApplication.get().getApplicationContext())
                 .name(ShowcaseRealmConfigModule.NAME)

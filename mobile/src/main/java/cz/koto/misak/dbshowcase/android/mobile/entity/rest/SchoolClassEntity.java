@@ -7,8 +7,8 @@ import java.util.List;
 
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
 
-
-public class SchoolClassEntity implements SchoolClassInterface<StudentEntity, TeacherEntity>
+//@RealmClass
+public class SchoolClassEntity implements SchoolClassInterface<StudentEntity, TeacherEntity>/*, RealmModel*/
 {
 
 	@SerializedName("id")

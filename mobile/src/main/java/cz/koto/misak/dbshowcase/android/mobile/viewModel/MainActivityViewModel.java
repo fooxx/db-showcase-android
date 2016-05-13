@@ -14,10 +14,12 @@ import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.adapter.ClassRecyclerViewAdapter;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbHelper;
+import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmConfigurationMarker;
 import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmLoadModule;
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.listener.OnClassItemClickListener;
 import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseAPIClient;
+import io.realm.RealmConfiguration;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -32,7 +34,11 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
     }
 
 	@Inject
-	ShowcaseRealmLoadModule realmLoadModule;
+    ShowcaseRealmLoadModule realmLoadModule;
+
+    @Inject
+    @ShowcaseRealmConfigurationMarker
+    RealmConfiguration showcaseRealmConfiguration;
 
 	public final ObservableField<StatefulLayout.State> state = new ObservableField<>();
 
@@ -79,7 +85,7 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 
 			}
 		});
-        realmLoadModule.loadRealmFromApi();
+        realmLoadModule.loadRealmFromApi(showcaseRealmConfiguration);
 		loadDbFlowFromApi();
 	}
 

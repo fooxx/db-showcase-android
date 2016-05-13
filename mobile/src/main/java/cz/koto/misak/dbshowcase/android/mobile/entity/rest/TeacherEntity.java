@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.TeacherInterface;
 
-public class TeacherEntity implements TeacherInterface<SchoolClassDbFlowEntity> {
+//@RealmClass
+public class TeacherEntity implements TeacherInterface<SchoolClassEntity>/*, RealmModel*/ {
 
 
     @SerializedName("id")
@@ -22,7 +22,7 @@ public class TeacherEntity implements TeacherInterface<SchoolClassDbFlowEntity> 
     @SerializedName(value = "birthDate")
     protected Date birthDate;
 
-    protected List<SchoolClassDbFlowEntity> schoolClassList = new ArrayList<>();
+    protected List<SchoolClassEntity> schoolClassList = new ArrayList<>();
 
 
     public long getId()
@@ -48,12 +48,12 @@ public class TeacherEntity implements TeacherInterface<SchoolClassDbFlowEntity> 
     }
 
     @Override
-    public List<SchoolClassDbFlowEntity> getSchoolClassList() {
+    public List<SchoolClassEntity> getSchoolClassList() {
         return schoolClassList;
     }
 
     @Override
-    public void setSchoolClassList(List<SchoolClassDbFlowEntity> schoolClassList) {
+    public void setSchoolClassList(List<SchoolClassEntity> schoolClassList) {
         schoolClassList.clear();
         schoolClassList.addAll(schoolClassList);
     }
