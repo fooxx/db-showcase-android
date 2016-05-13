@@ -5,9 +5,9 @@ import java.util.List;
 
 import javax.inject.Singleton;
 
-import cz.koto.misak.dbshowcase.android.mobile.entity.realm.SchoolClassEntity;
-import cz.koto.misak.dbshowcase.android.mobile.entity.realm.StudentEntity;
-import cz.koto.misak.dbshowcase.android.mobile.entity.realm.TeacherEntity;
+import cz.koto.misak.dbshowcase.android.mobile.entity.realm.SchoolClassRealmEntity;
+import cz.koto.misak.dbshowcase.android.mobile.entity.realm.StudentRealmEntity;
+import cz.koto.misak.dbshowcase.android.mobile.entity.realm.TeacherRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseAPIClient;
 import cz.koto.misak.dbshowcase.android.mobile.util.BackgroundExecutor;
 import dagger.Module;
@@ -38,7 +38,7 @@ public class ShowcaseRealmCrudModule {
     }
 
 
-    private void loadClassData(Subscriber<List<SchoolClassEntity>> subscriber) {
+    private void loadClassData(Subscriber<List<SchoolClassRealmEntity>> subscriber) {
         DbShowcaseAPIClient.getAPIService().classList()
                 .subscribeOn(Schedulers.from(BackgroundExecutor.getSafeBackgroundExecutor()))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -46,8 +46,8 @@ public class ShowcaseRealmCrudModule {
     }
 
 
-    private Subscriber<List<SchoolClassEntity>> createClassDataSubscriber(RealmConfiguration realmConfiguration) {
-        return new Subscriber<List<SchoolClassEntity>>() {
+    private Subscriber<List<SchoolClassRealmEntity>> createClassDataSubscriber(RealmConfiguration realmConfiguration) {
+        return new Subscriber<List<SchoolClassRealmEntity>>() {
             Realm realm = Realm.getInstance(realmConfiguration);
 
 
@@ -65,12 +65,12 @@ public class ShowcaseRealmCrudModule {
 
 
             @Override
-            public void onNext(List<SchoolClassEntity> ts) {
-                for (SchoolClassEntity schoolClassEntity : ts) {
-                    Timber.v("Realm SchoolClass from API: %s", schoolClassEntity);
+            public void onNext(List<SchoolClassRealmEntity> ts) {
+                for (SchoolClassRealmEntity schoolClassRealmEntity : ts) {
+                    Timber.v("Realm SchoolClass from API: %s", schoolClassRealmEntity);
                     // Copy elements from Retrofit to Realm to persist them.
                     realm.beginTransaction();
-                    SchoolClassEntity dispatchedSchoolClassEntity = realm.copyToRealmOrUpdate(schoolClassEntity);
+                    SchoolClassRealmEntity dispatchedSchoolClassRealmEntity = realm.copyToRealmOrUpdate(schoolClassRealmEntity);
                     realm.commitTransaction();
 
                 }
@@ -80,7 +80,7 @@ public class ShowcaseRealmCrudModule {
     }
 
 
-    private void loadTeacherData(Subscriber<List<TeacherEntity>> subscriber) {
+    private void loadTeacherData(Subscriber<List<TeacherRealmEntity>> subscriber) {
         DbShowcaseAPIClient.getAPIService().teacherList()
                 .subscribeOn(Schedulers.from(BackgroundExecutor.getSafeBackgroundExecutor()))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -89,8 +89,8 @@ public class ShowcaseRealmCrudModule {
     }
 
 
-    private Subscriber<List<TeacherEntity>> createTeacherDataSubscriber() {
-        return new Subscriber<List<TeacherEntity>>() {
+    private Subscriber<List<TeacherRealmEntity>> createTeacherDataSubscriber() {
+        return new Subscriber<List<TeacherRealmEntity>>() {
             //Realm realm = Realm.getInstance(ShowcaseRealmConfigModule.getInstance().getmRealmConfiguration());
 
 
@@ -108,7 +108,7 @@ public class ShowcaseRealmCrudModule {
 
 
             @Override
-            public void onNext(List<TeacherEntity> ts) {
+            public void onNext(List<TeacherRealmEntity> ts) {
                 // Copy elements from Retrofit to Realm to persist them.
                 //realm.beginTransaction();
                 //List<TeacherInterface> realmRepos = realm.copyToRealmOrUpdate(ts);
@@ -118,7 +118,7 @@ public class ShowcaseRealmCrudModule {
     }
 
 
-    private void loadStudentData(Subscriber<List<StudentEntity>> subscriber) {
+    private void loadStudentData(Subscriber<List<StudentRealmEntity>> subscriber) {
         DbShowcaseAPIClient.getAPIService().studentList()
                 .subscribeOn(Schedulers.from(BackgroundExecutor.getSafeBackgroundExecutor()))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -126,8 +126,8 @@ public class ShowcaseRealmCrudModule {
     }
 
 
-    private Subscriber<List<StudentEntity>> createStudentDataSubscriber() {
-        return new Subscriber<List<StudentEntity>>() {
+    private Subscriber<List<StudentRealmEntity>> createStudentDataSubscriber() {
+        return new Subscriber<List<StudentRealmEntity>>() {
             //Realm realm = Realm.getInstance(ShowcaseRealmConfigModule.getInstance().getmRealmConfiguration());
 
 
@@ -145,7 +145,7 @@ public class ShowcaseRealmCrudModule {
 
 
             @Override
-            public void onNext(List<StudentEntity> ts) {
+            public void onNext(List<StudentRealmEntity> ts) {
                 // Copy elements from Retrofit to Realm to persist them.
                 //realm.beginTransaction();
                 //List<SchoolClassInterface> realmRepos = realm.copyToRealmOrUpdate(ts);

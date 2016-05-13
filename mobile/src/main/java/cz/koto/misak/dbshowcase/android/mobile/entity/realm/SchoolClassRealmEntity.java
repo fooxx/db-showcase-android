@@ -12,7 +12,7 @@ import io.realm.RealmModel;
 import io.realm.annotations.RealmClass;
 
 @RealmClass
-public class SchoolClassEntity implements SchoolClassInterface<StudentEntity, TeacherEntity>, RealmModel
+public class SchoolClassRealmEntity implements SchoolClassInterface<StudentRealmEntity, TeacherRealmEntity>, RealmModel
 {
 
 	@io.realm.annotations.PrimaryKey
@@ -31,9 +31,9 @@ public class SchoolClassEntity implements SchoolClassInterface<StudentEntity, Te
 	@SerializedName("teacherIdList")
 	RealmList<RealmLong> teacherIdRealmList;
 
-	RealmList<StudentEntity> studentRealmList;
+	RealmList<StudentRealmEntity> studentRealmList;
 
-	RealmList<TeacherEntity> teacherRealmList;
+	RealmList<TeacherRealmEntity> teacherRealmList;
 
 
 	//@Override
@@ -77,25 +77,25 @@ public class SchoolClassEntity implements SchoolClassInterface<StudentEntity, Te
 		this.grade = grade;
 	}
 
-	public RealmList<StudentEntity> getStudentRealmList()
+	public RealmList<StudentRealmEntity> getStudentRealmList()
 	{
 		return this.studentRealmList;
 	}
 
 
-	public void setStudentList(RealmList<StudentEntity> realmList)
+	public void setStudentList(RealmList<StudentRealmEntity> realmList)
 	{
 		this.studentRealmList = realmList;
 	}
 
 
-	public RealmList<TeacherEntity> getTeacherRealmList()
+	public RealmList<TeacherRealmEntity> getTeacherRealmList()
 	{
 		return this.teacherRealmList;
 	}
 
 
-	public void setTeacherRealmList(RealmList<TeacherEntity> realmList)
+	public void setTeacherRealmList(RealmList<TeacherRealmEntity> realmList)
 	{
 		this.teacherRealmList = realmList;
 	}
@@ -106,7 +106,7 @@ public class SchoolClassEntity implements SchoolClassInterface<StudentEntity, Te
 	{
         StringBuilder builder = new StringBuilder();
         getTeacherList();
-        for(TeacherEntity t: teacherRealmList) {
+        for(TeacherRealmEntity t: teacherRealmList) {
             builder.append(t.getName());
             builder.append("\n");
         }
@@ -119,7 +119,7 @@ public class SchoolClassEntity implements SchoolClassInterface<StudentEntity, Te
 	{
         StringBuilder builder = new StringBuilder();
         getTeacherList();
-        for(StudentEntity t: studentRealmList) {
+        for(StudentRealmEntity t: studentRealmList) {
             builder.append(t.getName());
             builder.append("\n");
         }
@@ -172,12 +172,12 @@ public class SchoolClassEntity implements SchoolClassInterface<StudentEntity, Te
     }
 
     @Override
-    public List<StudentEntity> getStudentList() {
+    public List<StudentRealmEntity> getStudentList() {
         return this.studentRealmList;
     }
 
     @Override
-    public List<TeacherEntity> getTeacherList() {
+    public List<TeacherRealmEntity> getTeacherList() {
         return this.teacherRealmList;
     }
 
@@ -185,7 +185,7 @@ public class SchoolClassEntity implements SchoolClassInterface<StudentEntity, Te
     @Override
 	public String toString()
 	{
-		return "SchoolClassEntity{" +
+		return "SchoolClassRealmEntity{" +
 				"id=" + id +
 				", name='" + name + '\'' +
 				", grade=" + grade +

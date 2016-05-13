@@ -10,9 +10,10 @@ import io.realm.RealmModel;
 import io.realm.annotations.RealmClass;
 
 @RealmClass
-public class StudentEntity implements StudentInterface<SchoolClassEntity>, RealmModel
+public class StudentRealmEntity implements StudentInterface<SchoolClassRealmEntity>, RealmModel
 {
 
+	@io.realm.annotations.PrimaryKey
 	@SerializedName("id")
 	protected long id;
 
@@ -26,7 +27,7 @@ public class StudentEntity implements StudentInterface<SchoolClassEntity>, Realm
 	protected long schoolClassId;
 
 	@SerializedName(value = "schoolClass")
-	protected SchoolClassEntity schoolClass;
+	protected SchoolClassRealmEntity schoolClass;
 
 
 	@Override
@@ -86,14 +87,14 @@ public class StudentEntity implements StudentInterface<SchoolClassEntity>, Realm
 
 
 	@Override
-	public SchoolClassEntity getSchoolClass()
+	public SchoolClassRealmEntity getSchoolClass()
 	{
 		return this.schoolClass;
 	}
 
 
 	@Override
-	public void setSchoolClass(SchoolClassEntity schoolClass)
+	public void setSchoolClass(SchoolClassRealmEntity schoolClass)
 	{
 		this.schoolClass = schoolClass;
 	}
@@ -102,7 +103,7 @@ public class StudentEntity implements StudentInterface<SchoolClassEntity>, Realm
 	@Override
 	public String toString()
 	{
-		return "StudentEntity{" +
+		return "StudentRealmEntity{" +
 				"id=" + id +
 				", name='" + name + '\'' +
 				", birthDate=" + birthDate +

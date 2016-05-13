@@ -12,9 +12,10 @@ import io.realm.RealmModel;
 import io.realm.annotations.RealmClass;
 
 @RealmClass
-public class TeacherEntity implements TeacherInterface<SchoolClassEntity>, RealmModel {
+public class TeacherRealmEntity implements TeacherInterface<SchoolClassRealmEntity>, RealmModel {
 
 
+    @io.realm.annotations.PrimaryKey
     @SerializedName("id")
     protected long serverId;
 
@@ -24,7 +25,7 @@ public class TeacherEntity implements TeacherInterface<SchoolClassEntity>, Realm
     @SerializedName(value = "birthDate")
     protected Date birthDate;
 
-    protected RealmList<SchoolClassEntity> schoolClassList = new RealmList<>();
+    protected RealmList<SchoolClassRealmEntity> schoolClassList = new RealmList<>();
 
 
 
@@ -51,12 +52,12 @@ public class TeacherEntity implements TeacherInterface<SchoolClassEntity>, Realm
     }
 
     @Override
-    public List<SchoolClassEntity> getSchoolClassList() {
+    public List<SchoolClassRealmEntity> getSchoolClassList() {
         return schoolClassList;
     }
 
     @Override
-    public void setSchoolClassList(List<SchoolClassEntity> schoolClassList) {
+    public void setSchoolClassList(List<SchoolClassRealmEntity> schoolClassList) {
         schoolClassList.clear();
         schoolClassList.addAll(schoolClassList);
     }
@@ -71,7 +72,7 @@ public class TeacherEntity implements TeacherInterface<SchoolClassEntity>, Realm
 
     @Override
     public String toString() {
-        return "TeacherEntity{" +
+        return "TeacherRealmEntity{" +
                 "id=" + serverId +
                 ", name='" + name + '\'' +
                 ", birthDate=" + birthDate +
