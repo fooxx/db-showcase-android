@@ -13,16 +13,14 @@ import cz.kinst.jakub.viewmodelbinding.ViewModel;
 import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.adapter.ClassRecyclerViewAdapter;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
-import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbHelper;
-import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
-import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbFlowCrudModule;
 import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmConfigurationMarker;
 import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmCrudModule;
+import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
+import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
-import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.StudentInterface;
+import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveStateListener;
 import cz.koto.misak.dbshowcase.android.mobile.listener.OnClassItemClickListener;
-import cz.koto.misak.dbshowcase.android.mobile.listener.OnDataSavedToDbListener;
 import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseAPIClient;
 import cz.koto.misak.dbshowcase.android.mobile.util.RandomString;
 import io.realm.RealmConfiguration;
@@ -69,7 +67,7 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 			public void onAddStudentClick(int position)
 			{
 				StudentDbFlowEntity student = getRandomStudent();
-				DbHelper.insertNewStudentForClass(student, (SchoolClassDbFlowEntity) adapter.getItem(position), new OnDataSavedToDbListener()
+				DbFlowCrudModule.insertNewStudentForClass(student, (SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveStateListener()
 				{
 					@Override
 					public void onDataSavedToDb()
