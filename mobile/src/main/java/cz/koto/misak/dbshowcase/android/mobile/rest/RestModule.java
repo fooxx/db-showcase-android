@@ -13,7 +13,9 @@ import javax.inject.Singleton;
 import cz.koto.misak.dbshowcase.android.mobile.DbConfig;
 import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbFlowExclusionStrategy;
 import cz.koto.misak.dbshowcase.android.mobile.db.realm.RealmExclusionStrategy;
+import cz.koto.misak.dbshowcase.android.mobile.entity.realm.RealmLong;
 import cz.koto.misak.dbshowcase.android.mobile.entity.realm.RealmString;
+import cz.koto.misak.dbshowcase.android.mobile.util.realm.RealmLongDeserializer;
 import cz.koto.misak.dbshowcase.android.mobile.util.realm.RealmStringDeserializer;
 import dagger.Module;
 import dagger.Provides;
@@ -37,7 +39,9 @@ public class RestModule {
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'")//ISO-8601
                 .setExclusionStrategies(new DbFlowExclusionStrategy(), new RealmExclusionStrategy())
                 .registerTypeAdapter(new TypeToken<RealmList<RealmString>>() {
-                }.getType(), new RealmStringDeserializer());
+                }.getType(), new RealmStringDeserializer())
+                .registerTypeAdapter(new TypeToken<RealmList<RealmLong>> () {
+                }.getType(), new RealmLongDeserializer());
         return gsonBuilder.create();
     }
 

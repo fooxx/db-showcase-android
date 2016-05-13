@@ -6,9 +6,9 @@ import java.util.List;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.TeacherDbFlowEntity;
-import cz.koto.misak.dbshowcase.android.mobile.entity.rest.SchoolClassEntity;
-import cz.koto.misak.dbshowcase.android.mobile.entity.rest.StudentEntity;
-import cz.koto.misak.dbshowcase.android.mobile.entity.rest.TeacherEntity;
+import cz.koto.misak.dbshowcase.android.mobile.entity.realm.SchoolClassEntity;
+import cz.koto.misak.dbshowcase.android.mobile.entity.realm.StudentEntity;
+import cz.koto.misak.dbshowcase.android.mobile.entity.realm.TeacherEntity;
 import retrofit2.http.GET;
 import rx.Observable;
 

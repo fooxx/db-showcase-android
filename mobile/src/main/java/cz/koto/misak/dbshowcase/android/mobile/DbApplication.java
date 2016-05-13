@@ -8,7 +8,7 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 import com.squareup.leakcanary.LeakCanary;
 
 import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmConfigModule;
-import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmLoadModule;
+import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmCrudModule;
 import cz.koto.misak.dbshowcase.android.mobile.rest.RestModule;
 import io.realm.Realm;
 import timber.log.Timber;
@@ -32,7 +32,7 @@ public class DbApplication extends Application {
 
         mDbComponent = DaggerDbComponent.builder()
                 .showcaseRealmConfigModule(new ShowcaseRealmConfigModule())
-                .showcaseRealmLoadModule(new ShowcaseRealmLoadModule())
+                .showcaseRealmCrudModule(new ShowcaseRealmCrudModule())
                 .build();
 
         sInstance = this;

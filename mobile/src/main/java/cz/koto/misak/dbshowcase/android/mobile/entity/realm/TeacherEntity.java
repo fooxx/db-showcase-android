@@ -1,4 +1,4 @@
-package cz.koto.misak.dbshowcase.android.mobile.entity.rest;
+package cz.koto.misak.dbshowcase.android.mobile.entity.realm;
 
 
 import com.google.gson.annotations.SerializedName;
@@ -7,10 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.TeacherInterface;
-
 //@RealmClass
-public class TeacherEntity implements TeacherInterface<SchoolClassEntity>/*, RealmModel*/ {
+public class TeacherEntity /*implements TeacherInterface<SchoolClassEntity>/*, RealmModel*/ {
 
 
     @SerializedName("id")
@@ -35,28 +33,28 @@ public class TeacherEntity implements TeacherInterface<SchoolClassEntity>/*, Rea
     {
         this.serverId = serverId;
     }
-
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public List<SchoolClassEntity> getSchoolClassList() {
-        return schoolClassList;
-    }
-
-    @Override
-    public void setSchoolClassList(List<SchoolClassEntity> schoolClassList) {
-        schoolClassList.clear();
-        schoolClassList.addAll(schoolClassList);
-    }
+//
+//
+//    @Override
+//    public String getName() {
+//        return this.name;
+//    }
+//
+//    @Override
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    @Override
+//    public List<SchoolClassEntity> getSchoolClassList() {
+//        return schoolClassList;
+//    }
+//
+//    @Override
+//    public void setSchoolClassList(List<SchoolClassEntity> schoolClassList) {
+//        schoolClassList.clear();
+//        schoolClassList.addAll(schoolClassList);
+//    }
 
     public Date getBirthDate() {
         return birthDate;

@@ -13,9 +13,9 @@ import cz.kinst.jakub.viewmodelbinding.ViewModel;
 import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.adapter.ClassRecyclerViewAdapter;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
-import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbHelper;
+import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbFlowCrudModule;
 import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmConfigurationMarker;
-import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmLoadModule;
+import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmCrudModule;
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.listener.OnClassItemClickListener;
 import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseAPIClient;
@@ -34,7 +34,7 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
     }
 
 	@Inject
-    ShowcaseRealmLoadModule realmLoadModule;
+    ShowcaseRealmCrudModule realmLoadModule;
 
     @Inject
     @ShowcaseRealmConfigurationMarker
@@ -96,8 +96,8 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 				DbShowcaseAPIClient.getAPIService().teacherListDbFlow(),
 				DbShowcaseAPIClient.getAPIService().studentListDbFlow(),
 				(schoolClassEntities, teacherEntities, studentEntities) -> {
-					DbHelper.saveDataToDb(schoolClassEntities, teacherEntities, studentEntities, () -> {
-						List<SchoolClassInterface> list = DbHelper.getClassListDbFlow();
+					DbFlowCrudModule.saveDataToDb(schoolClassEntities, teacherEntities, studentEntities, () -> {
+						List<SchoolClassInterface> list = DbFlowCrudModule.getClassListDbFlow();
 						Log.d(MainActivityViewModel.class.getSimpleName(), "onDataSavedToDb " + list.size());
 						state.set(StatefulLayout.State.CONTENT);
 						adapter.refill(list);

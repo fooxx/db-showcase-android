@@ -17,8 +17,10 @@ import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEn
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.TeacherDbFlowEntity;
 
-
-public class DbHelper
+/**
+ * DBFlow module related to CREATE/READ/UPDATE/DELETE operations.
+ */
+public class DbFlowCrudModule
 {
 
 	public static void saveDataToDb(List<SchoolClassDbFlowEntity> schoolClassEntities, List<TeacherDbFlowEntity> teacherEntities, List<StudentDbFlowEntity> studentEntities, DataSaveStateListener listener)
