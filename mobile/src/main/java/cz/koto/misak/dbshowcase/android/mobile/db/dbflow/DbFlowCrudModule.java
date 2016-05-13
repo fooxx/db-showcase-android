@@ -4,7 +4,6 @@ import android.provider.ContactsContract;
 
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.Delete;
-import com.raizlabs.android.dbflow.sql.language.Insert;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
 import com.raizlabs.android.dbflow.structure.database.transaction.ITransaction;
@@ -13,13 +12,12 @@ import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity_Table;
-import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
-import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveStateListener;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.SchoolClassDbFlowEntity_TeacherDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.StudentDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.TeacherDbFlowEntity;
+import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
+import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveStateListener;
 
 /**
  * DBFlow module related to CREATE/READ/UPDATE/DELETE operations.
