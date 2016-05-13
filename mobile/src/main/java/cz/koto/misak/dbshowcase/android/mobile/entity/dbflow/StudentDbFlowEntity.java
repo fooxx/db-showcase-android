@@ -120,12 +120,12 @@ public class StudentDbFlowEntity extends BaseDbFlowModel implements StudentInter
 	@Override
 	public SchoolClassDbFlowEntity getSchoolClass()
 	{
-//		if(schoolClass == null) {
-//			new Select()
-//					.from(SchoolClassDbFlowEntity.class)
-//					.where(SchoolClassDbFlowEntity_Table.id.eq(schoolClassId))
-//					.querySingle();
-//		}
+		if(schoolClass == null) {
+			new Select()
+					.from(SchoolClassDbFlowEntity.class)
+					.where(SchoolClassDbFlowEntity_Table.dbId.eq(schoolClassId))
+					.querySingle();
+		}
 		return schoolClass;
 	}
 

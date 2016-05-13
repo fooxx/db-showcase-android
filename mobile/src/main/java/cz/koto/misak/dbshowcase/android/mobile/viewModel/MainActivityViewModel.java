@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import cz.kinst.jakub.viewmodelbinding.ViewModel;
 import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
+import cz.koto.misak.dbshowcase.android.mobile.DbConfig;
 import cz.koto.misak.dbshowcase.android.mobile.adapter.ClassRecyclerViewAdapter;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.db.dbflow.DbFlowCrudModule;
@@ -129,7 +130,7 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 //        });
 
 
-		if (false /*use REALM*/) {
+		if (!DbConfig.USE_DBFLOW) {
 			realmLoadModule.loadRealmFromApi(showcaseRealmConfiguration, () -> {
 
 				List<? extends SchoolClassInterface> list = realmLoadModule.provideSchoolClassRealmEntityList(showcaseRealmConfiguration);
