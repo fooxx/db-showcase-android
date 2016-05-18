@@ -9,7 +9,7 @@ Every implemented database is based on the same model:
 **TEACHER** _(can teach more classes)_  
 **STUDENT** _(can be in one class only, can have more teachers)_  
 
-_For better illustration of the model look for the following screen (With the two classes A,B. 
+_For better illustration of the model look for the following screen (With the two classes A,B.  
 Students on the left, teachers on the right)_  
 ![ModelIllustration](./extras/screens/screen_showcase_dbflow.png "ModelIllustration")
 
