@@ -136,7 +136,17 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 				List<? extends SchoolClassInterface> list = realmLoadModule.provideSchoolClassRealmEntityList(showcaseRealmConfiguration);
 				Timber.d("onDataSaveSuccess %s", list.size());
 				state.set(StatefulLayout.State.CONTENT);
-				adapter.refill(list);
+
+                /**
+                 * Use ui for fill operation to prevent:
+                 * Only the original thread that created a view hierarchy can touch its views.
+                 */
+                this.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						adapter.refill(list);
+					}
+				});
 
 			}, () -> {
 				state.set(StatefulLayout.State.EMPTY);
@@ -173,7 +183,7 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding>
 						List<SchoolClassInterface> list = DbFlowCrudModule.getClassListDbFlow();
 						Timber.d("onDataSavedToDb %s", list.size());
 						state.set(StatefulLayout.State.CONTENT);
-						adapter.refill(list);
+						//adapter.refill(list);
 					});
 					return null;
 				})

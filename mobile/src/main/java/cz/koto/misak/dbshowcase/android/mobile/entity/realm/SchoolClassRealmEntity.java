@@ -26,14 +26,14 @@ public class SchoolClassRealmEntity implements SchoolClassInterface<StudentRealm
 	private int grade;
 
 	@SerializedName("studentIdList")
-	RealmList<RealmLong> studentIdRealmList;
+	RealmList<RealmLong> studentIdRealmList = new RealmList<>();
 
 	@SerializedName("teacherIdList")
-	RealmList<RealmLong> teacherIdRealmList;
+	RealmList<RealmLong> teacherIdRealmList = new RealmList<>();
 
-	RealmList<StudentRealmEntity> studentRealmList;
+	RealmList<StudentRealmEntity> studentRealmList = new RealmList<>();
 
-	RealmList<TeacherRealmEntity> teacherRealmList;
+	RealmList<TeacherRealmEntity> teacherRealmList = new RealmList<>();
 
 
 	//@Override

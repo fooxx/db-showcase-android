@@ -1,11 +1,14 @@
 package cz.koto.misak.dbshowcase.android.mobile.db.realm;
 
 
+import android.os.Looper;
+
 import java.util.List;
 
 import javax.inject.Singleton;
 
 import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
+import cz.koto.misak.dbshowcase.android.mobile.entity.realm.RealmLong;
 import cz.koto.misak.dbshowcase.android.mobile.entity.realm.SchoolClassRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.realm.StudentRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.realm.TeacherRealmEntity;
@@ -41,7 +44,7 @@ public class ShowcaseRealmCrudModule {
     @Provides
     public List<? extends SchoolClassInterface> provideSchoolClassRealmEntityList(RealmConfiguration realmConfiguration) {
         Realm realm = Realm.getInstance(realmConfiguration);
-        return realm.where(SchoolClassRealmEntity.class).findAll();
+        return realm.copyFromRealm(realm.where(SchoolClassRealmEntity.class).findAll());
     }
 
     public void loadRealmFromApi(RealmConfiguration realmConfiguration,
@@ -81,6 +84,17 @@ public class ShowcaseRealmCrudModule {
 
     }
 
+    /**
+     * It compose all bindings among available lists and save this object structure in the realm.io
+     * Do NOT run this method on UI thread! RuntimeException will be thrown otherwise.
+     *
+     * @param schoolClassRealmEntityList
+     * @param teacherRealmEntityList
+     * @param studentRealmEntityList
+     * @param saveSuccessListener
+     * @param saveErrorListener
+     * @param realmConfiguration
+     */
     private void saveRealmData(List<SchoolClassRealmEntity> schoolClassRealmEntityList,
                                List<TeacherRealmEntity> teacherRealmEntityList,
                                List<StudentRealmEntity> studentRealmEntityList,
@@ -88,38 +102,70 @@ public class ShowcaseRealmCrudModule {
                                DataSaveErrorListener saveErrorListener,
                                RealmConfiguration realmConfiguration) {
 
+        if (Looper.myLooper() == Looper.getMainLooper()){
+            throw new RuntimeException("Do NOT call saveRealmData on UI thread!");
+        }
+
         for (SchoolClassRealmEntity schoolClass : schoolClassRealmEntityList) {
             for (TeacherRealmEntity teacher : teacherRealmEntityList) {
-                if (schoolClass.getTeacherIdRealmList().contains(teacher.getId())) {
-                    schoolClass.getTeacherRealmList().add(teacher);
+
+                for (RealmLong teacherId : schoolClass.getStudentIdRealmList()){
+                    if (teacherId.getLongValue() == teacher.getId()){
+                        schoolClass.getTeacherRealmList().add(teacher);
+                    }
                 }
             }
+
             for (StudentRealmEntity student : studentRealmEntityList) {
-                if (schoolClass.getStudentIdRealmList().contains(student.getId())) {
-                    schoolClass.getStudentRealmList().add(student);
+
+
+                for (RealmLong studentId : schoolClass.getStudentIdRealmList()){
+                    if (studentId.getLongValue() == student.getId()){
+                        schoolClass.getStudentRealmList().add(student);
+                    }
                 }
+
             }
         }
 
         Realm realm = Realm.getInstance(realmConfiguration);
+//        realm.beginTransaction();
+//        List<SchoolClassRealmEntity> dispatchedSchoolClassRealmEntity = realm.copyToRealmOrUpdate(schoolClassRealmEntityList);
+//        realm.commitTransaction();
+//        saveSuccessListener.onDataSaveSuccess();
 
-        realm.executeTransactionAsync(new Realm.Transaction() {
+//
+//        RealmAsyncTask transaction = realm.executeTransactionAsync(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+//                List<SchoolClassRealmEntity> dispatchedSchoolClassRealmEntity = realm.copyToRealmOrUpdate(schoolClassRealmEntityList);
+//            }
+//        }, new Realm.Transaction.OnSuccess() {
+//            @Override
+//            public void onSuccess() {
+//                saveSuccessListener.onDataSaveSuccess();
+//            }
+//        }, new Realm.Transaction.OnError() {
+//            @Override
+//            public void onError(Throwable error) {
+//                saveErrorListener.onDataSaveError();
+//            }
+//        });
+
+
+        /**
+         * Yes, this is synchronous transaction.
+         * Ensure ui thread difference via call saveRealmData on separated thread!
+         */
+        realm.executeTransaction(new Realm.Transaction(){
             @Override
             public void execute(Realm realm) {
                 List<SchoolClassRealmEntity> dispatchedSchoolClassRealmEntity = realm.copyToRealmOrUpdate(schoolClassRealmEntityList);
             }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                saveSuccessListener.onDataSaveSuccess();
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                saveErrorListener.onDataSaveError();
-            }
         });
 
+        //TODO fix missing error listener!
+        saveSuccessListener.onDataSaveSuccess();
     }
 
 
