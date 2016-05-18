@@ -14,7 +14,7 @@ _For better illustration of the model look for the following screen (With the tw
 Students on the left, teachers on the right)_  
 ![ModelIllustration](./extras/screens/screen_showcase_dbflow.png "ModelIllustration")
 
-Example always load data from the REST API and save them to local db. After that data are loaded from local db and shown to the user.
+Example application always loads data from the REST API and save them to local db. After that data are loaded from local db and shown to the user.
 
 <h2>SQL/NoSQL</h2>
 
