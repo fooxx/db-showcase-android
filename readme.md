@@ -4,7 +4,8 @@
 This is sample example of local database implementation for small set of android local databases.
 
 <h2>Model</h2>
-Every implemented database is based on the same model:
+Every implemented database is based on the same model:  
+
 **SCHOOL CLASS** _(can have more students, more teachers)_  
 **TEACHER** _(can teach more classes)_  
 **STUDENT** _(can be in one class only, can have more teachers)_  
