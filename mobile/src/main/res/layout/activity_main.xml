@@ -22,7 +22,7 @@
 			android:layout_height="wrap_content"
 			android:background="@color/global_color_primary"
 			android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-			app:title="@string/app_title"/>
+			app:title="@{viewModel.getAppTitle}"/>
 
 		<cz.kinst.jakub.view.StatefulLayout
 			android:layout_width="match_parent"

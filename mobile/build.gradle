@@ -106,6 +106,17 @@ android
 									proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 								}
 					}
+			productFlavors {
+                dbFlow {
+                    buildConfigField "String", "DB_SHOWCASE","\"DB_FLOW\""
+                }
+
+                realm {
+                    buildConfigField "String", "DB_SHOWCASE","\"REALM_IO\""
+                }
+
+
+			}
 
 			applicationVariants.all
 					{
