@@ -5,11 +5,12 @@ This is sample example of local database implementation for small set of android
 
 <h2>Model</h2>
 Every implemented database is based on the same model:
-**SCHOOL CLASS** _(can have more students, more teachers)_
-**TEACHER** _(can teach more classes)_
-**STUDENT** _(can be in one class only, can have more teachers)_
+**SCHOOL CLASS** _(can have more students, more teachers)_  
+**TEACHER** _(can teach more classes)_  
+**STUDENT** _(can be in one class only, can have more teachers)_  
 
-_For better illustration of the model look for the following screen (With the two classes A,B. Students on the left, teachers on the right)_
+_For better illustration of the model look for the following screen (With the two classes A,B. 
+Students on the left, teachers on the right)_  
 ![ModelIllustration](./extras/screens/screen_showcase_dbflow.png "ModelIllustration")
 
 Example always load data from the REST API and save them to local db. After that data are loaded from local db and shown to the user.
