@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,7 +24,6 @@ import io.realm.RealmList;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
@@ -31,6 +31,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestModule {
 
     protected static final int TIMEOUT = 30;
+
+
+    /**
+     * Ensure logging of okhttp3.OkHttpClient
+     * Add this always as the last interceptor!
+     *
+     * @return
+     */
+    @Provides
+    @NonNull
+    public static HttpLoggingInterceptor provideHttpLoggingInterceptor() {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return logging;
+    }
+
 
     @Provides
     @Singleton
@@ -46,11 +62,13 @@ public class RestModule {
         return gsonBuilder.create();
     }
 
+
     @Provides
     @Singleton
     GsonConverterFactory provideGsonConverterFactory(Gson gson){
         return GsonConverterFactory.create(gson);
     }
+
 
     @Provides
     @Singleton
@@ -66,6 +84,7 @@ public class RestModule {
         return client;
     }
 
+
     @DbShowcaseRetrofitAdapter
     @Provides
     @Singleton
@@ -75,23 +94,9 @@ public class RestModule {
                 .baseUrl(DbConfig.API_DB_ENDPOINT)
                 .client(client.build())
                 .addConverterFactory(gsonConverterFactory)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create());//important for RX!!!
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create());//important for RX2!!!
 
 
         return builder.build();
-    }
-
-    /**
-     * Ensure logging of okhttp3.OkHttpClient
-     * Add this always as the last interceptor!
-     *
-     * @return
-     */
-    @Provides
-    @NonNull
-    public static HttpLoggingInterceptor provideHttpLoggingInterceptor() {
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        return logging;
     }
 }

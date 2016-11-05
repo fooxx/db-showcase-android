@@ -34,6 +34,8 @@ dependencies
 			compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
 			compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
 			compile "com.squareup.okhttp3:logging-interceptor:3.4.1"
+			// https://mvnrepository.com/artifact/com.squareup.retrofit2/adapter-rxjava
+
 
 
 			final RX_JAVA_VERSION = "2.0.0"

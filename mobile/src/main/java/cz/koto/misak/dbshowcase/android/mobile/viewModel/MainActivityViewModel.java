@@ -26,190 +26,193 @@ import cz.koto.misak.dbshowcase.android.mobile.listener.DataSaveSuccessListener;
 import cz.koto.misak.dbshowcase.android.mobile.listener.OnClassItemClickListener;
 import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseAPIClient;
 import cz.koto.misak.dbshowcase.android.mobile.util.RandomString;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.RealmConfiguration;
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 
 public class MainActivityViewModel extends ViewModel<ActivityMainBinding> {
 
-    public MainActivityViewModel() {
-        DbApplication.get().getDbComponent().inject(this);
-    }
+	public final ObservableField<StatefulLayout.State> state = new ObservableField<>();
+	@Inject
+	ShowcaseRealmCrudModule realmLoadModule;
 
-    @Inject
-    ShowcaseRealmCrudModule realmLoadModule;
-
-    @Inject
-    @ShowcaseRealmConfigurationMarker
-    RealmConfiguration showcaseRealmConfiguration;
-
-    public final ObservableField<StatefulLayout.State> state = new ObservableField<>();
-
-    private ClassRecyclerViewAdapter adapter;
+	@Inject
+	@ShowcaseRealmConfigurationMarker
+	RealmConfiguration showcaseRealmConfiguration;
+	private ClassRecyclerViewAdapter adapter;
 
 
-    public ClassRecyclerViewAdapter getAdapter() {
-        return adapter;
-    }
+	public MainActivityViewModel() {
+		DbApplication.get().getDbComponent().inject(this);
+	}
 
 
-    public String getAppTitle() {
-        return getResources().getString(R.string.app_title)+":" +
-                " ["+DbConfig.DB_SHOWCASE+"]";
-    }
-
-    @Override
-    public void onViewModelCreated() {
-        super.onViewModelCreated();
-        state.set(StatefulLayout.State.PROGRESS);
-        adapter = new ClassRecyclerViewAdapter(new ArrayList<>(), new OnClassItemClickListener() {
-            @Override
-            public void onAddStudentClick(int position) {
-                DbFlowCrudModule.insertNewStudentForClass(getRandomStudent(), (SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveSuccessListener() {
-                    @Override
-                    public void onDataSaveSuccess() {
-                        updateItemIfStudentsWereChanged(position);
-                    }
-                });
-            }
+	@Override
+	public void onViewModelCreated() {
+		super.onViewModelCreated();
+		state.set(StatefulLayout.State.PROGRESS);
+		adapter = new ClassRecyclerViewAdapter(new ArrayList<>(), new OnClassItemClickListener() {
+			@Override
+			public void onAddStudentClick(int position) {
+				DbFlowCrudModule.insertNewStudentForClass(getRandomStudent(), (SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveSuccessListener() {
+					@Override
+					public void onDataSaveSuccess() {
+						updateItemIfStudentsWereChanged(position);
+					}
+				});
+			}
 
 
-            @Override
-            public void onAddTeacherClick(int position) {
-                DbFlowCrudModule.insertNewTeacherForClass(getRandomTeacher(), (SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveSuccessListener() {
-                    @Override
-                    public void onDataSaveSuccess() {
-                        updateItemIfTeachersWereChanged(position);
-                    }
-                });
-            }
+			@Override
+			public void onAddTeacherClick(int position) {
+				DbFlowCrudModule.insertNewTeacherForClass(getRandomTeacher(), (SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveSuccessListener() {
+					@Override
+					public void onDataSaveSuccess() {
+						updateItemIfTeachersWereChanged(position);
+					}
+				});
+			}
 
 
-            @Override
-            public void onRemoveStudentClick(int position) {
-                DbFlowCrudModule.deleteFirstStudentFromClass((SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveSuccessListener() {
-                    @Override
-                    public void onDataSaveSuccess() {
-                        updateItemIfStudentsWereChanged(position);
-                    }
-                });
-            }
+			@Override
+			public void onRemoveStudentClick(int position) {
+				DbFlowCrudModule.deleteFirstStudentFromClass((SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveSuccessListener() {
+					@Override
+					public void onDataSaveSuccess() {
+						updateItemIfStudentsWereChanged(position);
+					}
+				});
+			}
 
 
-            @Override
-            public void onRemoveTeacherClick(int position) {
-                DbFlowCrudModule.deleteFirstTeacherFromClass((SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveSuccessListener() {
-                    @Override
-                    public void onDataSaveSuccess() {
-                        updateItemIfTeachersWereChanged(position);
-                    }
-                });
-            }
-        });
+			@Override
+			public void onRemoveTeacherClick(int position) {
+				DbFlowCrudModule.deleteFirstTeacherFromClass((SchoolClassDbFlowEntity) adapter.getItem(position), new DataSaveSuccessListener() {
+					@Override
+					public void onDataSaveSuccess() {
+						updateItemIfTeachersWereChanged(position);
+					}
+				});
+			}
+		});
 
 
-        switch (DbConfig.DB_SHOWCASE) {
-            case REALM_IO:
-                realmLoadModule.loadRealmFromApi(showcaseRealmConfiguration, () -> {
+		switch(DbConfig.DB_SHOWCASE) {
+			case REALM_IO:
+				realmLoadModule.loadRealmFromApi(showcaseRealmConfiguration, () -> {
 
-                    List<? extends SchoolClassInterface> list = realmLoadModule.provideSchoolClassRealmEntityList(showcaseRealmConfiguration);
-                    Timber.d("onDataSaveSuccess %s", list.size());
-                    state.set(StatefulLayout.State.CONTENT);
+					List<? extends SchoolClassInterface> list = realmLoadModule.provideSchoolClassRealmEntityList(showcaseRealmConfiguration);
+					Timber.d("onDataSaveSuccess %s", list.size());
+					state.set(StatefulLayout.State.CONTENT);
 
-                    /**
-                     * Use ui for REFILL operation to prevent:
-                     * Only the original thread that created a view hierarchy can touch its views.
-                     */
-                    this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter.refill(list);
-                        }
-                    });
+					/**
+					 * Use ui for REFILL operation to prevent:
+					 * Only the original thread that created a view hierarchy can touch its views.
+					 */
+					this.runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							adapter.refill(list);
+						}
+					});
 
-                }, () -> {
-                    state.set(StatefulLayout.State.EMPTY);
-                });
-                break;
-            case DB_FLOW:
-                loadDbFlowFromApi();
-                break;
-            default:
-                Timber.e("Configured database [%s] not implemented!", DbConfig.DB_SHOWCASE);
-        }
-    }
-
-
-    private void updateItemIfStudentsWereChanged(int position) {
-        SchoolClassInterface schoolClass = adapter.getItem(position);
-        if (schoolClass.getStudentList() != null) schoolClass.getStudentList().clear();
-        if (schoolClass.getStudentIdList() != null) schoolClass.getStudentIdList().clear();
-        adapter.notifyItemChanged(position);
-    }
+				}, () -> {
+					state.set(StatefulLayout.State.EMPTY);
+				});
+				break;
+			case DB_FLOW:
+				loadDbFlowFromApi();
+				break;
+			default:
+				Timber.e("Configured database [%s] not implemented!", DbConfig.DB_SHOWCASE);
+		}
+	}
 
 
-    private void updateItemIfTeachersWereChanged(int position) {
-        SchoolClassInterface schoolClass = adapter.getItem(position);
-        if (schoolClass.getTeacherList() != null) schoolClass.getTeacherList().clear();
-        if (schoolClass.getTeacherIdList() != null) schoolClass.getTeacherIdList().clear();
-        adapter.notifyItemChanged(position);
-    }
+	public ClassRecyclerViewAdapter getAdapter() {
+		return adapter;
+	}
 
 
-    public void loadDbFlowFromApi() {
-        Observable.zip(DbShowcaseAPIClient.getAPIService().classListDbFlow(),
-                DbShowcaseAPIClient.getAPIService().teacherListDbFlow(),
-                DbShowcaseAPIClient.getAPIService().studentListDbFlow(),
-                (schoolClassEntities, teacherEntities, studentEntities) -> {
-                    DbFlowCrudModule.saveDataToDb(schoolClassEntities, teacherEntities, studentEntities, () -> {
-                        List<SchoolClassInterface> list = DbFlowCrudModule.getClassListDbFlow();
-                        Timber.d("onDataSavedToDb %s", list.size());
-                        state.set(StatefulLayout.State.CONTENT);
-                        adapter.refill(list);
-                    });
-                    return null;
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Object>() {
-                    @Override
-                    public void onCompleted() {
-                        Timber.d("saved to Db");
-                    }
+	public String getAppTitle() {
+		return getResources().getString(R.string.app_title) + ":" +
+				" [" + DbConfig.DB_SHOWCASE + "]";
+	}
 
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.d("not saved to Db - error");
-                        state.set(StatefulLayout.State.OFFLINE);
-                        e.printStackTrace();
-                    }
+	public void loadDbFlowFromApi() {
+		Observable.zip(DbShowcaseAPIClient.getAPIService().classListDbFlow(),
+				DbShowcaseAPIClient.getAPIService().teacherListDbFlow(),
+				DbShowcaseAPIClient.getAPIService().studentListDbFlow(),
+				(schoolClassEntities, teacherEntities, studentEntities) -> {
+					DbFlowCrudModule.saveDataToDb(schoolClassEntities, teacherEntities, studentEntities, () -> {
+						List<SchoolClassInterface> list = DbFlowCrudModule.getClassListDbFlow();
+						Timber.d("onDataSavedToDb %s", list.size());
+						state.set(StatefulLayout.State.CONTENT);
+						adapter.refill(list);
+					});
+					return null;
+				})
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(o -> {
+						},
+						throwable -> {
+						});
+//                .subscribe(new Observer<Object>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        Timber.d("saved to Db");
+//                    }
+//
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Timber.d("not saved to Db - error");
+//                        state.set(StatefulLayout.State.OFFLINE);
+//                        e.printStackTrace();
+//                    }
+//
+//
+//                    @Override
+//                    public void onNext(Object o) {
+//                        Timber.d("saving to db on next");
+//                    }
+//                });
+	}
 
 
-                    @Override
-                    public void onNext(Object o) {
-                        Timber.d("saving to db on next");
-                    }
-                });
-    }
+	private void updateItemIfStudentsWereChanged(int position) {
+		SchoolClassInterface schoolClass = adapter.getItem(position);
+		if(schoolClass.getStudentList() != null) schoolClass.getStudentList().clear();
+		if(schoolClass.getStudentIdList() != null) schoolClass.getStudentIdList().clear();
+		adapter.notifyItemChanged(position);
+	}
 
 
-    private StudentDbFlowEntity getRandomStudent() {
-        StudentDbFlowEntity student = new StudentDbFlowEntity();
-        student.setName(new RandomString(8).nextString());
-        student.setBirthDate(new Date());
-        return student;
-    }
+	private void updateItemIfTeachersWereChanged(int position) {
+		SchoolClassInterface schoolClass = adapter.getItem(position);
+		if(schoolClass.getTeacherList() != null) schoolClass.getTeacherList().clear();
+		if(schoolClass.getTeacherIdList() != null) schoolClass.getTeacherIdList().clear();
+		adapter.notifyItemChanged(position);
+	}
 
 
-    private TeacherDbFlowEntity getRandomTeacher() {
-        TeacherDbFlowEntity teacher = new TeacherDbFlowEntity();
-        teacher.setName(new RandomString(8).nextString());
-        return teacher;
-    }
+	private StudentDbFlowEntity getRandomStudent() {
+		StudentDbFlowEntity student = new StudentDbFlowEntity();
+		student.setName(new RandomString(8).nextString());
+		student.setBirthDate(new Date());
+		return student;
+	}
+
+
+	private TeacherDbFlowEntity getRandomTeacher() {
+		TeacherDbFlowEntity teacher = new TeacherDbFlowEntity();
+		teacher.setName(new RandomString(8).nextString());
+		return teacher;
+	}
 
 }

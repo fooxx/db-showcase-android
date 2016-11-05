@@ -9,8 +9,8 @@ import cz.koto.misak.dbshowcase.android.mobile.entity.dbflow.TeacherDbFlowEntity
 import cz.koto.misak.dbshowcase.android.mobile.entity.realm.SchoolClassRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.realm.StudentRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.entity.realm.TeacherRealmEntity;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
-import rx.Observable;
 
 public interface DbShowcaseAPIService {
 
