@@ -1,4 +1,3 @@
-
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
@@ -14,42 +13,54 @@ dependencies
 		{
 
 			// DBFLOW basic
-			apt "com.github.Raizlabs.DBFlow:dbflow-processor:$rootProject.ext.dbflow_version"
-			compile "com.github.Raizlabs.DBFlow:dbflow-core:$rootProject.ext.dbflow_version"
-			compile "com.github.Raizlabs.DBFlow:dbflow:$rootProject.ext.dbflow_version"
+			final DBFLOW_VERSION = '4.0.0-beta1'
+			apt "com.github.Raizlabs.DBFlow:dbflow-processor:$DBFLOW_VERSION"
+			compile "com.github.Raizlabs.DBFlow:dbflow-core:$DBFLOW_VERSION"
+			compile "com.github.Raizlabs.DBFlow:dbflow:$DBFLOW_VERSION"
 
 			// DBFLOW sql-cipher database encyrption (optional)
 			//compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$rootProject.ext.dbflow_version"
 
-			compile "com.android.support:support-v4:$rootProject.ext.supportLibVersion"
-			compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
-			compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
-			compile "com.android.support:cardview-v7:$rootProject.ext.supportLibVersion"
-			compile "com.android.support:design:$rootProject.ext.supportLibVersion"
-			compile "com.android.support:palette-v7:$rootProject.ext.supportLibVersion"
-			compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
-			compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
-			compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
-			compile "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.loggingInterceptor"
-			compile "io.reactivex:rxandroid:$rootProject.ext.rxAndroid"
-			compile "io.reactivex:rxjava:$rootProject.ext.rxJavaVersion"
-			compile "io.reactivex:rxjava-math:$rootProject.ext.rxJavaMathVersion"
-			compile "com.jakewharton.timber:timber:$rootProject.ext.timberVersion"
-			compile "org.parceler:parceler-api:$rootProject.ext.parcelerVersion"
-			apt "org.parceler:parceler:$rootProject.ext.parcelerVersion"
-			apt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
-			compile "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
-			provided "javax.annotation:jsr250-api:${rootProject.ext.jsr250Version}"
+			final SUPPORT_LIB_VERSION = '25.0.0'
+			compile "com.android.support:support-v4:$SUPPORT_LIB_VERSION"
+			compile "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION"
+			compile "com.android.support:recyclerview-v7:$SUPPORT_LIB_VERSION"
+			compile "com.android.support:cardview-v7:$SUPPORT_LIB_VERSION"
+			compile "com.android.support:design:$SUPPORT_LIB_VERSION"
+			compile "com.android.support:palette-v7:$SUPPORT_LIB_VERSION"
 
-			compile "cz.kinst.jakub:stateful-layout:${rootProject.ext.kinstStateful}"
-			compile "cz.kinst.jakub:viewmodelbinding:${rootProject.ext.kinstViewBinding}"
+			final RETROFIT_VERSION = '2.1.0'
+			compile "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+			compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+			compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+			compile "com.squareup.okhttp3:logging-interceptor:3.4.1"
 
-            compile "com.facebook.stetho:stetho:${rootProject.ext.stethoVersion}"
-            debugCompile "com.squareup.leakcanary:leakcanary-android:${rootProject.ext.leakCanary}"
-            releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${rootProject.ext.leakCanary}"
-            testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${rootProject.ext.leakCanary}"
 
-            compile fileTree(include: ['*.jar'], dir: 'libs')
+			final RX_JAVA_VERSION = "2.0.0"
+			compile "io.reactivex.rxjava2:rxjava:$RX_JAVA_VERSION"
+			compile "io.reactivex.rxjava2:rxandroid:$RX_JAVA_VERSION"
+
+			compile "com.jakewharton.timber:timber:4.3.1"
+			final PARCELER_VERSION = "1.1.6"
+			compile "org.parceler:parceler-api:$PARCELER_VERSION"
+			apt "org.parceler:parceler:$PARCELER_VERSION"
+
+			final DAGGER_VERSION = "2.7"
+			apt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+			compile "com.google.dagger:dagger:$DAGGER_VERSION"
+			provided "javax.annotation:jsr250-api:1.0"
+
+			compile "cz.kinst.jakub:stateful-layout:1.1.5"
+			compile "cz.kinst.jakub:viewmodelbinding:0.9.4"
+
+			compile "com.facebook.stetho:stetho:1.4.1"
+			compile 'com.uphyca:stetho_realm:2.0.0'
+			final LEAK_CANARY_VERSION = '1.5'
+			debugCompile "com.squareup.leakcanary:leakcanary-android:$LEAK_CANARY_VERSION"
+			releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$LEAK_CANARY_VERSION"
+			testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$LEAK_CANARY_VERSION"
+
+			compile fileTree(include: ['*.jar'], dir: 'libs')
 		}
 
 
@@ -108,13 +119,13 @@ android
 								}
 					}
 			productFlavors {
-                dbFlow {
-                    buildConfigField "String", "DB_SHOWCASE","\"DB_FLOW\""
-                }
+				dbFlow {
+					buildConfigField "String", "DB_SHOWCASE", "\"DB_FLOW\""
+				}
 
-                realm {
-                    buildConfigField "String", "DB_SHOWCASE","\"REALM_IO\""
-                }
+				realm {
+					buildConfigField "String", "DB_SHOWCASE", "\"REALM_IO\""
+				}
 
 
 			}
@@ -122,15 +133,13 @@ android
 			applicationVariants.all
 					{
 						variant ->
-							if(variant.buildType.name.equals("release"))
-							{
+							if(variant.buildType.name.equals("release")) {
 								variant.outputs.each
 										{
 											output ->
 												def outputFile = output.outputFile
 												def date = new Date()
-												if(outputFile != null && outputFile.name.endsWith('.apk'))
-												{
+												if(outputFile != null && outputFile.name.endsWith('.apk')) {
 													def fileName = outputFile.name.replace(
 															"mobile",
 															"db-showcase" + defaultConfig.versionName + "-" + defaultConfig.versionCode + "-" + date.format('yyyyMMdd'))
@@ -154,17 +163,14 @@ task askForPasswords <<
 
 			def keystorePropertiesFile = new File((String) project.property("keystore.properties"))
 
-			if(project.hasProperty("keystore.properties") && keystorePropertiesFile.exists())
-			{
+			if(project.hasProperty("keystore.properties") && keystorePropertiesFile.exists()) {
 				println "Loading keystore passwords from property file..."
 				Properties properties = new Properties()
 				properties.load(new FileInputStream(keystorePropertiesFile))
 				storePass = properties['keystore.store.password']
 				keyAlias = properties['keystore.key.alias']
 				keyPass = properties['keystore.key.password']
-			}
-			else
-			{
+			} else {
 				println "Getting keystore passwords from user input..."
 				storePass = new String(System.console().readPassword("\nStore password: "))
 				keyAlias = new String(System.console().readLine("Key alias: "))
@@ -180,8 +186,7 @@ task askForPasswords <<
 tasks.whenTaskAdded
 		{
 			theTask ->
-				if(theTask.name.equals("packageRelease"))
-				{
+				if(theTask.name.equals("packageRelease")) {
 					theTask.dependsOn "askForPasswords"
 				}
 		}
