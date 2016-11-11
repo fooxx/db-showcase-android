@@ -6,7 +6,7 @@
 	android:id="@+id/toolbar"
 	android:layout_width="match_parent"
 	android:layout_height="?actionBarSize"
-	android:background="@color/theme_transparent"
+	android:background="@color/theme_primary"
 	app:contentInsetStartWithNavigation="@dimen/global_spacing_8"
 	tools:showIn="@layout/fragment_settings_root">
 	<android.support.v7.widget.AppCompatTextView
@@ -15,5 +15,6 @@
 		android:layout_height="wrap_content"
 		android:maxLines="1"
 		android:ellipsize="end"
+		android:textColor="@color/theme_primary_light"
 		android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 </android.support.v7.widget.Toolbar>
