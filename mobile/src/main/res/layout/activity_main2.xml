@@ -25,6 +25,9 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="start"
+			design:itemBackground="@color/theme_window_background"
+			design:itemIconTint="@color/navigation_color"
+			design:itemTextColor="@color/navigation_color"
 			design:menu="@menu/bottom_nav_items" />
 	</LinearLayout>
 

@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/toolbar"
 	android:layout_width="match_parent"
-	android:layout_height="?attr/actionBarSize"
-	style="@style/Widget.KoTiPoint.Toolbar" />
+	android:layout_height="?actionBarSize"
+	android:background="@color/theme_transparent"
+	app:contentInsetStartWithNavigation="@dimen/global_spacing_8"
+	tools:showIn="@layout/fragment_settings_root">
+	<android.support.v7.widget.AppCompatTextView
+		android:id="@+id/title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:maxLines="1"
+		android:ellipsize="end"
+		android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+</android.support.v7.widget.Toolbar>

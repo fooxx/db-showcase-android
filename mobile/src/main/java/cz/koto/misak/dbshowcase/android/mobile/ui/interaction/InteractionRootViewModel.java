@@ -10,6 +10,8 @@ public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionR
 	@Override
 	public void onViewAttached(boolean firstAttachment) {
 		super.onViewAttached(firstAttachment);
+
+		getNavigationManager().configureToolbar(getToolbar(), "DB", false);
 	}
 
 
