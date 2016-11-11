@@ -9,19 +9,18 @@ import java.util.List;
 
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ListItemBinding;
-import cz.koto.misak.dbshowcase.android.mobile.entity.entityinterface.SchoolClassInterface;
-import cz.koto.misak.dbshowcase.android.mobile.listener.OnClassItemClickListener;
+import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
+import cz.koto.misak.dbshowcase.android.mobile.ui.listener.OnClassItemClickListener;
 
-import static android.view.LayoutInflater.from;
 import static android.databinding.DataBindingUtil.inflate;
+import static android.view.LayoutInflater.from;
 
 
 public class ClassRecyclerViewAdapter extends RecyclerView.Adapter<android.support.v7.widget.RecyclerView.ViewHolder>
 {
 	private static final int VIEW_TYPE_USER = 0;
-
-	private List<? extends SchoolClassInterface> mClassList;
 	private final OnClassItemClickListener mOnItemClickListener;
+	private List<? extends SchoolClassInterface> mClassList;
 
 
 	public ClassRecyclerViewAdapter(List<SchoolClassInterface> schoolClassList, OnClassItemClickListener onItemClickListener)
@@ -72,6 +71,12 @@ public class ClassRecyclerViewAdapter extends RecyclerView.Adapter<android.suppo
 	public SchoolClassInterface getItem(int position)
 	{
 		return mClassList.get(position);
+	}
+
+
+	public void refill(List<? extends SchoolClassInterface> list) {
+		mClassList = list;
+		notifyDataSetChanged();
 	}
 
 
@@ -128,11 +133,5 @@ public class ClassRecyclerViewAdapter extends RecyclerView.Adapter<android.suppo
 			mBinding.students.setText(entity.getStudentListString());
 			mBinding.executePendingBindings();
 		}
-	}
-
-
-	public void refill(List<? extends SchoolClassInterface> list) {
-		mClassList = list;
-		notifyDataSetChanged();
 	}
 }

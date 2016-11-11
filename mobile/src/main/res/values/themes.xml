@@ -6,7 +6,7 @@
     <!-- Android source code: https://github.com/android/platform_frameworks_base/tree/lollipop-release/core/res/res/values -->
     <!-- AppCompat source code: https://github.com/android/platform_frameworks_support/tree/lollipop-release/v7/appcompat/res/values -->
 
-    <style name="Theme.KoTiPoint.Light" parent="@style/Theme.AppCompat.Light">
+    <style name="Theme.DbShowCase.Light" parent="@style/Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="windowNoTitle">true</item>
@@ -42,7 +42,7 @@
         <item name="alertDialogTheme">@style/Theme.KoTiPoint.Light.Dialog.Alert</item>
     </style>
 
-    <style name="Theme.KoTiPoint.Transparent" parent="@style/Theme.KoTiPoint.Light">
+    <style name="Theme.KoTiPoint.Transparent" parent="@style/Theme.DbShowCase.Light">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowActionBar">false</item>

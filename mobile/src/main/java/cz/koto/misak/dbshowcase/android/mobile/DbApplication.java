@@ -7,9 +7,9 @@ import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.squareup.leakcanary.LeakCanary;
 
-import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmConfigModule;
-import cz.koto.misak.dbshowcase.android.mobile.db.realm.ShowcaseRealmCrudModule;
-import cz.koto.misak.dbshowcase.android.mobile.rest.RestModule;
+import cz.koto.misak.dbshowcase.android.mobile.api.RestModule;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmConfigModule;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmCrudModule;
 import io.realm.Realm;
 import timber.log.Timber;
 

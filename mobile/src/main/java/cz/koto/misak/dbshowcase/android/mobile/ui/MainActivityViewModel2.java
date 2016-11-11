@@ -1,5 +1,6 @@
-package cz.koto.misak.dbshowcase.android.mobile.viewModel;
+package cz.koto.misak.dbshowcase.android.mobile.ui;
 
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import cz.koto.misak.dbshowcase.android.mobile.DbConfig;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.adapter.ClassRecyclerViewAdapter;
 import cz.koto.misak.dbshowcase.android.mobile.api.DbShowcaseAPIClient;
-import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
+import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMain2Binding;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.DbFlowCrudModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.model.SchoolClassDbFlowEntity;
@@ -33,7 +34,9 @@ import io.realm.RealmConfiguration;
 import timber.log.Timber;
 
 
-public class MainActivityViewModel extends ViewModel<ActivityMainBinding> {
+public class MainActivityViewModel2 extends ViewModel<ActivityMain2Binding> {
+
+	public final ObservableBoolean progress = new ObservableBoolean(false);
 
 	public final ObservableField<StatefulLayout.State> state = new ObservableField<>();
 	@Inject
@@ -45,7 +48,7 @@ public class MainActivityViewModel extends ViewModel<ActivityMainBinding> {
 	private ClassRecyclerViewAdapter adapter;
 
 
-	public MainActivityViewModel() {
+	public MainActivityViewModel2() {
 		DbApplication.get().getDbComponent().inject(this);
 	}
 
