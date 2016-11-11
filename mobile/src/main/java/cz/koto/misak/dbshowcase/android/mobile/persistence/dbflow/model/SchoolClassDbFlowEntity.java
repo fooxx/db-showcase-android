@@ -13,10 +13,6 @@ import com.raizlabs.android.dbflow.sql.language.Select;
 import java.util.List;
 
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
-import cz.koto.misak.dbshowcase.android.mobile.model.dbflow.SchoolClassDbFlowEntity_TeacherDbFlowEntity;
-import cz.koto.misak.dbshowcase.android.mobile.model.dbflow.SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table;
-import cz.koto.misak.dbshowcase.android.mobile.model.dbflow.StudentDbFlowEntity_Table;
-import cz.koto.misak.dbshowcase.android.mobile.model.dbflow.TeacherDbFlowEntity_Table;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.DbFlowDatabase;
 
 

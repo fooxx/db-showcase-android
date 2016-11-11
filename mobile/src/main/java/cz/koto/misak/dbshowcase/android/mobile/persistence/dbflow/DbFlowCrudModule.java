@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
-import cz.koto.misak.dbshowcase.android.mobile.model.dbflow.SchoolClassDbFlowEntity_TeacherDbFlowEntity;
-import cz.koto.misak.dbshowcase.android.mobile.model.dbflow.SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table;
-import cz.koto.misak.dbshowcase.android.mobile.model.dbflow.StudentDbFlowEntity_Table;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.model.SchoolClassDbFlowEntity;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.model.SchoolClassDbFlowEntity_TeacherDbFlowEntity;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.model.SchoolClassDbFlowEntity_TeacherDbFlowEntity_Table;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.model.StudentDbFlowEntity;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.model.StudentDbFlowEntity_Table;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.model.TeacherDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.listener.DataSaveSuccessListener;
 
