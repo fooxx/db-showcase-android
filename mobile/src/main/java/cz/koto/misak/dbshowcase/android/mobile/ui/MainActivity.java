@@ -4,20 +4,20 @@ import android.os.Bundle;
 
 import cz.kinst.jakub.viewmodelbinding.ViewModelBindingConfig;
 import cz.koto.misak.dbshowcase.android.mobile.R;
-import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMain2Binding;
+import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseActivity;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationManager;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationProvider;
 
 
-public class MainActivity2 extends BaseActivity<ActivityMain2Binding, MainActivityViewModel2> implements NavigationProvider {
+public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements NavigationProvider {
 
 	private NavigationManager mNavigationManager = new NavigationManager(this, R.id.content);
 
 
 	@Override
-	public ViewModelBindingConfig<MainActivityViewModel2> getViewModelBindingConfig() {
-		return new ViewModelBindingConfig<>(R.layout.activity_main2, MainActivityViewModel2.class);
+	public ViewModelBindingConfig<MainViewModel> getViewModelBindingConfig() {
+		return new ViewModelBindingConfig<>(R.layout.activity_main, MainViewModel.class);
 	}
 
 

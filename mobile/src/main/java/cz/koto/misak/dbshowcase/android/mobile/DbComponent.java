@@ -5,7 +5,7 @@ import javax.inject.Singleton;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmConfigModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmConfigurationMarker;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmCrudModule;
-import cz.koto.misak.dbshowcase.android.mobile.ui.MainActivityViewModel2;
+import cz.koto.misak.dbshowcase.android.mobile.ui.MainViewModel;
 import dagger.Component;
 import io.realm.RealmConfiguration;
 
@@ -16,7 +16,7 @@ import io.realm.RealmConfiguration;
         ShowcaseRealmCrudModule.class})
 public interface DbComponent {
 
-    void inject(MainActivityViewModel2 mainActivityViewModel);
+    void inject(MainViewModel mainActivityViewModel);
 
     // downstream components need these exposed
     @ShowcaseRealmConfigurationMarker

@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import cz.koto.misak.dbshowcase.android.mobile.R;
-import cz.koto.misak.dbshowcase.android.mobile.ui.MainActivity2;
+import cz.koto.misak.dbshowcase.android.mobile.ui.MainActivity;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseFragment;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.RootFragment;
 import timber.log.Timber;
@@ -24,7 +24,7 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 	private final int mFragmentContainerId;
 	private final SettingsNavigationManager mSettingsNavigationManager = new SettingsNavigationManager(this);
 	private final InteractionNavigationManager mInteractionNavigationManager = new InteractionNavigationManager(this);
-	private MainActivity2 mActivity;
+	private MainActivity mActivity;
 	private BaseFragment mCurrentFragment;
 	private String mTitle;
 	private boolean mBackButtonVisible;
@@ -33,7 +33,7 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 	private Toolbar mToolbar;
 
 
-	public NavigationManager(MainActivity2 activity, @IdRes int fragmentConatinerId) {
+	public NavigationManager(MainActivity activity, @IdRes int fragmentConatinerId) {
 		mActivity = activity;
 		mActivity.getSupportFragmentManager().addOnBackStackChangedListener(this);
 		mFragmentContainerId = fragmentConatinerId;
@@ -98,7 +98,7 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 	}
 
 
-	public MainActivity2 getActivity() {
+	public MainActivity getActivity() {
 		return mActivity;
 	}
 

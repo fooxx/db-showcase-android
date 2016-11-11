@@ -4,11 +4,11 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
 import cz.kinst.jakub.viewmodelbinding.ViewModel;
-import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMain2Binding;
+import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolModel;
 
 
-public class MainActivityViewModel2 extends ViewModel<ActivityMain2Binding> {
+public class MainViewModel extends ViewModel<ActivityMainBinding> {
 
 
 	public final ObservableBoolean progress = new ObservableBoolean(false);
