@@ -16,54 +16,59 @@ import timber.log.Timber;
 
 public class DbApplication extends Application {
 
-    private static DbApplication sInstance;
+	private static DbApplication sInstance;
 
-    private NetComponent mNetComponent;
+	private NetComponent mNetComponent;
 
-    private DbComponent mDbComponent;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        mNetComponent = DaggerNetComponent.builder()
-                .restModule(new RestModule())
-                .build();
-
-        mDbComponent = DaggerDbComponent.builder()
-                .showcaseRealmConfigModule(new ShowcaseRealmConfigModule())
-                .showcaseRealmCrudModule(new ShowcaseRealmCrudModule())
-                .build();
-
-        sInstance = this;
+	private DbComponent mDbComponent;
 
 
-        if (DbConfig.LOGS) {
-            Timber.plant(new Timber.DebugTree());
-        }
+	public static DbApplication get() {
+		return sInstance;
+	}
 
-        LeakCanary.install(this);
 
-        Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                        .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-                        .build());
+	@Override
+	public void onCreate() {
+		super.onCreate();
 
-        FlowManager.init(new FlowConfig.Builder(this).openDatabasesOnInit(true).build());
+		mNetComponent = DaggerNetComponent.builder()
+				.restModule(new RestModule())
+				.build();
 
-        Realm.setDefaultConfiguration(mDbComponent.provideRealmConfiguration());
-    }
+		mDbComponent = DaggerDbComponent.builder()
+				.showcaseRealmConfigModule(new ShowcaseRealmConfigModule())
+				.showcaseRealmCrudModule(new ShowcaseRealmCrudModule())
+				.build();
 
-    public static DbApplication get() {
-        return sInstance;
-    }
+		sInstance = this;
 
-    public NetComponent getNetComponent() {
-        return mNetComponent;
-    }
 
-    public DbComponent getDbComponent() {
-        return mDbComponent;
-    }
+		if(DbConfig.LOGS) {
+			Timber.plant(new Timber.DebugTree());
+		}
+
+		LeakCanary.install(this);
+
+		Stetho.initialize(
+				Stetho.newInitializerBuilder(this)
+						.enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+						.enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+						.build());
+
+		FlowManager.init(new FlowConfig.Builder(this).openDatabasesOnInit(true).build());
+
+		Realm.init(this);
+		Realm.setDefaultConfiguration(mDbComponent.provideRealmConfiguration());
+	}
+
+
+	public NetComponent getNetComponent() {
+		return mNetComponent;
+	}
+
+
+	public DbComponent getDbComponent() {
+		return mDbComponent;
+	}
 }
