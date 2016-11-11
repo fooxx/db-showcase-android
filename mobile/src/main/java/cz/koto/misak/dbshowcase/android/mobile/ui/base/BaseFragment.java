@@ -23,7 +23,7 @@ public abstract class BaseFragment<T extends ViewDataBinding, S extends ViewMode
 
 
 	public int getStatusBarColor() {
-		return ContextProvider.getColor(R.color.private_primary_dark);
+		return ContextProvider.getColor(R.color.theme_primary_dark);
 	}
 
 

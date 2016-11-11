@@ -19,5 +19,8 @@
     <string name="add_teacher">Add teacher</string>
     <string name="remove_student">Remove student</string>
     <string name="remove_teacher">Remove teacher</string>
+    <string name="menu_interaction">Interaction</string>
+    <string name="menu_info">Info</string>
+    <string name="menu_settings">Settings</string>
 
-   </resources>
+</resources>

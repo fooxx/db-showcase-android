@@ -23,6 +23,7 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 	private static final String FRAGMENT_TAG = "main";
 	private final int mFragmentContainerId;
 	private final SettingsNavigationManager mSettingsNavigationManager = new SettingsNavigationManager(this);
+	private final InteractionNavigationManager mInteractionNavigationManager = new InteractionNavigationManager(this);
 	private MainActivity2 mActivity;
 	private BaseFragment mCurrentFragment;
 	private String mTitle;
@@ -82,6 +83,11 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 
 	public SettingsNavigationManager getSettingsNavigationManager() {
 		return mSettingsNavigationManager;
+	}
+
+
+	public InteractionNavigationManager getInteractionNavigationManager() {
+		return mInteractionNavigationManager;
 	}
 
 

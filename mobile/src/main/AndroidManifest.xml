@@ -17,7 +17,7 @@
 		android:name=".DbApplication"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
-		android:theme="@style/Theme.DbShowCase.Light"
+		android:theme="@style/Theme.DbShowCase"
 		android:hardwareAccelerated="true"
 		android:largeHeap="true"
 		android:allowBackup="true">
