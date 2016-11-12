@@ -8,7 +8,6 @@ public class SchoolModel {
 
 	private List<SchoolClassInterface> schoolItems = new ArrayList<>();
 
-
 	public final List<? extends SchoolClassInterface> getSchoolItems() {
 		return schoolItems;
 	}

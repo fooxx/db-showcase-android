@@ -15,8 +15,8 @@ public abstract class BaseViewModel<T extends ViewDataBinding> extends ViewModel
 	@Override
 	public void onViewAttached(boolean firstAttachment) {
 		super.onViewAttached(firstAttachment);
-		if(getNavigationManager() != null)
-			getNavigationManager().configureToolbar(getToolbar(), null, false);
+		//if(getNavigationManager() != null)
+		//getNavigationManager().configureToolbar(getToolbar(), null, null, null, false);
 	}
 
 

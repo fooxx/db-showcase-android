@@ -10,6 +10,7 @@ import com.squareup.leakcanary.LeakCanary;
 import cz.koto.misak.dbshowcase.android.mobile.api.RestModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmConfigModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmCrudModule;
+import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
 import io.realm.Realm;
 import timber.log.Timber;
 
@@ -43,6 +44,7 @@ public class DbApplication extends Application {
 
 		sInstance = this;
 
+		ContextProvider.initialize(this);
 
 		if(DbConfig.LOGS) {
 			Timber.plant(new Timber.DebugTree());

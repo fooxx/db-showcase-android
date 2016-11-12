@@ -12,6 +12,7 @@ import cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentInteractionRo
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolModel;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseViewModel;
+import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
 import io.reactivex.Observable;
 import me.tatarka.bindingcollectionadapter.BaseItemViewSelector;
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -40,7 +41,14 @@ public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionR
 	@Override
 	public void onViewAttached(boolean firstAttachment) {
 		super.onViewAttached(firstAttachment);
-		getNavigationManager().configureToolbar(getToolbar(), "DB", false);
+		updateToolbar();
+	}
+
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		updateToolbar();
 	}
 
 
@@ -61,5 +69,14 @@ public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionR
 		if(mCardItemList == null) mCardItemList = new ArrayList<>();
 		mCardItemList.add(InteractionAddViewModel.getInstance());
 		return mCardItemList;
+	}
+
+
+	private void updateToolbar() {
+		getNavigationManager().configureToolbar(getToolbar(),
+				ContextProvider.getString(ModelProvider.getPersistenceType().getStringRes()),
+				ModelProvider.getPersistenceType() == null ? null : ModelProvider.getPersistenceType().getIconRes(),
+				ModelProvider.getPersistenceSyncState() == null ? null : ModelProvider.getPersistenceSyncState().getIconRes(),
+				false);
 	}
 }
