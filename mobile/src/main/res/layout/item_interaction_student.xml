@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	>
+	<data>
+		<import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+		<variable
+			name="studentViewModel"
+			type="cz.koto.misak.dbshowcase.android.mobile.ui.interaction.StudentItemViewModel" />
+	</data>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+		<android.support.v7.widget.AppCompatTextView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:textColor="@color/theme_text_primary"
+			android:text="@{studentViewModel.name}"
+			tools:text="Name" />
+	</LinearLayout>
+</layout>

@@ -3,6 +3,7 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
 	>
 	<data>
+		<import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
 		<variable
 			name="viewModel" type="cz.koto.misak.dbshowcase.android.mobile.ui.interaction.InteractionItemViewModel" />
 	</data>
@@ -33,6 +34,13 @@
 					android:textColor="@color/theme_text_primary"
 					android:text="@{viewModel.name}"
 					tools:text="Name" />
+
+				<android.support.v7.widget.RecyclerView
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					app:layoutManager="@{LayoutManagers.grid(2)}"
+					app:items="@{viewModel.studentList}"
+					app:itemView="@{viewModel.studentItemView}" />
 			</LinearLayout>
 		</android.support.v7.widget.CardView>
 	</FrameLayout>
