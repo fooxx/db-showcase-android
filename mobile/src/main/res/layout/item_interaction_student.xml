@@ -28,15 +28,16 @@
 				android:layout_width="@dimen/global_spacing_40"
 				android:layout_height="@dimen/global_spacing_40"
 				android:layout_gravity="center_horizontal"
-				android:src="@drawable/ic_avatar_circle_black_24dp"
+				android:src="@drawable/ic_student_black_24dp"
 				/>
 			<android.support.v7.widget.AppCompatTextView
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
+				android:paddingTop="@dimen/global_spacing_16"
 				android:gravity="center"
 				android:textColor="@color/theme_text_primary"
 				android:text="@{studentViewModel.name}"
-				tools:text="Name" />
+				tools:text="Name Surname Lastname" />
 		</android.support.percent.PercentFrameLayout>
 	</LinearLayout>
 

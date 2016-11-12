@@ -50,6 +50,23 @@
 				</LinearLayout>
 				<LinearLayout
 					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/global_spacing_16"
+					android:orientation="horizontal">
+					<ImageView
+						android:layout_width="@dimen/global_spacing_40"
+						android:layout_height="@dimen/global_spacing_40"
+						android:src="@drawable/ic_teacher_circle_black_24dp"
+						/>
+					<android.support.v7.widget.AppCompatTextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@color/theme_text_primary"
+						android:text="Michal Jenicek"
+						tools:text="Name" />
+				</LinearLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:gravity="center">
 					<android.support.v7.widget.RecyclerView
