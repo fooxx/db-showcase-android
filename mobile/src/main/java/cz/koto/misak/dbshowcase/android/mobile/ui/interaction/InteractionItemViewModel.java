@@ -1,6 +1,9 @@
 package cz.koto.misak.dbshowcase.android.mobile.ui.interaction;
 
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,12 +12,23 @@ import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.model.StudentInterface;
 import cz.koto.misak.dbshowcase.android.mobile.model.TeacherInterface;
+import io.reactivex.Observable;
+import me.tatarka.bindingcollectionadapter.BaseItemViewSelector;
 import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 
 
-public class InteractionItemViewModel {
+public class InteractionItemViewModel extends BaseObservable {
 
-	public final ItemView studentItemView = ItemView.of(BR.studentViewModel, R.layout.item_interaction_student);
+	//	public final ItemView studentItemView = ItemView.of(BR.studentViewModel, R.layout.item_interaction_student);
+	public final ItemViewSelector<StudentItemViewModel> studentItemView = new BaseItemViewSelector<StudentItemViewModel>() {
+		@Override
+		public void select(ItemView itemView, int position, StudentItemViewModel item) {
+			itemView.set(BR.studentViewModel, item.getPagerLayoutResource());
+		}
+	};
+
+
 	private SchoolClassInterface mSchoolModelItem;
 
 
@@ -35,10 +49,18 @@ public class InteractionItemViewModel {
 	}
 
 
-	public List<StudentInterface> getStudentList() {
+	public List<? extends StudentInterface> getStudentList() {
+		return mSchoolModelItem.getStudentList();
+	}
+
+
+	@Bindable
+	public List<StudentItemViewModel> getStudentViewModelList() {
 		if(mSchoolModelItem == null)
 			return new ArrayList<>();
-		return mSchoolModelItem.getStudentList();
+		return Observable.fromIterable(getStudentList())
+				.map(item -> new StudentItemViewModel(item))
+				.toList().blockingGet();
 	}
 
 

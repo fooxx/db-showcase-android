@@ -20,8 +20,7 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.StudentRe
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.TeacherRealmEntity;
 import dagger.Module;
 import dagger.Provides;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
+import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
@@ -55,7 +54,7 @@ public class ShowcaseRealmCrudModule {
 								 DataSaveErrorListener saveErrorListener) {
 		//loadClassData(createClassDataSubscriber(realmConfiguration));
 
-		Observable.zip(DbShowcaseAPIClient.getAPIService().classList(),
+		Maybe.zip(DbShowcaseAPIClient.getAPIService().classList(),
 				DbShowcaseAPIClient.getAPIService().teacherList(),
 				DbShowcaseAPIClient.getAPIService().studentList(),
 				(schoolClassEntities, teacherEntities, studentEntities) -> {
@@ -218,13 +217,13 @@ public class ShowcaseRealmCrudModule {
 //	}
 
 
-	private void loadTeacherData(Subscriber<List<TeacherRealmEntity>> subscriber) {
-		DbShowcaseAPIClient.getAPIService().teacherList()
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe((Observer<? super List<TeacherRealmEntity>>) subscriber);
-
-	}
+//	private void loadTeacherData(Subscriber<List<TeacherRealmEntity>> subscriber) {
+//		DbShowcaseAPIClient.getAPIService().teacherList()
+//				.subscribeOn(Schedulers.io())
+//				.observeOn(AndroidSchedulers.mainThread())
+//				.subscribe((Observer<? super List<TeacherRealmEntity>>) subscriber);
+//
+//	}
 
 
 	private Subscriber<List<TeacherRealmEntity>> createTeacherDataSubscriber() {

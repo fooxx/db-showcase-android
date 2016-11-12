@@ -10,7 +10,6 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolCla
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.StudentRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.TeacherRealmEntity;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 public interface DbShowcaseAPIService {
@@ -21,7 +20,7 @@ public interface DbShowcaseAPIService {
      * @return
      */
     @GET("/api/dbshowcase/class")
-    Observable<List<SchoolClassRealmEntity>> classList();
+    Maybe<List<SchoolClassRealmEntity>> classList();
 
     /**
      * Data on the server defined by dev file: https://github.com/kotomisak/kotinode/blob/master/app/data/dbshowcase.teacher.json
@@ -29,7 +28,7 @@ public interface DbShowcaseAPIService {
      * @return
      */
     @GET("/api/dbshowcase/teacher")
-    Observable<List<TeacherRealmEntity>> teacherList();
+    Maybe<List<TeacherRealmEntity>> teacherList();
 
     /**
      * Data on the server defined by dev file: https://github.com/kotomisak/kotinode/blob/master/app/data/dbshowcase.student.json
@@ -37,7 +36,7 @@ public interface DbShowcaseAPIService {
      * @return
      */
     @GET("/api/dbshowcase/student")
-    Observable<List<StudentRealmEntity>> studentList();
+    Maybe<List<StudentRealmEntity>> studentList();
 
     /**
      * Data on the server defined by dev file: https://github.com/kotomisak/kotinode/blob/master/app/data/dbshowcase.class.json

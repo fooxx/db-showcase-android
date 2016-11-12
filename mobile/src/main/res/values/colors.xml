@@ -13,4 +13,9 @@
 
 	<color name="theme_transparent">@android:color/transparent</color>
 
+	<color name="button_green">#7BD57F</color>
+	<color name="button_green_dark">#4ca750</color>
+	<color name="button_green_light">#8cef91</color>
+	<color name="button_green_ripple">#dddddd</color>
+
 </resources>

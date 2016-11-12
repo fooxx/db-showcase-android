@@ -34,4 +34,6 @@
 	<dimen name="global_text_size_button">14sp</dimen>
 	<dimen name="global_text_size_menu">16sp</dimen>
 
+	<dimen name="green_button_size">96dp</dimen>
+
 </resources>

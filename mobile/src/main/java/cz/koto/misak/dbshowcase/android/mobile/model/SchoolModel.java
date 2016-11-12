@@ -6,16 +6,16 @@ import java.util.List;
 
 public class SchoolModel {
 
-	private List<SchoolClassInterface> list = new ArrayList<>();
+	private List<SchoolClassInterface> schoolItems = new ArrayList<>();
 
 
-	public void setList(List<SchoolClassInterface> list) {
-		this.list.addAll(list);
+	public final List<? extends SchoolClassInterface> getSchoolItems() {
+		return schoolItems;
 	}
 
 
-	public final List<SchoolClassInterface> getSchoolItems() {
-		return list;
+	public void setSchoolItems(List<? extends SchoolClassInterface> list) {
+		this.schoolItems.addAll(list);
 	}
 
 }
