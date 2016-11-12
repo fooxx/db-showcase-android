@@ -17,8 +17,8 @@
 			android:layout_height="match_parent"
 			android:layout_marginLeft="@dimen/global_spacing_4"
 			android:layout_marginRight="@dimen/global_spacing_4"
-			android:layout_marginBottom="@dimen/global_spacing_16"
-			android:layout_marginTop="@dimen/global_spacing_4"
+			android:layout_marginBottom="@dimen/global_spacing_8"
+			android:layout_marginTop="@dimen/global_spacing_8"
 			android:theme="@style/Theme.DbShowCase.LightCard"
 			android:foreground="?selectableItemBackground"
 			app:cardBackgroundColor="@color/theme_card_background">

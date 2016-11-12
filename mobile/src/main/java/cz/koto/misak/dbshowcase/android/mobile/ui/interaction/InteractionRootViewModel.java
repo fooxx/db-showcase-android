@@ -20,14 +20,14 @@ import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 
 public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionRootBinding> implements OnDataLoadedListener {
 
-	public final ItemViewSelector<InteractionItemViewModel> cardItemView = new BaseItemViewSelector<InteractionItemViewModel>() {
+	public final ItemViewSelector<InteractionCard> cardItemView = new BaseItemViewSelector<InteractionCard>() {
 		@Override
-		public void select(ItemView itemView, int position, InteractionItemViewModel item) {
+		public void select(ItemView itemView, int position, InteractionCard item) {
 			itemView.set(BR.viewModel, item.getPagerLayoutResource());
 		}
 	};
 	ObservableField<SchoolModel> schoolModel = new ObservableField<>();
-	private List<InteractionItemViewModel> mCardItemList;
+	private List<InteractionCard> mCardItemList;
 
 
 	@Override
@@ -52,14 +52,14 @@ public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionR
 
 
 	@Bindable
-	public List<InteractionItemViewModel> getCardItemList() {
-		if(ModelProvider.getSchoolModel() == null || ModelProvider.getSchoolModel().getSchoolItems().isEmpty())
-			return new ArrayList<>();
-
-		mCardItemList = Observable.fromIterable(ModelProvider.getSchoolModel().getSchoolItems())
-				.map(item -> new InteractionItemViewModel(item))
-				.toList().blockingGet();
-		if(mCardItemList == null) return new ArrayList<>();
+	public List<? extends InteractionCard> getCardItemList() {
+		if(ModelProvider.getSchoolModel() != null || !ModelProvider.getSchoolModel().getSchoolItems().isEmpty()) {
+			mCardItemList = Observable.fromIterable(ModelProvider.getSchoolModel().getSchoolItems())
+					.map(item -> InteractionItemViewModel.getInstance(item))
+					.toList().blockingGet();
+		}
+		if(mCardItemList == null) mCardItemList = new ArrayList<>();
+		mCardItemList.add(InteractionAddViewModel.getInstance());
 		return mCardItemList;
 	}
 }

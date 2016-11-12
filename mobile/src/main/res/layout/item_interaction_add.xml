@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+	<data>
+		<import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+		<variable
+			name="viewModel" type="cz.koto.misak.dbshowcase.android.mobile.ui.interaction.InteractionAddViewModel" />
+	</data>
+
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:clipChildren="false">
+		<android.support.design.widget.FloatingActionButton
+			android:id="@+id/fab_show"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/global_spacing_16"
+			android:layout_gravity="center"
+			android:src="@drawable/ic_add_black_24dp"
+			android:onClick="@{()-> viewModel.addCompleteRandomSchoolClass()}"
+			app:elevation="3dp"
+			app:fabSize="normal"
+			app:pressedTranslationZ="6dp"
+			app:rippleColor="@color/theme_accent" />
+	</FrameLayout>
+</layout>

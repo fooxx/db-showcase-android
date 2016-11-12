@@ -18,7 +18,7 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 
 
-public class InteractionItemViewModel extends BaseObservable {
+public class InteractionItemViewModel extends BaseObservable implements InteractionCard {
 
 	public final ItemViewSelector<StudentItemViewModel> studentItemView = new BaseItemViewSelector<StudentItemViewModel>() {
 		@Override
@@ -41,8 +41,13 @@ public class InteractionItemViewModel extends BaseObservable {
 	}
 
 
+	public static InteractionCard getInstance(SchoolClassInterface schoolModelItem) {
+		return new InteractionItemViewModel(schoolModelItem);
+	}
+
+
 	public int getPagerLayoutResource() {
-		return R.layout.item_interaction;
+		return R.layout.item_interaction_class;
 	}
 
 
