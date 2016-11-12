@@ -20,14 +20,18 @@ import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 
 public class InteractionItemViewModel extends BaseObservable {
 
-	//	public final ItemView studentItemView = ItemView.of(BR.studentViewModel, R.layout.item_interaction_student);
 	public final ItemViewSelector<StudentItemViewModel> studentItemView = new BaseItemViewSelector<StudentItemViewModel>() {
 		@Override
 		public void select(ItemView itemView, int position, StudentItemViewModel item) {
 			itemView.set(BR.studentViewModel, item.getPagerLayoutResource());
 		}
 	};
-
+	public final ItemViewSelector<TeacherItemViewModel> teacherItemView = new BaseItemViewSelector<TeacherItemViewModel>() {
+		@Override
+		public void select(ItemView itemView, int position, TeacherItemViewModel item) {
+			itemView.set(BR.teacherViewModel, item.getPagerLayoutResource());
+		}
+	};
 
 	private SchoolClassInterface mSchoolModelItem;
 
@@ -69,4 +73,15 @@ public class InteractionItemViewModel extends BaseObservable {
 			return new ArrayList<>();
 		return mSchoolModelItem.getTeacherList();
 	}
+
+
+	@Bindable
+	public List<TeacherItemViewModel> getTeacherViewModelList() {
+		if(mSchoolModelItem == null)
+			return new ArrayList<>();
+		return Observable.fromIterable(getTeacherList())
+				.map(item -> new TeacherItemViewModel(item))
+				.toList().blockingGet();
+	}
+
 }
