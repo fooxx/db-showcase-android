@@ -3,8 +3,8 @@ package cz.koto.misak.dbshowcase.android.mobile.model;
 import cz.koto.misak.dbshowcase.android.mobile.api.DbShowcaseAPIClient;
 import cz.koto.misak.dbshowcase.android.mobile.api.OnDataLoadedListener;
 import cz.koto.misak.dbshowcase.android.mobile.model.utility.SchoolModelComposer;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceSyncState;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceType;
-import cz.koto.misak.dbshowcase.android.mobile.persistence.SyncState;
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -15,7 +15,7 @@ public class ModelProvider {
 
 	private static final SchoolModel sSchoolModel = new SchoolModel();
 	private static PersistenceType sPersistenceProviderType = PersistenceType.NONE;
-	private static SyncState sPersistenceSyncState = SyncState.DISABLED;
+	private static PersistenceSyncState sPersistenceSyncState = PersistenceSyncState.DISABLED;
 
 
 	public static void initModelFromApi(OnDataLoadedListener successListener) {
@@ -45,7 +45,7 @@ public class ModelProvider {
 	}
 
 
-	public static SyncState getPersistenceSyncState() {
+	public static PersistenceSyncState getPersistenceSyncState() {
 		return sPersistenceSyncState;
 	}
 }
