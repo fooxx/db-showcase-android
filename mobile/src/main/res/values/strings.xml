@@ -23,7 +23,7 @@
     <string name="menu_info">Info</string>
     <string name="menu_settings">Settings</string>
 
-    <string name="persistence_title_realm">Realm</string>
-    <string name="persistence_title_db_flow">DBFlow</string>
-    <string name="persistence_title_none">No persistence</string>
+    <string name="persistence_title_realm">Realm on</string>
+    <string name="persistence_title_db_flow">DBFlow on</string>
+    <string name="persistence_title_none">Persistence off</string>
 </resources>
