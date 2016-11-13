@@ -21,6 +21,16 @@ public enum PersistenceSyncState {
 	}
 
 
+	public static PersistenceSyncState getPersistenceSyncStateForString(String name) {
+		for(PersistenceSyncState persistenceState : PersistenceSyncState.values()) {
+			if(persistenceState.name().equals(name)) {
+				return persistenceState;
+			}
+		}
+		return null;
+	}
+
+
 	public int getIconRes() {
 		return iconRes;
 	}

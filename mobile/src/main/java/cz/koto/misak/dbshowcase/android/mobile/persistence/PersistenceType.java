@@ -22,6 +22,16 @@ public enum PersistenceType {
 	}
 
 
+	public static PersistenceType getPersistenceTypeForString(String name) {
+		for(PersistenceType persistenceType : PersistenceType.values()) {
+			if(persistenceType.name().equals(name)) {
+				return persistenceType;
+			}
+		}
+		return null;
+	}
+
+
 	public int getStringRes() {
 		return stringRes;
 	}

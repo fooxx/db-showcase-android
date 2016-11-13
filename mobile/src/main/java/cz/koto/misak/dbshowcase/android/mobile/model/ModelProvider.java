@@ -5,20 +5,64 @@ import cz.koto.misak.dbshowcase.android.mobile.api.OnDataLoadedListener;
 import cz.koto.misak.dbshowcase.android.mobile.model.utility.SchoolModelComposer;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceSyncState;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceType;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.preference.SettingsStorage;
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 
-public class ModelProvider {
+public class ModelProvider extends SettingsStorage {
 
-	private static final SchoolModel sSchoolModel = new SchoolModel();
-	private static PersistenceType sPersistenceProviderType = PersistenceType.NONE;
-	private static PersistenceSyncState sPersistenceSyncState = PersistenceSyncState.DISABLED;
+	private static ModelProvider sInstance;
+
+	private final SchoolModel mSchoolModel = new SchoolModel();
+
+	private PersistenceType mPersistenceType;
+	private PersistenceSyncState mPersistenceSyncState;
 
 
-	public static void initModelFromApi(OnDataLoadedListener successListener) {
+	public ModelProvider() {
+		super();
+		mPersistenceSyncState = getActivePersistenceSyncState();
+		mPersistenceType = getActivePersistenceType();
+	}
+
+
+	public static ModelProvider get() {
+		if(sInstance == null)
+			sInstance = new ModelProvider();
+		return sInstance;
+	}
+
+
+	@Override
+	public PersistenceSyncState getActivePersistenceSyncState() {
+		return mPersistenceSyncState;
+	}
+
+
+	@Override
+	public void setActivePersistenceSyncState(PersistenceSyncState persistenceSyncState) {
+		super.setActivePersistenceSyncState(persistenceSyncState);
+		mPersistenceSyncState = persistenceSyncState;
+	}
+
+
+	@Override
+	public PersistenceType getActivePersistenceType() {
+		return mPersistenceType;
+	}
+
+
+	@Override
+	public void setActivePersistenceType(PersistenceType persistenceType) {
+		super.setActivePersistenceType(persistenceType);
+		mPersistenceType = persistenceType;
+	}
+
+
+	public void initModelFromApi(OnDataLoadedListener successListener) {
 		Maybe.zip(DbShowcaseAPIClient.getAPIService().classList(),
 				DbShowcaseAPIClient.getAPIService().teacherList(),
 				DbShowcaseAPIClient.getAPIService().studentList(),
@@ -26,7 +70,7 @@ public class ModelProvider {
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(list -> {
-							sSchoolModel.setSchoolItems(list);
+							mSchoolModel.setSchoolItems(list);
 							successListener.loadSuccess();
 						},
 						throwable -> {
@@ -35,17 +79,7 @@ public class ModelProvider {
 	}
 
 
-	public static SchoolModel getSchoolModel() {
-		return sSchoolModel;
-	}
-
-
-	public static PersistenceType getPersistenceType() {
-		return sPersistenceProviderType;
-	}
-
-
-	public static PersistenceSyncState getPersistenceSyncState() {
-		return sPersistenceSyncState;
+	public SchoolModel getSchoolModel() {
+		return mSchoolModel;
 	}
 }
