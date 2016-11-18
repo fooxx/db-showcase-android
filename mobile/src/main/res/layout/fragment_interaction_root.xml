@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+	>
+
+	<data>
+		<variable
+			name="viewModel"
+			type="cz.koto.misak.dbshowcase.android.mobile.ui.interaction.InteractionRootViewModel" />
+	</data>
+
+	<cz.kinst.jakub.view.StatefulLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		app:progressLayout="@layout/include_progress"
+		app:state="@{viewModel.state}">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical">
+
+			<include layout="@layout/toolbar" />
+
+			<android.support.v4.view.ViewPager
+				android:id="@+id/article_pager"
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_weight="1"
+				android:paddingLeft="@dimen/global_spacing_16"
+				android:clipToPadding="false"
+				android:paddingRight="@dimen/global_spacing_16"
+				android:clipChildren="false"
+				app:items="@{viewModel.cardItemList}"
+				app:itemView="@{viewModel.cardItemView}" />
+
+		</LinearLayout>
+	</cz.kinst.jakub.view.StatefulLayout>
+
+</layout>

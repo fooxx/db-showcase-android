@@ -1,7 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/toolbar"
 	android:layout_width="match_parent"
-	android:layout_height="?attr/actionBarSize"
-	style="@style/Widget.KoTiPoint.Toolbar" />
+	android:layout_height="?actionBarSize"
+	android:background="@color/theme_primary"
+	app:contentInsetStartWithNavigation="@dimen/global_spacing_8"
+	tools:showIn="@layout/fragment_settings_root">
+	<ImageView
+		android:id="@+id/icon_left_1"
+		android:layout_width="@dimen/global_spacing_24"
+		android:layout_height="@dimen/global_spacing_24"
+		android:visibility="gone"
+		tools:src="@drawable/ic_database_black_24dp"
+		/>
+	<android.support.v7.widget.AppCompatTextView
+		android:id="@+id/title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="@dimen/global_spacing_24"
+		android:maxLines="1"
+		android:ellipsize="end"
+		android:textColor="@color/theme_primary_light"
+		android:textAppearance="@style/TextAppearance.AppCompat.Title"
+		tools:text="Realm" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="end">
+
+		<ImageView
+			android:id="@+id/icon_right_1"
+			android:layout_width="@dimen/global_spacing_24"
+			android:layout_height="@dimen/global_spacing_24"
+			android:layout_gravity="end"
+			android:layout_marginRight="@dimen/global_spacing_4"
+			android:visibility="gone"
+			tools:src="@drawable/ic_sync_black_24dp" />
+		<ImageView
+			android:id="@+id/icon_right_2"
+			android:layout_width="@dimen/global_spacing_24"
+			android:layout_height="@dimen/global_spacing_24"
+			android:layout_gravity="end"
+			android:layout_marginRight="@dimen/global_spacing_4"
+			android:visibility="gone"
+			tools:src="@drawable/ic_sync_disabled_black_24dp" />
+		<ImageView
+			android:id="@+id/icon_right_3"
+			android:layout_width="@dimen/global_spacing_24"
+			android:layout_height="@dimen/global_spacing_24"
+			android:layout_gravity="end"
+			android:layout_marginRight="@dimen/global_spacing_4"
+			android:visibility="gone"
+			tools:src="@drawable/ic_sync_problem_black_24dp" />
+		<android.support.v7.widget.AppCompatTextView
+			android:id="@+id/state"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="@dimen/global_spacing_24"
+			android:layout_gravity="end"
+			android:maxLines="1"
+			android:ellipsize="end"
+			android:textColor="@color/theme_primary_light"
+			android:textAppearance="@style/TextAppearance.AppCompat.Title"
+			tools:text="Sync on" />
+	</LinearLayout>
+</android.support.v7.widget.Toolbar>

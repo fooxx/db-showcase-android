@@ -19,5 +19,18 @@
     <string name="add_teacher">Add teacher</string>
     <string name="remove_student">Remove student</string>
     <string name="remove_teacher">Remove teacher</string>
+    <string name="menu_interaction">Interaction</string>
+    <string name="menu_info">Info</string>
+    <string name="menu_settings">Settings</string>
 
-   </resources>
+    <string name="action_download_from_api">Init from API</string>
+    <string name="action_generate_random_class">Generate random</string>
+
+    <string name="persistence_title_realm">Realm on</string>
+    <string name="persistence_title_db_flow">DBFlow on</string>
+    <string name="persistence_title_none">Persistence off</string>
+
+    <string name="persistence_state_desc_on">Sync on</string>
+    <string name="persistence_state_desc_off">Sync off</string>
+    <string name="persistence_state_desc_error">Sync failed</string>
+</resources>

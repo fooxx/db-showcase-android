@@ -2,9 +2,9 @@ package cz.koto.misak.dbshowcase.android.mobile;
 
 import javax.inject.Singleton;
 
-import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseAPIClient;
-import cz.koto.misak.dbshowcase.android.mobile.rest.DbShowcaseRetrofitAdapter;
-import cz.koto.misak.dbshowcase.android.mobile.rest.RestModule;
+import cz.koto.misak.dbshowcase.android.mobile.api.DbShowcaseAPIClient;
+import cz.koto.misak.dbshowcase.android.mobile.api.DbShowcaseRetrofitAdapter;
+import cz.koto.misak.dbshowcase.android.mobile.api.RestModule;
 import dagger.Component;
 import retrofit2.Retrofit;
 

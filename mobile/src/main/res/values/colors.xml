@@ -1,48 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<color name="private_primary">#F44336</color>
-	<color name="private_local_primary_dark">#D32F2F</color>
-	<color name="private_primary_light">#FFCDD2</color>
-	<color name="private_accent">#4CAF50</color>
-	<color name="private_primary_text">#212121</color>
-	<color name="private_secondary_text">#727272</color>
+	<color name="theme_primary">#9E9E9E</color>
+	<color name="theme_primary_dark">#757575</color>
+	<color name="theme_primary_light">#F5F5F5</color>
+	<color name="theme_accent">#F44336</color>
+	<color name="theme_accent_pressed">#EF5350</color>
+	<color name="theme_window_background">@color/theme_primary_light</color>
+	<color name="theme_card_background">@android:color/white</color>
+	<color name="theme_text_primary">#212121</color>
+	<color name="theme_text_secondary">#757575</color>
+	<color name="theme_text_divider">#BDBDBD</color>
 
-	<color name="private_divider_color">#B6B6B6</color>
-	<color name="private_text_icons">#FFFFFF</color>
+	<color name="theme_transparent">@android:color/transparent</color>
+	<color name="black_semi_transparent">#B2000000</color>
+	<color name="white">#fafafa</color>
 
-	<color name="global_color_primary">#F44336</color>
-	<color name="global_color_primary_dark">#D32F2F</color>
-	<color name="global_color_accent">#4CAF50</color>
-	<color name="global_color_control_normal">#8a000000</color>
-	<color name="global_color_control_activated">#F44336</color>
-	<color name="global_color_control_highlight">#FFCDD2</color>
-	<color name="global_color_switch_thumb_normal">#f1f1f1</color>
+	<color name="button_green">#E0E0E0</color>
+	<color name="button_green_dark">#BDBDBD</color>
+	<color name="button_green_light">#EEEEEE</color>
+	<color name="button_green_ripple">#F5F5F5</color>
 
-	<color name="global_text_primary">#de000000</color>
-	<color name="global_text_primary_inverse">#ffffff</color>
-	<color name="global_text_primary_disable_only">#000000</color>
-	<color name="global_text_secondary">#8a000000</color>
-	<color name="global_text_secondary_inverse">#b3ffffff</color>
-	<color name="global_text_tertiary">#8a000000</color>
-	<color name="global_text_tertiary_inverse">#b3ffffff</color>
-	<color name="global_text_hint">#80000000</color>
-	<color name="global_text_hint_inverse">#80ffffff</color>
-	<color name="global_text_highlight">#FFCDD2</color>
-	<color name="global_text_link">#D32F2F</color>
-
-	<color name="global_bg_back">#eeeeee</color>
-	<color name="global_bg_back_inverse">#303030</color>
-	<color name="global_bg_front">#ffffff</color>
-	<color name="global_bg_front_inverse">#000000</color>
-	<color name="global_bg_dialog">#eeeeee</color>
-	<color name="global_bg_dialog_inverse">#424242</color>
-
-	<color name="theme_action_mode_bg">#303030</color>
-	<color name="theme_status_bar">@color/global_color_primary_dark</color>
-	<color name="theme_navigation_bar">#000000</color>
-	<color name="theme_button_normal">#d6d7d7</color>
-	<color name="theme_edge_effect">#bdbdbd</color>
-
-	<color name="photo_tint">#7f101010</color>
 </resources>

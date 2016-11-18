@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="cz.koto.misak.dbshowcase.android.mobile"
-	android:installLocation="auto">
+	android:installLocation="auto"
+	package="cz.koto.misak.dbshowcase.android.mobile">
 	
 	<!-- versionCode, versionName, minSdkVersion, targetSdkVersion properties are set via Gradle script -->
 	
@@ -17,13 +17,13 @@
 		android:name=".DbApplication"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
-		android:theme="@style/Theme.KoTiPoint.Light"
+		android:theme="@style/Theme.DbShowCase"
 		android:hardwareAccelerated="true"
 		android:largeHeap="true"
 		android:allowBackup="true">
 		
 		<activity
-			android:name=".activity.MainActivity"
+			android:name=".ui.MainActivity"
 			android:label="@string/app_name"
 			android:launchMode="standard">
 			<intent-filter>

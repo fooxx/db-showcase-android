@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:fab="http://schemas.android.com/apk/res-auto"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+	<data>
+		<variable
+			name="viewModel"
+			type="cz.koto.misak.dbshowcase.android.mobile.ui.interaction.InteractionAddViewModel" />
+	</data>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:gravity="center">
+
+		<com.getbase.floatingactionbutton.FloatingActionsMenu
+			android:id="@+id/right_labels"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentEnd="true"
+			android:layout_marginRight="@dimen/global_spacing_16"
+			android:layout_marginBottom="@dimen/global_spacing_8"
+			fab:fab_addButtonColorNormal="@color/theme_accent"
+			fab:fab_addButtonColorPressed="@color/theme_accent_pressed"
+			fab:fab_addButtonPlusIconColor="@color/theme_text_primary"
+			fab:fab_addButtonSize="normal"
+			fab:fab_labelStyle="@style/menu_labels_style"
+			fab:fab_labelsPosition="left"
+			fab:fab_expandDirection="up">
+
+			<com.getbase.floatingactionbutton.FloatingActionButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:onClick="@{()-> viewModel.addCompleteRandomSchoolClass()}"
+				fab:fab_icon="@drawable/ic_dice_5_black_24dp"
+				fab:fab_colorNormal="@color/theme_accent"
+				fab:fab_colorPressed="@color/theme_accent_pressed"
+				fab:fab_size="normal"
+				fab:fab_title="@string/action_generate_random_class" />
+
+			<com.getbase.floatingactionbutton.FloatingActionButton
+				android:id="@+id/quick_action_goal"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:onClick="@{()-> viewModel.downloadSchoolClassFromApi()}"
+				fab:fab_icon="@drawable/ic_download_black_24dp"
+				fab:fab_colorNormal="@color/theme_accent"
+				fab:fab_colorPressed="@color/theme_accent_pressed"
+				fab:fab_title="@string/action_download_from_api"
+				fab:fab_size="normal"
+				app:show="@{viewModel.isNetworkAvailable}" />
+
+		</com.getbase.floatingactionbutton.FloatingActionsMenu>
+	</RelativeLayout>
+</layout>

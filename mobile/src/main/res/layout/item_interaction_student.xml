@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	>
+	<data>
+		<import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+		<variable
+			name="studentViewModel"
+			type="cz.koto.misak.dbshowcase.android.mobile.ui.interaction.StudentItemViewModel" />
+	</data>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:orientation="horizontal">
+
+		<android.support.percent.PercentFrameLayout
+			android:id="@+id/start_button"
+			android:layout_width="@dimen/green_button_size"
+			android:layout_height="@dimen/green_button_size"
+			android:layout_margin="@dimen/global_spacing_16"
+			android:background="@drawable/button_gray_circle"
+			android:padding="0dp"
+			tools:background="@drawable/button_gray_circle">
+
+			<ImageView
+				android:layout_width="@dimen/global_spacing_40"
+				android:layout_height="@dimen/global_spacing_40"
+				android:layout_gravity="center_horizontal"
+				android:src="@drawable/ic_student_black_24dp"
+				/>
+			<android.support.v7.widget.AppCompatTextView
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:paddingTop="@dimen/global_spacing_16"
+				android:gravity="center"
+				android:textColor="@color/theme_text_primary"
+				android:text="@{studentViewModel.name}"
+				tools:text="Name Surname Lastname" />
+		</android.support.percent.PercentFrameLayout>
+	</LinearLayout>
+
+</layout>

@@ -1,44 +1,34 @@
-<layout>
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:design="http://schemas.android.com/apk/res-auto">
 	<data>
-
 		<variable
 			name="viewModel"
-			type="cz.koto.misak.dbshowcase.android.mobile.viewModel.MainActivityViewModel"/>
-
-		<import type="cz.kinst.jakub.view.StatefulLayout.State" />
+			type="cz.koto.misak.dbshowcase.android.mobile.ui.MainViewModel" />
 	</data>
-
-	<android.support.design.widget.CoordinatorLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
+	<LinearLayout
+		android:id="@+id/activity_main"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:fitsSystemWindows="true">
+		android:orientation="vertical">
 
-		<android.support.v7.widget.Toolbar
-			android:id="@+id/toolbar"
+		<FrameLayout
+			android:id="@+id/content"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			android:background="@color/theme_window_background">
+
+		</FrameLayout>
+
+		<android.support.design.widget.BottomNavigationView
+			android:id="@+id/navigation"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:background="@color/global_color_primary"
-			android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-			app:title="@{viewModel.getAppTitle}"/>
+			android:layout_gravity="start"
+			design:itemIconTint="@color/navigation_color"
+			design:itemTextColor="@color/navigation_color"
+			design:menu="@menu/bottom_nav_items" />
+	</LinearLayout>
 
-		<cz.kinst.jakub.view.StatefulLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_marginTop="?attr/actionBarSize"
-			app:emptyLayout="@layout/default_placeholder_empty"
-			app:progressLayout="@layout/default_placeholder_progress"
-			app:offlineLayout="@layout/default_placeholder_offline"
-			app:state="@{viewModel.state}">
 
-			<android.support.v7.widget.RecyclerView
-				android:id="@+id/recycler"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				app:adapter="@{viewModel.getAdapter()}"/>
-
-		</cz.kinst.jakub.view.StatefulLayout>
-	</android.support.design.widget.CoordinatorLayout>
 </layout>
