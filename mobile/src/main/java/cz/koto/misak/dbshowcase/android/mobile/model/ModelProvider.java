@@ -64,13 +64,10 @@ public class ModelProvider extends SettingsStorage {
 	public void loadModel(OnLoadResultListener successListener) {
 		switch(mPersistenceType) {
 			case REALM:
-				initModelFromApi(successListener);
-				break;
 			case DB_FLOW:
-				break;
 			case NONE:
 			default:
-				initModelFromApi(successListener);
+				successListener.loadSuccess();
 		}
 	}
 
@@ -80,11 +77,7 @@ public class ModelProvider extends SettingsStorage {
 	}
 
 
-	private void initModelFromRealm() {
-		//loadni model z realmu (+ umozni na plusko load z API + pri zapnute synchronizaci ukladej load z API do realmu).
-	}
-
-	private void initModelFromApi(OnLoadResultListener resultListener) {
+	public final void updateModelFromApi(OnLoadResultListener resultListener) {
 		Maybe.zip(DbShowcaseAPIClient.getAPIService().classList(),
 				DbShowcaseAPIClient.getAPIService().teacherList(),
 				DbShowcaseAPIClient.getAPIService().studentList(),
@@ -101,5 +94,10 @@ public class ModelProvider extends SettingsStorage {
 							setActivePersistenceSyncState(PersistenceSyncState.ERROR);
 							resultListener.loadFailed(throwable);
 						});
+	}
+
+
+	private void updateModelFromRealm() {
+		//loadni model z realmu (+ umozni na plusko load z API + pri zapnute synchronizaci ukladej load z API do realmu).
 	}
 }

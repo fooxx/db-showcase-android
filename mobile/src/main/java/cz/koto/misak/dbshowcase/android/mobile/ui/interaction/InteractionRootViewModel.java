@@ -84,7 +84,7 @@ public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionR
 					.toList().blockingGet();
 		}
 		if(mCardItemList == null) mCardItemList = new ArrayList<>();
-		mCardItemList.add(InteractionAddViewModel.getInstance());
+		mCardItemList.add(InteractionAddViewModel.getInstance(this));
 		return mCardItemList;
 	}
 
