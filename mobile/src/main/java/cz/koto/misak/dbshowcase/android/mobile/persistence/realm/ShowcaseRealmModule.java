@@ -14,9 +14,6 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolCla
 import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
 import timber.log.Timber;
 
 
@@ -32,14 +29,6 @@ public class ShowcaseRealmModule {
 	public ShowcaseRealmModule provideShowcaseRealmLoadModule() {
 		return new ShowcaseRealmModule();
 	}
-
-
-	@Provides
-	public List<? extends SchoolClassInterface> provideSchoolClassRealmEntityList(RealmConfiguration realmConfiguration) {
-		Realm realm = Realm.getInstance(realmConfiguration);
-		return realm.copyFromRealm(realm.where(SchoolClassRealmEntity.class).findAll());
-	}
-
 
 	public void saveOrUpdateSchoolClass(List<? extends SchoolClassInterface> schoolModel,
 										DataHandlerListener dataHandlerListener) {
@@ -107,25 +96,11 @@ public class ShowcaseRealmModule {
 	}
 
 
-	/**
-	 * Get the only/latest broadcast program from realm database.
-	 *
-	 * @return
-	 */
 	@Nullable
 	public List<SchoolClassRealmEntity> getSchoolClass() {
-		Realm realm = null;
-		List<SchoolClassRealmEntity> ret = new ArrayList<>();
+		final Realm realm = Realm.getDefaultInstance();
 		try {
-			realm = Realm.getDefaultInstance();
-
-			RealmQuery<SchoolClassRealmEntity> query = realm.where(SchoolClassRealmEntity.class);
-			RealmResults<SchoolClassRealmEntity> results = query.findAll();
-			if(results.isEmpty()) {
-				if(results.isEmpty()) return ret;
-			}
-
-			return realm.copyFromRealm(results);
+			return realm.copyFromRealm(realm.where(SchoolClassRealmEntity.class).findAll());
 		} catch(Exception e) {
 			Timber.e(e, "getSchoolClass from realm failed!");
 			return null;
