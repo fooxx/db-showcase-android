@@ -81,6 +81,7 @@ public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionR
 		getNavigationManager().configureToolbar(getToolbar(),
 				activePersistenceType == null ? null : ContextProvider.getString(activePersistenceType.getStringRes()),
 				activePersistenceType == null ? null : activePersistenceType.getIconRes(),
+				activePersistenceSyncState == null ? null : ContextProvider.getString(activePersistenceSyncState.getDescRes()),
 				activePersistenceSyncState == null ? null : activePersistenceSyncState.getIconRes(),
 				false);
 	}

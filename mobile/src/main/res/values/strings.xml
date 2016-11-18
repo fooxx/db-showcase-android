@@ -26,4 +26,8 @@
     <string name="persistence_title_realm">Realm on</string>
     <string name="persistence_title_db_flow">DBFlow on</string>
     <string name="persistence_title_none">Persistence off</string>
+
+    <string name="persistence_state_desc_on">Sync on</string>
+    <string name="persistence_state_desc_off">Sync off</string>
+    <string name="persistence_state_desc_error">Sync failed</string>
 </resources>
