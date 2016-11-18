@@ -67,8 +67,28 @@ public class ModelProvider extends SettingsStorage {
 	public void loadModel(DataHandlerListener successListener) {
 		switch(mPersistenceType) {
 			case REALM:
+
+				//SYNCHRONOUS READ
 				mSchoolModel.addSchoolItems(mRealmModule.getSchoolClass());
 				successListener.handleSuccess();
+
+				//ASYNCHRONOUS READ
+//				mRealmModule.loadSchoolClassAsync(
+//						new ShowcaseRealmModule.LoadSchoolClassAsyncListener() {
+//							@Override
+//							public void onSuccess(List<SchoolClassRealmEntity> schoolClassRealmEntityList) {
+//								mSchoolModel.addSchoolItems(schoolClassRealmEntityList);
+//								successListener.handleSuccess();
+//							}
+//
+//
+//							@Override
+//							public void onError(Throwable throwable) {
+//								successListener.handleFailed(throwable);
+//							}
+//						}
+//				);
+
 				break;
 			case DB_FLOW:
 			case NONE:
