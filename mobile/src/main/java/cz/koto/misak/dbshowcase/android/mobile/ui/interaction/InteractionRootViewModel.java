@@ -36,7 +36,7 @@ public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionR
 	@Override
 	public void onViewModelCreated() {
 		super.onViewModelCreated();
-		ModelProvider.get().initModelFromApi(this);
+		ModelProvider.get().loadModel(this);
 	}
 
 

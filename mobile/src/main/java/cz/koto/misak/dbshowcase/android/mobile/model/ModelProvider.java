@@ -9,7 +9,6 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.preference.SettingsSt
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 
 public class ModelProvider extends SettingsStorage {
@@ -62,7 +61,26 @@ public class ModelProvider extends SettingsStorage {
 	}
 
 
-	public void initModelFromApi(OnDataLoadedListener successListener) {
+	public void loadModel(OnDataLoadedListener successListener) {
+		switch(mPersistenceType) {
+			case REALM:
+
+				break;
+			case DB_FLOW:
+				break;
+			case NONE:
+			default:
+				initModelFromApi(successListener);
+		}
+	}
+
+
+	public SchoolModel getSchoolModel() {
+		return mSchoolModel;
+	}
+
+
+	private void initModelFromApi(OnDataLoadedListener resultListener) {
 		Maybe.zip(DbShowcaseAPIClient.getAPIService().classList(),
 				DbShowcaseAPIClient.getAPIService().teacherList(),
 				DbShowcaseAPIClient.getAPIService().studentList(),
@@ -71,15 +89,10 @@ public class ModelProvider extends SettingsStorage {
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(list -> {
 							mSchoolModel.setSchoolItems(list);
-							successListener.loadSuccess();
+							resultListener.loadSuccess();
 						},
 						throwable -> {
-							Timber.d(throwable, "on error init:");
+							resultListener.loadFailed(throwable);
 						});
-	}
-
-
-	public SchoolModel getSchoolModel() {
-		return mSchoolModel;
 	}
 }
