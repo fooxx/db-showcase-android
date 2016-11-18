@@ -1,7 +1,7 @@
 package cz.koto.misak.dbshowcase.android.mobile.model;
 
 import cz.koto.misak.dbshowcase.android.mobile.api.DbShowcaseAPIClient;
-import cz.koto.misak.dbshowcase.android.mobile.api.OnDataLoadedListener;
+import cz.koto.misak.dbshowcase.android.mobile.api.OnLoadResultListener;
 import cz.koto.misak.dbshowcase.android.mobile.model.utility.SchoolModelComposer;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceSyncState;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceType;
@@ -61,10 +61,10 @@ public class ModelProvider extends SettingsStorage {
 	}
 
 
-	public void loadModel(OnDataLoadedListener successListener) {
+	public void loadModel(OnLoadResultListener successListener) {
 		switch(mPersistenceType) {
 			case REALM:
-
+				initModelFromApi(successListener);
 				break;
 			case DB_FLOW:
 				break;
@@ -80,7 +80,7 @@ public class ModelProvider extends SettingsStorage {
 	}
 
 
-	private void initModelFromApi(OnDataLoadedListener resultListener) {
+	private void initModelFromApi(OnLoadResultListener resultListener) {
 		Maybe.zip(DbShowcaseAPIClient.getAPIService().classList(),
 				DbShowcaseAPIClient.getAPIService().teacherList(),
 				DbShowcaseAPIClient.getAPIService().studentList(),
@@ -89,9 +89,12 @@ public class ModelProvider extends SettingsStorage {
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(list -> {
 							mSchoolModel.setSchoolItems(list);
+							setActivePersistenceType(PersistenceType.NONE);
+							setActivePersistenceSyncState(PersistenceSyncState.DISABLED);
 							resultListener.loadSuccess();
 						},
 						throwable -> {
+							setActivePersistenceSyncState(PersistenceSyncState.ERROR);
 							resultListener.loadFailed(throwable);
 						});
 	}

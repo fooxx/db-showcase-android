@@ -10,7 +10,7 @@ import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import cz.koto.misak.dbshowcase.android.mobile.api.RestModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmConfigModule;
-import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmCrudModule;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmModule;
 import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
 import io.realm.Realm;
 import timber.log.Timber;
@@ -40,7 +40,7 @@ public class DbApplication extends Application {
 
 		mDbComponent = DaggerDbComponent.builder()
 				.showcaseRealmConfigModule(new ShowcaseRealmConfigModule())
-				.showcaseRealmCrudModule(new ShowcaseRealmCrudModule())
+				.showcaseRealmModule(new ShowcaseRealmModule())
 				.build();
 
 		sInstance = this;

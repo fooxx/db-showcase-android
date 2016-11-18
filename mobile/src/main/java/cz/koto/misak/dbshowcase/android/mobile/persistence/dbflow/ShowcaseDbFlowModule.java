@@ -23,7 +23,7 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.listener.DataSaveSucc
 /**
  * DBFlow module related to CREATE/READ/UPDATE/DELETE operations.
  */
-public class DbFlowCrudModule
+public class ShowcaseDbFlowModule
 {
 
 	public static void saveDataToDb(List<SchoolClassDbFlowEntity> schoolClassEntities, List<TeacherDbFlowEntity> teacherEntities, List<StudentDbFlowEntity> studentEntities, DataSaveSuccessListener listener)

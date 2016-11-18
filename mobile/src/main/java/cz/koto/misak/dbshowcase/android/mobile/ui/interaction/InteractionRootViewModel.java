@@ -6,8 +6,9 @@ import android.databinding.ObservableField;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.kinst.jakub.view.StatefulLayout;
 import cz.koto.misak.dbshowcase.android.mobile.BR;
-import cz.koto.misak.dbshowcase.android.mobile.api.OnDataLoadedListener;
+import cz.koto.misak.dbshowcase.android.mobile.api.OnLoadResultListener;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentInteractionRootBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolModel;
@@ -21,7 +22,7 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 
 
-public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionRootBinding> implements OnDataLoadedListener {
+public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionRootBinding> implements OnLoadResultListener {
 
 	public final ItemViewSelector<InteractionCard> cardItemView = new BaseItemViewSelector<InteractionCard>() {
 		@Override
@@ -29,6 +30,7 @@ public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionR
 			itemView.set(BR.viewModel, item.getPagerLayoutResource());
 		}
 	};
+	public ObservableField<StatefulLayout.State> state = new ObservableField<>();
 	ObservableField<SchoolModel> schoolModel = new ObservableField<>();
 	private List<InteractionCard> mCardItemList;
 
@@ -36,6 +38,7 @@ public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionR
 	@Override
 	public void onViewModelCreated() {
 		super.onViewModelCreated();
+		state.set(StatefulLayout.State.PROGRESS);
 		ModelProvider.get().loadModel(this);
 	}
 
@@ -56,8 +59,19 @@ public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionR
 
 	@Override
 	public void loadSuccess() {
+		state.set(StatefulLayout.State.CONTENT);
 		schoolModel.set(ModelProvider.get().getSchoolModel());
 		notifyPropertyChanged(BR.cardItemList);
+		updateToolbar();
+	}
+
+
+	@Override
+	public void loadFailed(Throwable throwable) {
+		state.set(StatefulLayout.State.CONTENT);
+		schoolModel.set(ModelProvider.get().getSchoolModel());
+		notifyPropertyChanged(BR.cardItemList);
+		updateToolbar();
 	}
 
 

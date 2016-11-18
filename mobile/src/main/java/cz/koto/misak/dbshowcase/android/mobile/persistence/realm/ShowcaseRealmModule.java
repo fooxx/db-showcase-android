@@ -33,12 +33,12 @@ import timber.log.Timber;
  */
 
 @Module
-public class ShowcaseRealmCrudModule {
+public class ShowcaseRealmModule {
 
 	@Provides
 	@Singleton
-	public ShowcaseRealmCrudModule provideShowcaseRealmLoadModule() {
-		return new ShowcaseRealmCrudModule();
+	public ShowcaseRealmModule provideShowcaseRealmLoadModule() {
+		return new ShowcaseRealmModule();
 	}
 
 
