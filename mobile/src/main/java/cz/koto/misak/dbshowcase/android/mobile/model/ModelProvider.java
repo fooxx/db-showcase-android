@@ -24,8 +24,8 @@ public class ModelProvider extends SettingsStorage {
 
 	public ModelProvider() {
 		super();
-		mPersistenceSyncState = getActivePersistenceSyncState();
-		mPersistenceType = getActivePersistenceType();
+		mPersistenceSyncState = super.getActivePersistenceSyncState();
+		mPersistenceType = super.getActivePersistenceType();
 	}
 
 
