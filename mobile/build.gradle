@@ -60,6 +60,7 @@ dependencies
 
 			compile "com.facebook.stetho:stetho:1.4.1"
 			compile 'com.uphyca:stetho_realm:2.0.0'
+
 			final LEAK_CANARY_VERSION = '1.5'
 			debugCompile "com.squareup.leakcanary:leakcanary-android:$LEAK_CANARY_VERSION"
 			releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$LEAK_CANARY_VERSION"
@@ -107,15 +108,11 @@ android
 					{
 						debug
 								{
-									buildConfigField "boolean", "LOGS", "true"
-
 									versionNameSuffix "-debug"
 								}
 
 						release
 								{
-									buildConfigField "boolean", "LOGS", "false"
-
 									signingConfig signingConfigs.release
 									zipAlignEnabled true
 									minifyEnabled false
@@ -123,17 +120,6 @@ android
 									proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 								}
 					}
-			productFlavors {
-				dbFlow {
-					buildConfigField "String", "DB_SHOWCASE", "\"DB_FLOW\""
-				}
-
-				realm {
-					buildConfigField "String", "DB_SHOWCASE", "\"REALM_IO\""
-				}
-
-
-			}
 
 			applicationVariants.all
 					{

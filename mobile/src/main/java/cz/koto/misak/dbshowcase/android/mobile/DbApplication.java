@@ -6,6 +6,7 @@ import com.facebook.stetho.Stetho;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.squareup.leakcanary.LeakCanary;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import cz.koto.misak.dbshowcase.android.mobile.api.RestModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmConfigModule;
@@ -46,20 +47,33 @@ public class DbApplication extends Application {
 
 		ContextProvider.initialize(this);
 
-		if(DbConfig.LOGS) {
+		if(BuildConfig.DEBUG) {
 			Timber.plant(new Timber.DebugTree());
 		}
 
 		LeakCanary.install(this);
 
-		Stetho.initialize(
-				Stetho.newInitializerBuilder(this)
-						.enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-						.enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-						.build());
 
+		/*
+		 * INIT STETHO VIEW to DBFLOW/REALM
+		 */
+		if(BuildConfig.DEBUG) {
+			Stetho.initialize(
+					Stetho.newInitializerBuilder(this)
+							.enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+							.enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+							.enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+							.build());
+		}
+
+		/*
+		 * INIT DB FLOW
+		 */
 		FlowManager.init(new FlowConfig.Builder(this).openDatabasesOnInit(true).build());
 
+		/*
+		 * INIT DB REALM
+		 */
 		Realm.init(this);
 		Realm.setDefaultConfiguration(mDbComponent.provideRealmConfiguration());
 	}

@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
+import cz.koto.misak.dbshowcase.android.mobile.BuildConfig;
 import cz.koto.misak.dbshowcase.android.mobile.DbConfig;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.DbFlowExclusionStrategy;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.RealmExclusionStrategy;
@@ -77,7 +78,7 @@ public class RestModule {
         client.connectTimeout(TIMEOUT, TimeUnit.SECONDS);
         client.readTimeout(TIMEOUT, TimeUnit.SECONDS);
         client.writeTimeout(TIMEOUT, TimeUnit.SECONDS);
-        if (DbConfig.LOGS){
+        if(BuildConfig.DEBUG) {
             client.addInterceptor(httpLoggingInterceptor);
         }
 
