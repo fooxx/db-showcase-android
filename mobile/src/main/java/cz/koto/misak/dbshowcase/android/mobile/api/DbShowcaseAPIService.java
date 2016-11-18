@@ -20,7 +20,7 @@ public interface DbShowcaseAPIService {
      * @return
      */
     @GET("/api/dbshowcase/class")
-    Maybe<List<SchoolClassRealmEntity>> classList();
+    Maybe<List<SchoolClassRealmEntity>> realmClassList();
 
     /**
      * Data on the server defined by dev file: https://github.com/kotomisak/kotinode/blob/master/app/data/dbshowcase.teacher.json
@@ -28,7 +28,7 @@ public interface DbShowcaseAPIService {
      * @return
      */
     @GET("/api/dbshowcase/teacher")
-    Maybe<List<TeacherRealmEntity>> teacherList();
+    Maybe<List<TeacherRealmEntity>> realmTeacherList();
 
     /**
      * Data on the server defined by dev file: https://github.com/kotomisak/kotinode/blob/master/app/data/dbshowcase.student.json
@@ -36,7 +36,7 @@ public interface DbShowcaseAPIService {
      * @return
      */
     @GET("/api/dbshowcase/student")
-    Maybe<List<StudentRealmEntity>> studentList();
+    Maybe<List<StudentRealmEntity>> realmStudentList();
 
     /**
      * Data on the server defined by dev file: https://github.com/kotomisak/kotinode/blob/master/app/data/dbshowcase.class.json
@@ -44,7 +44,7 @@ public interface DbShowcaseAPIService {
      * @return
      */
     @GET("/api/dbshowcase/class")
-    Maybe<List<SchoolClassDbFlowEntity>> classListDbFlow();
+    Maybe<List<SchoolClassDbFlowEntity>> dbFlowClassList();
 
     /**
      * Data on the server defined by dev file: https://github.com/kotomisak/kotinode/blob/master/app/data/dbshowcase.teacher.json
@@ -52,7 +52,7 @@ public interface DbShowcaseAPIService {
      * @return
      */
     @GET("/api/dbshowcase/teacher")
-    Maybe<List<TeacherDbFlowEntity>> teacherListDbFlow();
+    Maybe<List<TeacherDbFlowEntity>> dbFlowTeacherList();
 
     /**
      * Data on the server defined by dev file: https://github.com/kotomisak/kotinode/blob/master/app/data/dbshowcase.student.json
@@ -60,5 +60,5 @@ public interface DbShowcaseAPIService {
      * @return
      */
     @GET("/api/dbshowcase/student")
-    Maybe<List<StudentDbFlowEntity>> studentListDbFlow();
+    Maybe<List<StudentDbFlowEntity>> dbFlowStudentList();
 }

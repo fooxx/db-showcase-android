@@ -1,30 +1,22 @@
 package cz.koto.misak.dbshowcase.android.mobile.persistence.realm;
 
 
-import android.os.Looper;
+import android.support.annotation.Nullable;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Singleton;
 
-import cz.koto.misak.dbshowcase.android.mobile.api.DbShowcaseAPIClient;
+import cz.koto.misak.dbshowcase.android.mobile.model.DataHandlerListener;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
-import cz.koto.misak.dbshowcase.android.mobile.persistence.listener.DataSaveErrorListener;
-import cz.koto.misak.dbshowcase.android.mobile.persistence.listener.DataSaveSuccessListener;
-import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.RealmLong;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
-import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.StudentRealmEntity;
-import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.TeacherRealmEntity;
 import dagger.Module;
 import dagger.Provides;
-import io.reactivex.Maybe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import timber.log.Timber;
 
 
@@ -49,251 +41,91 @@ public class ShowcaseRealmModule {
 	}
 
 
-	public void loadRealmFromApi(RealmConfiguration realmConfiguration,
-								 DataSaveSuccessListener saveSuccessListener,
-								 DataSaveErrorListener saveErrorListener) {
-		//loadClassData(createClassDataSubscriber(realmConfiguration));
+	public void saveOrUpdateSchoolClass(List<? extends SchoolClassInterface> schoolModel, DataHandlerListener dataHandlerListener) {
+		if(schoolModel == null) return;
+		final Realm realm = Realm.getDefaultInstance();
+		try {
+			List<SchoolClassRealmEntity> persistenceModel = new ArrayList<>();
+			for(SchoolClassInterface schoolClass : schoolModel) {
+				if(schoolClass instanceof SchoolClassRealmEntity) {
+					persistenceModel.add((SchoolClassRealmEntity) schoolClass);
+				} else {
+					//TODO trnslate from DBFlow entity to Realm entity
+					throw new RuntimeException("Translation from DBFlow entity to Realm entity is NOT implemented yet!");
+				}
+			}
 
-		Maybe.zip(DbShowcaseAPIClient.getAPIService().classList(),
-				DbShowcaseAPIClient.getAPIService().teacherList(),
-				DbShowcaseAPIClient.getAPIService().studentList(),
-				(schoolClassEntities, teacherEntities, studentEntities) -> {
-					saveRealmData(schoolClassEntities, teacherEntities, studentEntities, saveSuccessListener, saveErrorListener, realmConfiguration);
-					return null;
-				})
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(o -> {
-				}, throwable -> {
-				});
-//                .subscribe(new Observer<Object>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        Timber.v("saved to Db");
-//                    }
-//
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Timber.e("not saved to Db - error");
-//                        saveErrorListener.onDataSaveError();
-//                        e.printStackTrace();
-//                    }
-//
-//
-//                    @Override
-//                    public void onNext(Object o) {
-//                        Timber.v("saving to db on next");
-//                    }
-//                });
+			if(!persistenceModel.isEmpty()) {
+				realm.setAutoRefresh(true);
+				realm.executeTransactionAsync(
+						bgRealm -> bgRealm.copyToRealmOrUpdate(persistenceModel),
+						() -> {
+							if(realm != null) realm.close();
+							dataHandlerListener.handleSuccess();
+						},
+						error -> {
+							if(realm != null) realm.close();
+							dataHandlerListener.handleFailed(error);
+						});
+			}
+		} catch(Exception e) {
+			dataHandlerListener.handleFailed(e);
+			if(realm != null) {
+				realm.close();
+			}
+		}
+	}
 
+
+	public void saveOrUpdateRealmSchoolClass(List<SchoolClassRealmEntity> persistenceModel, DataHandlerListener dataHandlerListener) {
+		Realm realm = null;
+		if(persistenceModel == null) return;
+		try {
+			realm = Realm.getDefaultInstance();
+
+			if(!persistenceModel.isEmpty()) {
+				realm.executeTransactionAsync(
+						bgRealm -> bgRealm.copyToRealmOrUpdate(persistenceModel),
+						() -> dataHandlerListener.handleSuccess(),
+						error -> dataHandlerListener.handleFailed(error));
+
+			}
+		} catch(Exception e) {
+			dataHandlerListener.handleFailed(e);
+		} finally {
+			if(realm != null) {
+				realm.close();
+			}
+		}
 	}
 
 
 	/**
-	 * It compose all bindings among available lists and save this object structure in the realm.io
-	 * Do NOT run this method on UI thread! RuntimeException will be thrown otherwise.
+	 * Get the only/latest broadcast program from realm database.
 	 *
-	 * @param schoolClassRealmEntityList
-	 * @param teacherRealmEntityList
-	 * @param studentRealmEntityList
-	 * @param saveSuccessListener
-	 * @param saveErrorListener
-	 * @param realmConfiguration
+	 * @return
 	 */
-	private void saveRealmData(List<SchoolClassRealmEntity> schoolClassRealmEntityList,
-							   List<TeacherRealmEntity> teacherRealmEntityList,
-							   List<StudentRealmEntity> studentRealmEntityList,
-							   DataSaveSuccessListener saveSuccessListener,
-							   DataSaveErrorListener saveErrorListener,
-							   RealmConfiguration realmConfiguration) {
+	@Nullable
+	public List<SchoolClassRealmEntity> getSchoolClass() {
+		Realm realm = null;
+		List<SchoolClassRealmEntity> ret = new ArrayList<>();
+		try {
+			realm = Realm.getDefaultInstance();
 
-		if(Looper.myLooper() == Looper.getMainLooper()) {
-			throw new RuntimeException("Do NOT call saveRealmData on UI thread!");
-		}
-
-		for(SchoolClassRealmEntity schoolClass : schoolClassRealmEntityList) {
-			for(TeacherRealmEntity teacher : teacherRealmEntityList) {
-
-				for(RealmLong teacherId : schoolClass.getStudentIdRealmList()) {
-					if(teacherId.getLongValue() == teacher.getId()) {
-						schoolClass.getTeacherRealmList().add(teacher);
-					}
-				}
+			RealmQuery<SchoolClassRealmEntity> query = realm.where(SchoolClassRealmEntity.class);
+			RealmResults<SchoolClassRealmEntity> results = query.findAll();
+			if(results.isEmpty()) {
+				if(results.isEmpty()) return ret;
 			}
 
-			for(StudentRealmEntity student : studentRealmEntityList) {
-
-
-				for(RealmLong studentId : schoolClass.getStudentIdRealmList()) {
-					if(studentId.getLongValue() == student.getId()) {
-						schoolClass.getStudentRealmList().add(student);
-					}
-				}
-
+			return realm.copyFromRealm(results);
+		} catch(Exception e) {
+			Timber.e(e, "getSchoolClass from realm failed!");
+			return null;
+		} finally {
+			if(realm != null) {
+				realm.close();
 			}
 		}
-
-		Realm realm = Realm.getInstance(realmConfiguration);
-//        realm.beginTransaction();
-//        List<SchoolClassRealmEntity> dispatchedSchoolClassRealmEntity = realm.copyToRealmOrUpdate(schoolClassRealmEntityList);
-//        realm.commitTransaction();
-//        saveSuccessListener.onDataSaveSuccess();
-
-//
-//        RealmAsyncTask transaction = realm.executeTransactionAsync(new Realm.Transaction() {
-//            @Override
-//            public void execute(Realm realm) {
-//                List<SchoolClassRealmEntity> dispatchedSchoolClassRealmEntity = realm.copyToRealmOrUpdate(schoolClassRealmEntityList);
-//            }
-//        }, new Realm.Transaction.OnSuccess() {
-//            @Override
-//            public void onSuccess() {
-//                saveSuccessListener.onDataSaveSuccess();
-//            }
-//        }, new Realm.Transaction.OnError() {
-//            @Override
-//            public void onError(Throwable error) {
-//                saveErrorListener.onDataSaveError();
-//            }
-//        });
-
-
-		/**
-		 * Yes, this is synchronous transaction.
-		 * Ensure ui thread difference via call saveRealmData on separated thread!
-		 */
-		realm.executeTransaction(new Realm.Transaction() {
-			@Override
-			public void execute(Realm realm) {
-				List<SchoolClassRealmEntity> dispatchedSchoolClassRealmEntity = realm.copyToRealmOrUpdate(schoolClassRealmEntityList);
-			}
-		});
-
-		//TODO fix missing error listener!
-		saveSuccessListener.onDataSaveSuccess();
 	}
-
-//
-//	private void loadClassData(Subscriber<List<SchoolClassRealmEntity>> subscriber) {
-//		DbShowcaseAPIClient.getAPIService().classList()
-//				.subscribeOn(Schedulers.from(BackgroundExecutor.getSafeBackgroundExecutor()))
-//				.observeOn(AndroidSchedulers.mainThread())
-//				.subscribe(subscriber);
-//	}
-
-
-//	private Subscriber<List<SchoolClassRealmEntity>> createClassDataSubscriber(RealmConfiguration realmConfiguration) {
-//		return new Subscriber<List<SchoolClassRealmEntity>>() {
-//			//Realm realm = Realm.getInstance(realmConfiguration);
-//
-//
-//			@Override
-//			public void onCompleted() {
-//				Timber.v("Realm Load/save classes for realm completed!");
-//				//realm.close();
-//			}
-//
-//
-//			@Override
-//			public void onError(Throwable e) {
-//				Timber.e(e, "Realm Load/save classes for realm error!");
-//			}
-//
-//
-//			@Override
-//			public void onNext(List<SchoolClassRealmEntity> ts) {
-////                for (SchoolClassRealmEntity schoolClassRealmEntity : ts) {
-////                    Timber.v("Realm SchoolClass from API: %s", schoolClassRealmEntity);
-////                    // Copy elements from Retrofit to Realm to persist them.
-////                    realm.beginTransaction();
-////                    SchoolClassRealmEntity dispatchedSchoolClassRealmEntity = realm.copyToRealmOrUpdate(schoolClassRealmEntity);
-////                    realm.commitTransaction();
-////
-////                }
-//
-//			}
-//		};
-//	}
-
-
-//	private void loadTeacherData(Subscriber<List<TeacherRealmEntity>> subscriber) {
-//		DbShowcaseAPIClient.getAPIService().teacherList()
-//				.subscribeOn(Schedulers.io())
-//				.observeOn(AndroidSchedulers.mainThread())
-//				.subscribe((Observer<? super List<TeacherRealmEntity>>) subscriber);
-//
-//	}
-
-
-	private Subscriber<List<TeacherRealmEntity>> createTeacherDataSubscriber() {
-		return new Subscriber<List<TeacherRealmEntity>>() {
-			//Realm realm = Realm.getInstance(ShowcaseRealmConfigModule.getInstance().getmRealmConfiguration());
-
-
-			@Override
-			public void onError(Throwable e) {
-				Timber.e(e, "Realm Load/save teachers error!");
-			}
-
-
-			@Override
-			public void onComplete() {
-
-			}
-
-
-			@Override
-			public void onSubscribe(Subscription s) {
-
-			}
-
-
-			@Override
-			public void onNext(List<TeacherRealmEntity> ts) {
-				// Copy elements from Retrofit to Realm to persist them.
-				//realm.beginTransaction();
-				//List<TeacherInterface> realmRepos = realm.copyToRealmOrUpdate(ts);
-				//realm.commitTransaction();
-			}
-		};
-	}
-
-
-//	private void loadStudentData(Subscriber<List<StudentRealmEntity>> subscriber) {
-//		DbShowcaseAPIClient.getAPIService().studentList()
-//				.subscribeOn(Schedulers.from(BackgroundExecutor.getSafeBackgroundExecutor()))
-//				.observeOn(AndroidSchedulers.mainThread())
-//				.subscribe(subscriber);
-//	}
-
-
-//	private Subscriber<List<StudentRealmEntity>> createStudentDataSubscriber() {
-//		return new Subscriber<List<StudentRealmEntity>>() {
-//			//Realm realm = Realm.getInstance(ShowcaseRealmConfigModule.getInstance().getmRealmConfiguration());
-//
-//
-//			@Override
-//			public void onCompleted() {
-//				Timber.v("Realm Load/save students completed!");
-//				//realm.close();
-//			}
-//
-//
-//			@Override
-//			public void onError(Throwable e) {
-//				Timber.e(e, "Realm Load/save students error!");
-//			}
-//
-//
-//			@Override
-//			public void onNext(List<StudentRealmEntity> ts) {
-//				// Copy elements from Retrofit to Realm to persist them.
-//				//realm.beginTransaction();
-//				//List<SchoolClassInterface> realmRepos = realm.copyToRealmOrUpdate(ts);
-//				//realm.commitTransaction();
-//			}
-//		};
-//	}
-
 }

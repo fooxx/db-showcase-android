@@ -35,6 +35,8 @@ _Engine: SQLLite_
 <h2>3. Realm.io</h2>
 _Engine: TightDB_
 
+chrome://inspect/#devices
+
 <!--
 <h2>4. Couchbase Lite</h2>
 _Engine: ForestDB_

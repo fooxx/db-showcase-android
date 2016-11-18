@@ -146,8 +146,8 @@ public class SchoolClassRealmEntity implements SchoolClassInterface<StudentRealm
 				", grade=" + grade +
 				", studentIdRealmList=" + studentIdRealmList +
 				", teacherIdRealmList=" + teacherIdRealmList +
-//				", studentList=" + studentList +
-//				", teacherList=" + teacherList +
+//				", realmStudentList=" + realmStudentList +
+//				", realmTeacherList=" + realmTeacherList +
 				'}';
 	}
 
