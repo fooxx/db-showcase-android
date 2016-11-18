@@ -4,7 +4,8 @@
 	<color name="theme_primary">#9E9E9E</color>
 	<color name="theme_primary_dark">#757575</color>
 	<color name="theme_primary_light">#F5F5F5</color>
-	<color name="theme_accent">#FF5252</color>
+	<color name="theme_accent">#F44336</color>
+	<color name="theme_accent_pressed">#EF5350</color>
 	<color name="theme_window_background">@color/theme_primary_light</color>
 	<color name="theme_card_background">@android:color/white</color>
 	<color name="theme_text_primary">#212121</color>
@@ -12,6 +13,8 @@
 	<color name="theme_text_divider">#BDBDBD</color>
 
 	<color name="theme_transparent">@android:color/transparent</color>
+	<color name="black_semi_transparent">#B2000000</color>
+	<color name="white">#fafafa</color>
 
 	<color name="button_green">#E0E0E0</color>
 	<color name="button_green_dark">#BDBDBD</color>

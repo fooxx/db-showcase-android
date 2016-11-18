@@ -17,4 +17,16 @@ public class InteractionAddViewModel implements InteractionCard {
 
 	public void addCompleteRandomSchoolClass() {
 	}
+
+
+	public void downloadSchoolClassFromApi() {
+
+	}
+
+
+	public Boolean isNetworkAvailable() {
+		return true;
+	}
+
+
 }

@@ -80,6 +80,10 @@ public class ModelProvider extends SettingsStorage {
 	}
 
 
+	private void initModelFromRealm() {
+		//loadni model z realmu (+ umozni na plusko load z API + pri zapnute synchronizaci ukladej load z API do realmu).
+	}
+
 	private void initModelFromApi(OnLoadResultListener resultListener) {
 		Maybe.zip(DbShowcaseAPIClient.getAPIService().classList(),
 				DbShowcaseAPIClient.getAPIService().teacherList(),
