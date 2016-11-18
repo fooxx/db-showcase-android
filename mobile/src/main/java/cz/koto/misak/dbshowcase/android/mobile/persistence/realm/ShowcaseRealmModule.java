@@ -41,7 +41,8 @@ public class ShowcaseRealmModule {
 	}
 
 
-	public void saveOrUpdateSchoolClass(List<? extends SchoolClassInterface> schoolModel, DataHandlerListener dataHandlerListener) {
+	public void saveOrUpdateSchoolClass(List<? extends SchoolClassInterface> schoolModel,
+										DataHandlerListener dataHandlerListener) {
 		if(schoolModel == null) return;
 		final Realm realm = Realm.getDefaultInstance();
 		try {
@@ -50,7 +51,7 @@ public class ShowcaseRealmModule {
 				if(schoolClass instanceof SchoolClassRealmEntity) {
 					persistenceModel.add((SchoolClassRealmEntity) schoolClass);
 				} else {
-					//TODO trnslate from DBFlow entity to Realm entity
+					//TODO translate from DBFlow entity to Realm entity
 					throw new RuntimeException("Translation from DBFlow entity to Realm entity is NOT implemented yet!");
 				}
 			}
@@ -58,6 +59,7 @@ public class ShowcaseRealmModule {
 			if(!persistenceModel.isEmpty()) {
 				realm.setAutoRefresh(true);
 				realm.executeTransactionAsync(
+						// Asynchronously update objects on a background thread
 						bgRealm -> bgRealm.copyToRealmOrUpdate(persistenceModel),
 						() -> {
 							if(realm != null) realm.close();
@@ -77,22 +79,27 @@ public class ShowcaseRealmModule {
 	}
 
 
-	public void saveOrUpdateRealmSchoolClass(List<SchoolClassRealmEntity> persistenceModel, DataHandlerListener dataHandlerListener) {
-		Realm realm = null;
+	public void saveOrUpdateRealmSchoolClass(List<SchoolClassRealmEntity> persistenceModel,
+											 DataHandlerListener dataHandlerListener) {
 		if(persistenceModel == null) return;
+		final Realm realm = Realm.getDefaultInstance();
 		try {
-			realm = Realm.getDefaultInstance();
-
 			if(!persistenceModel.isEmpty()) {
+				// Asynchronously update objects on a background thread
 				realm.executeTransactionAsync(
 						bgRealm -> bgRealm.copyToRealmOrUpdate(persistenceModel),
-						() -> dataHandlerListener.handleSuccess(),
-						error -> dataHandlerListener.handleFailed(error));
+						() -> {
+							if(realm != null) realm.close();
+							dataHandlerListener.handleSuccess();
+						},
+						error -> {
+							if(realm != null) realm.close();
+							dataHandlerListener.handleFailed(error);
+						});
 
 			}
 		} catch(Exception e) {
 			dataHandlerListener.handleFailed(e);
-		} finally {
 			if(realm != null) {
 				realm.close();
 			}
