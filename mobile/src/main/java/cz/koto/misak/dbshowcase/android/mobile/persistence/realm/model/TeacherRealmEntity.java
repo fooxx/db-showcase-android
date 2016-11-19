@@ -57,9 +57,9 @@ public class TeacherRealmEntity implements TeacherInterface<SchoolClassRealmEnti
     }
 
     @Override
-    public void setSchoolClassList(List<SchoolClassRealmEntity> schoolClassList) {
+    public void setSchoolClassList(List<SchoolClassRealmEntity> list) {
         schoolClassList.clear();
-        schoolClassList.addAll(schoolClassList);
+        schoolClassList.addAll(list);
     }
 
 

@@ -50,6 +50,7 @@ public class ShowcaseRealmModule {
 	 */
 	public void saveOrUpdateSchoolClass(List<? extends SchoolClassInterface> schoolModel,
 										DataHandlerListener dataHandlerListener) {
+
 		if(schoolModel == null) return;
 		final Realm realm = Realm.getDefaultInstance();
 		try {

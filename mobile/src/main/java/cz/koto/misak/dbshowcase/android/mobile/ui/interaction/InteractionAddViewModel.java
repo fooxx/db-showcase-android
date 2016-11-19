@@ -4,6 +4,9 @@ package cz.koto.misak.dbshowcase.android.mobile.ui.interaction;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.model.DataHandlerListener;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
+import cz.koto.misak.dbshowcase.android.mobile.model.SchoolModel;
+import cz.koto.misak.dbshowcase.android.mobile.model.utility.SchoolModelGenerator;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.ui.StateListener;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationProvider;
 import timber.log.Timber;
@@ -48,13 +51,19 @@ public class InteractionAddViewModel implements InteractionCard, DataHandlerList
 
 
 	public void addCompleteRandomSchoolClass() {
+		if(mStateListener != null)
+			mStateListener.setProgress();
+		SchoolModel model = ModelProvider.get().getSchoolModel();
+		SchoolClassRealmEntity s = SchoolModelGenerator.generateSchoolClassRealmEntity(model.getTeachersCount(),
+				model.getStudentsCount(), model.getSchoolClassCount());
+		ModelProvider.get().addSchoolClass(s, this);
 	}
 
 
 	public void downloadSchoolClassFromApi() {
 		if(mStateListener != null)
 			mStateListener.setProgress();
-		ModelProvider.get().updateModelFromApi(this);
+		ModelProvider.get().initModelFromApi(this);
 	}
 
 

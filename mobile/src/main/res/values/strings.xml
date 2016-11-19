@@ -1,36 +1,36 @@
 <resources>
-    <string name="app_name">Db Show</string>
-    <string name="app_title">Android DB Showcase</string>
-    <string name="placeholder_empty">Empty</string>
-    <string name="placeholder_offline">You are offline.\n\nEnable your internet connection and press reload.</string>
-    <string name="placeholder_nopermission">@string/permissions_not_granted</string>
+	<string name="app_name">Db Show</string>
+	<string name="app_title">Android DB Showcase</string>
+	<string name="placeholder_empty">Empty</string>
+	<string name="placeholder_offline">You are offline.\n\nEnable your internet connection and press reload.</string>
+	<string name="placeholder_nopermission">@string/permissions_not_granted</string>
 
-    <string name="permission_fine_location_rationale">Permissions are needed.</string>
-    <string name="permision_available_fine_location">Permissions have been granted.</string>
-    <string name="permissions_not_granted">Permissions were not granted.</string>
-    <string name="manage_permission">Manage permission</string>
+	<string name="permission_fine_location_rationale">Permissions are needed.</string>
+	<string name="permision_available_fine_location">Permissions have been granted.</string>
+	<string name="permissions_not_granted">Permissions were not granted.</string>
+	<string name="manage_permission">Manage permission</string>
 
-    <string name="ok">Ok</string>
-    <string name="view_button">View detail</string>
+	<string name="ok">Ok</string>
+	<string name="view_button">View detail</string>
 
-    <string name="calendar_not_implemented">Calendar not implemented yet!</string>
+	<string name="calendar_not_implemented">Calendar not implemented yet!</string>
 
-    <string name="add_student">Add student</string>
-    <string name="add_teacher">Add teacher</string>
-    <string name="remove_student">Remove student</string>
-    <string name="remove_teacher">Remove teacher</string>
-    <string name="menu_interaction">Interaction</string>
-    <string name="menu_info">Info</string>
-    <string name="menu_settings">Settings</string>
+	<string name="add_student">Add student</string>
+	<string name="add_teacher">Add teacher</string>
+	<string name="remove_student">Remove student</string>
+	<string name="remove_teacher">Remove teacher</string>
+	<string name="menu_interaction">Interaction</string>
+	<string name="menu_info">Info</string>
+	<string name="menu_settings">Settings</string>
 
-    <string name="action_download_from_api">Init from API</string>
-    <string name="action_generate_random_class">Generate random</string>
+	<string name="action_download_from_api">ReInit data from API</string>
+	<string name="action_generate_random_class">Add random class</string>
 
-    <string name="persistence_title_realm">Realm on</string>
-    <string name="persistence_title_db_flow">DBFlow on</string>
-    <string name="persistence_title_none">Persistence off</string>
+	<string name="persistence_title_realm">Realm on</string>
+	<string name="persistence_title_db_flow">DBFlow on</string>
+	<string name="persistence_title_none">Persistence off</string>
 
-    <string name="persistence_state_desc_on">Sync on</string>
-    <string name="persistence_state_desc_off">Sync off</string>
-    <string name="persistence_state_desc_error">Sync failed</string>
+	<string name="persistence_state_desc_on">Sync on</string>
+	<string name="persistence_state_desc_off">Sync off</string>
+	<string name="persistence_state_desc_error">Sync failed</string>
 </resources>

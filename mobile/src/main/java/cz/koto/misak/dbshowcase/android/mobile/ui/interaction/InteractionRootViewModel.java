@@ -23,7 +23,8 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 
 
-public class InteractionRootViewModel extends BaseViewModel<FragmentInteractionRootBinding> implements DataHandlerListener, StateListener {
+public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentInteractionRootBinding>
+		implements DataHandlerListener, StateListener {
 
 	public final ItemViewSelector<InteractionCard> cardItemView = new BaseItemViewSelector<InteractionCard>() {
 		@Override

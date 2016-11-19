@@ -2,6 +2,13 @@ package cz.koto.misak.dbshowcase.android.mobile.model;
 
 import java.util.List;
 
+
+/**
+ * public static <T> void copy(List<? super T> dest,List<? extends T> src)
+ *
+ * @param <S>
+ * @param <T>
+ */
 public interface SchoolClassInterface<S extends StudentInterface, T extends TeacherInterface>
 {
 
