@@ -1,6 +1,0 @@
-ext {
-    versionMajor = 0 // max two digits
-    versionMinor = 0 // max two digits
-    versionPatch = 0 // max two digits
-    versionBuild = 0 // max three digits
-}
