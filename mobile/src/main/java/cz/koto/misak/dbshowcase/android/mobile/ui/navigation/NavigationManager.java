@@ -30,6 +30,7 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 	private final int mFragmentContainerId;
 	private final SettingsNavigationManager mSettingsNavigationManager = new SettingsNavigationManager(this);
 	private final InteractionNavigationManager mInteractionNavigationManager = new InteractionNavigationManager(this);
+	private final ControlNavigationManager mControlNavigationManager = new ControlNavigationManager(this);
 	private MainActivity mActivity;
 	private BaseFragment mCurrentFragment;
 	private boolean mBackButtonVisible;
@@ -120,6 +121,11 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 
 	public InteractionNavigationManager getInteractionNavigationManager() {
 		return mInteractionNavigationManager;
+	}
+
+
+	public ControlNavigationManager getControlNavigationManager() {
+		return mControlNavigationManager;
 	}
 
 

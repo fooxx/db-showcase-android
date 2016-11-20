@@ -20,10 +20,11 @@
 	<string name="remove_student">Remove student</string>
 	<string name="remove_teacher">Remove teacher</string>
 	<string name="menu_interaction">Interaction</string>
-	<string name="menu_info">Stats</string>
+	<string name="menu_control">Control</string>
 	<string name="menu_settings">Settings</string>
+	<string name="menu_github">Github</string>
 
-	<string name="action_download_from_api">ReInit data from API</string>
+	<string name="action_download_from_api">Reset data from API</string>
 	<string name="action_generate_random_class">Add random class</string>
 
 	<string name="persistence_title_realm">Realm on</string>
