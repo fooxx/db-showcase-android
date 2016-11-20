@@ -6,8 +6,12 @@ import android.support.v7.widget.Toolbar;
 
 import cz.kinst.jakub.viewmodelbinding.ViewModel;
 import cz.koto.misak.dbshowcase.android.mobile.R;
+import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceSyncState;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceType;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationManager;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationProvider;
+import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
 
 
 public abstract class BaseViewModel<T extends ViewDataBinding> extends ViewModel<T> implements SnackbarProvider, NavigationProvider {
@@ -42,6 +46,18 @@ public abstract class BaseViewModel<T extends ViewDataBinding> extends ViewModel
 
 	public Toolbar getToolbar() {
 		return ((Toolbar) getBinding().getRoot().findViewById(R.id.toolbar));
+	}
+
+
+	public void updateToolbar() {
+		PersistenceType activePersistenceType = ModelProvider.get().getActivePersistenceType();
+		PersistenceSyncState activePersistenceSyncState = ModelProvider.get().getActivePersistenceSyncState();
+		getNavigationManager().configureToolbar(getToolbar(),
+				activePersistenceType == null ? null : ContextProvider.getString(activePersistenceType.getStringRes()),
+				activePersistenceType == null ? null : activePersistenceType.getIconRes(),
+				activePersistenceSyncState == null ? null : ContextProvider.getString(activePersistenceSyncState.getDescRes()),
+				activePersistenceSyncState == null ? null : activePersistenceSyncState.getIconRes(),
+				false);
 	}
 
 }

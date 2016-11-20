@@ -11,8 +11,6 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceType;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.preference.SettingsStorage;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
-import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.StudentRealmEntity;
-import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.TeacherRealmEntity;
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -65,6 +63,17 @@ public class ModelProvider extends SettingsStorage {
 	protected void setActivePersistenceType(PersistenceType persistenceType) {
 		super.setActivePersistenceType(persistenceType);
 		mPersistenceType = persistenceType;
+	}
+
+
+	public long getDbSizeInBytes() {
+		switch(mPersistenceType) {
+			case REALM:
+				return DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().getDbSizeInBytes();
+			case DB_FLOW:
+			default:
+				return 0;
+		}
 	}
 
 

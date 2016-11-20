@@ -8,15 +8,11 @@ import java.util.List;
 
 import cz.kinst.jakub.view.StatefulLayout;
 import cz.koto.misak.dbshowcase.android.mobile.BR;
-import cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentInteractionRootBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.DataHandlerListener;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolModel;
-import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceSyncState;
-import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceType;
 import cz.koto.misak.dbshowcase.android.mobile.ui.StateListener;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseViewModel;
-import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
 import io.reactivex.Observable;
 import me.tatarka.bindingcollectionadapter.BaseItemViewSelector;
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -103,14 +99,4 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 	}
 
 
-	private void updateToolbar() {
-		PersistenceType activePersistenceType = ModelProvider.get().getActivePersistenceType();
-		PersistenceSyncState activePersistenceSyncState = ModelProvider.get().getActivePersistenceSyncState();
-		getNavigationManager().configureToolbar(getToolbar(),
-				activePersistenceType == null ? null : ContextProvider.getString(activePersistenceType.getStringRes()),
-				activePersistenceType == null ? null : activePersistenceType.getIconRes(),
-				activePersistenceSyncState == null ? null : ContextProvider.getString(activePersistenceSyncState.getDescRes()),
-				activePersistenceSyncState == null ? null : activePersistenceSyncState.getIconRes(),
-				false);
-	}
 }

@@ -170,7 +170,6 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 		updateToolbar();
 	}
 
-
 	public void cleanup() {
 		mActivity = null;
 	}

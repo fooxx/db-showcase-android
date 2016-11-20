@@ -3,6 +3,7 @@ package cz.koto.misak.dbshowcase.android.mobile.persistence.realm;
 
 import android.support.annotation.Nullable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.inject.Singleton;
 import cz.koto.misak.dbshowcase.android.mobile.model.DataHandlerListener;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
+import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
 import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
@@ -182,5 +184,13 @@ public class ShowcaseRealmModule {
 		}
 	}
 
+
+	public long getDbSizeInBytes() {
+		final Realm realm = Realm.getDefaultInstance();
+		File realmFile = new File(ContextProvider.getContext().getFilesDir(), realm.getConfiguration().getRealmFileName());
+//		FileUtils.folderSize(ContextProvider.getContext().getFilesDir());
+		Timber.d("Getting size of realm file %s:", realmFile.getName());
+		return realmFile.length();
+	}
 
 }

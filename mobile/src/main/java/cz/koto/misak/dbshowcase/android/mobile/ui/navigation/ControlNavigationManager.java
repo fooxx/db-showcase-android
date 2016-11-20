@@ -1,7 +1,7 @@
 package cz.koto.misak.dbshowcase.android.mobile.ui.navigation;
 
 
-import cz.koto.misak.dbshowcase.android.mobile.ui.settings.SettingsRootFragment;
+import cz.koto.misak.dbshowcase.android.mobile.ui.control.ControlRootFragment;
 
 
 public class ControlNavigationManager {
@@ -13,7 +13,7 @@ public class ControlNavigationManager {
 
 	public void switchToRoot() {
 		getNavigationManager().clearBackStack();
-		getNavigationManager().switchToFragment(SettingsRootFragment.newInstance(), false);
+		getNavigationManager().switchToFragment(ControlRootFragment.newInstance(), false);
 	}
 
 

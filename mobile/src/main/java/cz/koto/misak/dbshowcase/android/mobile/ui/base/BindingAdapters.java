@@ -2,6 +2,9 @@ package cz.koto.misak.dbshowcase.android.mobile.ui.base;
 
 import android.databinding.BindingAdapter;
 import android.view.View;
+import android.widget.TextView;
+
+import cz.koto.misak.dbshowcase.android.mobile.utility.FileUtils;
 
 
 public class BindingAdapters {
@@ -30,4 +33,9 @@ public class BindingAdapters {
 		view.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
 	}
 
+
+	@BindingAdapter("humanReadableByteCount")
+	public static void setHumanReadableByteCount(TextView textView, long byteCount) {
+		textView.setText(FileUtils.humanReadableByteCount(byteCount, false));
+	}
 }
