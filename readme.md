@@ -16,7 +16,7 @@ Every implemented database is based on the same application model:
 <!--**Couchbase Lite** (http://developer.couchbase.com/mobile/) - a lightweight embedded NoSQL database engine for Android with the built-in ability to sync to Couchbase Server.  
 -->
 ##2. Realm.io
-<span style="color:green">In progress... </span>
+:large_orange_diamond: In progress...
 (https://realm.io/) - replacement for SQLLite. 
 _Engine: TightDB_
 
@@ -24,14 +24,14 @@ _Engine: TightDB_
 chrome://inspect/#devices
 
 ##3. SQL Lite - DBFlow
-<span style="color:orange">Not finished yet...</span>
-(https://github.com/Raizlabs/DBFlow/) - fastest ORM on top of SQLLite engine
+:heavy_exclamation_mark: Not finished yet...
+(https://github.com/Raizlabs/DBFlow/) - fastest ORM on top of SQLLite engine  
 _Engine: SQLLite_
 
 
 
 <h2>4. Couchbase Lite</h2>
-<span style="color:red">Not even started tet...</span>
+:x: Not even started tet...
 (http://developer.couchbase.com/mobile/) - NoSQL database solution that delivers NoSQL to mobile. 
 _Engine: ForestDB_
 
