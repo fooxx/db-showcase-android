@@ -111,6 +111,23 @@ public class ModelProvider extends SettingsStorage {
 	}
 
 
+	public boolean deleteModel() {
+		switch(mPersistenceType) {
+			case REALM:
+				if(mRealmModule.deleteModel()) {
+					mSchoolModel.getSchoolItems().clear();
+					return true;
+				}
+				break;
+			case DB_FLOW:
+			case NONE:
+			default:
+				return false;
+		}
+		return false;
+	}
+
+
 	public SchoolModel getSchoolModel() {
 		return mSchoolModel;
 	}

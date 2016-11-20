@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.inject.Singleton;
 
+import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.model.DataHandlerListener;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
@@ -190,7 +191,12 @@ public class ShowcaseRealmModule {
 		File realmFile = new File(ContextProvider.getContext().getFilesDir(), realm.getConfiguration().getRealmFileName());
 //		FileUtils.folderSize(ContextProvider.getContext().getFilesDir());
 		Timber.d("Getting size of realm file %s:", realmFile.getName());
+		realm.close();
 		return realmFile.length();
 	}
 
+
+	public boolean deleteModel() {
+		return Realm.deleteRealm(DbApplication.get().getDbComponent().provideRealmConfiguration());
+	}
 }

@@ -32,4 +32,10 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 		updateToolbar();
 		dbSize.set(ModelProvider.get().getDbSizeInBytes());
 	}
+
+
+	public void deleteModel() {
+		if(ModelProvider.get().deleteModel())
+			getNavigationManager().getControlNavigationManager().switchToRoot();
+	}
 }
