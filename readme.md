@@ -16,24 +16,24 @@ Every implemented database is based on the same application model:
 <!--**Couchbase Lite** (http://developer.couchbase.com/mobile/) - a lightweight embedded NoSQL database engine for Android with the built-in ability to sync to Couchbase Server.  
 -->
 ##2. Realm.io
-:large_orange_diamond: In progress...
-(https://realm.io/) - replacement for SQLLite. 
+:large_orange_diamond: In progress...  
+(https://realm.io/) - replacement for SQLLite.   
 _Engine: TightDB_
 
 ### Inspect data with chrome
 chrome://inspect/#devices
 
 ##3. SQL Lite - DBFlow
-:heavy_exclamation_mark: Not finished yet...
+:heavy_exclamation_mark: Prepared some early written code, but not refactored yet...  
 (https://github.com/Raizlabs/DBFlow/) - fastest ORM on top of SQLLite engine  
-_Engine: SQLLite_
+_Engine: SQLLite_  
 
 
 
 <h2>4. Couchbase Lite</h2>
-:x: Not even started tet...
-(http://developer.couchbase.com/mobile/) - NoSQL database solution that delivers NoSQL to mobile. 
-_Engine: ForestDB_
+:x: Not started yet...  
+(http://developer.couchbase.com/mobile/) - NoSQL database solution that delivers NoSQL to mobile.   
+_Engine: ForestDB_  
 
 Couchbase Mobile is a NoSQL database solution that delivers NoSQL to mobile. 
 It's engineered to provide fast and consistent access to data, 
