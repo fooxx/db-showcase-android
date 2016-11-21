@@ -36,6 +36,6 @@ public class BindingAdapters {
 
 	@BindingAdapter("humanReadableByteCount")
 	public static void setHumanReadableByteCount(TextView textView, long byteCount) {
-		textView.setText(FileUtils.humanReadableByteCount(byteCount, false));
+		textView.setText(FileUtils.humanReadableByteCount(byteCount, true));
 	}
 }
