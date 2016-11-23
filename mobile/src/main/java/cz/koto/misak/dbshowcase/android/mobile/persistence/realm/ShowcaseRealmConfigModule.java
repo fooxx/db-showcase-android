@@ -13,31 +13,62 @@ import timber.log.Timber;
 @Module
 public class ShowcaseRealmConfigModule {
 
-    public static final int VERSION = 1;
-    public static final String NAME = DbApplication.class.getName().toLowerCase() + ".realm";
-    private RealmConfiguration mRealmConfiguration;
+	public static final int SCHEMA_VERSION = 1;
+	public static final String REALM_NAME_DEFAULT = DbApplication.class.getName().toLowerCase() + ".default.realm";
+	public static final String REALM_NAME_ASSET = DbApplication.class.getName().toLowerCase() + ".asset.realm";
+	private RealmConfiguration mRealmDefaultConfiguration;
+	private RealmConfiguration mRealmEnhancedConfiguration;
+	private ShowcaseRealmMigration mRealmMigration;
 
-    @Provides
-    @Singleton
-    @ShowcaseRealmConfigurationMarker
-    public RealmConfiguration provideRealmConfiguration() {
+
+	@Provides
+	@Singleton
+	@ShowcaseRealmConfigurationDefault
+	public RealmConfiguration provideRealmDefaultConfiguration() {
 //        return new RealmConfiguration.Builder(DbApplication.get().getApplicationContext())
-//                .name(ShowcaseRealmConfigModule.NAME)
-//                .schemaVersion(ShowcaseRealmConfigModule.VERSION)
 //                //.modules(new ShowcaseRealmModule())
-//                .deleteRealmIfMigrationNeeded() //TODO this is for fast development purpose only!
-//                //.migration(new ShowcaseRealmMigration())//TODO use this instead of deleteRealmIf...
-//                .build();
 
-        if(mRealmConfiguration == null) {
-            // Setup Realm
-            Timber.d("Initializing realm");
-            mRealmConfiguration = new RealmConfiguration.Builder()
-                    .deleteRealmIfMigrationNeeded()
-                    .build();
-            Timber.d("Realm configuration path [%s]", mRealmConfiguration.getPath());
-        }
+		if(mRealmDefaultConfiguration == null) {
+			mRealmDefaultConfiguration = new RealmConfiguration.Builder()
+					.name(REALM_NAME_DEFAULT)
+					.deleteRealmIfMigrationNeeded()
+					.build();
+			Timber.d("Realm configuration path [%s]", mRealmDefaultConfiguration.getPath());
+		}
 
-        return mRealmConfiguration;
-    }
+		return mRealmDefaultConfiguration;
+	}
+
+
+	/**
+	 * When opening the Realm for the first time, instead of creating an empty file,
+	 * the Realm file will be copied from the provided asset file and used instead.
+	 * <p>
+	 * This cannot be configured to clear and recreate schema by calling deleteRealmIfMigrationNeeded()
+	 * at the same time as doing so will delete the copied asset schema.
+	 * <p>
+	 * There is no restriction for the size of file in raw/assets directory since Android 2.3
+	 * But there is limit 50MB of the apk. When you exceed this limit, use expansion.apk
+	 *
+	 * @return
+	 */
+	@Provides
+	@Singleton
+	@ShowcaseRealmConfigurationAsset
+	public RealmConfiguration provideRealmAssetConfiguration() {
+		if(mRealmEnhancedConfiguration == null) {
+
+
+//			RealmMigrationUtility.copyBundledRealmFile(ContextProvider.getResources().openRawResource(R.raw.init),
+//					REALM_NAME_ASSET);
+
+			mRealmEnhancedConfiguration = new RealmConfiguration.Builder()
+					.name(REALM_NAME_ASSET)
+					.schemaVersion(SCHEMA_VERSION)
+					.migration(mRealmMigration == null ? new ShowcaseRealmMigration() : mRealmMigration)
+					.assetFile("realm/init.realm")
+					.build();
+		}
+		return mRealmEnhancedConfiguration;
+	}
 }
