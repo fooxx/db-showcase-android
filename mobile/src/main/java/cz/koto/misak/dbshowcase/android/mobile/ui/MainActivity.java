@@ -40,23 +40,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
 		getBinding().navigation.setOnNavigationItemSelectedListener(item -> {
 			switch(item.getItemId()) {
-				default:
 				case R.id.menu_interaction:
 					getNavigationManager().getInteractionNavigationManager().switchToRoot();
-					break;
+					return true;
 				case R.id.menu_control:
 					getNavigationManager().getControlNavigationManager().switchToRoot();
-					break;
+					return true;
 				case R.id.menu_gihub:
 					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/kotomisak/db-showcase-android"));
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					ContextProvider.getContext().startActivity(intent);
-					break;
+					return true;
 //				case R.id.menu_settings:
 //					getNavigationManager().getSettingsNavigationManager().switchToRoot();
 //					break;
+				default:
+					return false;
 			}
-			return false;
 		});
 	}
 
