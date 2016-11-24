@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:fab="http://schemas.android.com/apk/res-auto"
 	>
 	<data>
 		<import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
@@ -71,6 +73,53 @@
 						app:itemView="@{viewModel.studentItemView}" />
 				</LinearLayout>
 			</LinearLayout>
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:gravity="bottom">
+
+				<com.getbase.floatingactionbutton.FloatingActionsMenu
+					android:id="@+id/right_labels"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentBottom="true"
+					android:layout_alignParentRight="true"
+					android:layout_alignParentEnd="true"
+					android:layout_marginRight="@dimen/global_spacing_16"
+					android:layout_marginBottom="@dimen/global_spacing_8"
+					fab:fab_addButtonColorNormal="@color/theme_accent"
+					fab:fab_addButtonColorPressed="@color/theme_accent_pressed"
+					fab:fab_addButtonPlusIconColor="@color/theme_text_primary"
+					fab:fab_addButtonSize="normal"
+					fab:fab_labelStyle="@style/menu_labels_style"
+					fab:fab_labelsPosition="left"
+					fab:fab_expandDirection="up">
+
+					<com.getbase.floatingactionbutton.FloatingActionButton
+						android:id="@+id/quick_action_teacher"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:onClick="@{()-> viewModel.addTeacher()}"
+						fab:fab_icon="@drawable/ic_teacher_circle_black_24dp"
+						fab:fab_colorNormal="@color/theme_accent"
+						fab:fab_colorPressed="@color/theme_accent_pressed"
+						fab:fab_title="@string/action_add_teacher"
+						fab:fab_size="mini" />
+
+					<com.getbase.floatingactionbutton.FloatingActionButton
+						android:id="@+id/quick_action_student"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:onClick="@{()-> viewModel.addStudent()}"
+						fab:fab_icon="@drawable/ic_student_black_24dp"
+						fab:fab_colorNormal="@color/theme_accent"
+						fab:fab_colorPressed="@color/theme_accent_pressed"
+						fab:fab_size="mini"
+						fab:fab_title="@string/action_add_student" />
+
+
+				</com.getbase.floatingactionbutton.FloatingActionsMenu>
+			</RelativeLayout>
 		</android.support.v7.widget.CardView>
 	</FrameLayout>
 </layout>

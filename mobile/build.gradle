@@ -26,7 +26,7 @@ dependencies
 			final SQL_CIPHER_VERSION = "3.5.4"
 			compile "net.zetetic:android-database-sqlcipher:$SQL_CIPHER_VERSION@aar"
 
-			final SUPPORT_LIB_VERSION = '25.0.0'
+			final SUPPORT_LIB_VERSION = '25.0.1'
 			compile "com.android.support:support-v4:$SUPPORT_LIB_VERSION"
 			compile "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION"
 			compile "com.android.support:recyclerview-v7:$SUPPORT_LIB_VERSION"

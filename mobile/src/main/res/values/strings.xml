@@ -26,6 +26,8 @@
 
 	<string name="action_download_from_api">Reset data from API</string>
 	<string name="action_generate_random_class">Add random class</string>
+	<string name="action_add_teacher">Add teacher</string>
+	<string name="action_add_student">Add student</string>
 
 	<string name="control_label_db_size">DB size:</string>
 

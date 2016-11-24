@@ -5,7 +5,7 @@
 	<data>
 		<variable
 			name="viewModel"
-			type="cz.koto.misak.dbshowcase.android.mobile.ui.interaction.InteractionAddViewModel" />
+			type="cz.koto.misak.dbshowcase.android.mobile.ui.interaction.InteractionAddCardViewModel" />
 	</data>
 
 	<RelativeLayout
@@ -37,7 +37,7 @@
 				fab:fab_icon="@drawable/ic_dice_5_black_24dp"
 				fab:fab_colorNormal="@color/theme_accent"
 				fab:fab_colorPressed="@color/theme_accent_pressed"
-				fab:fab_size="normal"
+				fab:fab_size="mini"
 				fab:fab_title="@string/action_generate_random_class" />
 
 			<com.getbase.floatingactionbutton.FloatingActionButton
@@ -49,7 +49,7 @@
 				fab:fab_colorNormal="@color/theme_accent"
 				fab:fab_colorPressed="@color/theme_accent_pressed"
 				fab:fab_title="@string/action_download_from_api"
-				fab:fab_size="normal"
+				fab:fab_size="mini"
 				app:show="@{viewModel.isNetworkAvailable}" />
 
 		</com.getbase.floatingactionbutton.FloatingActionsMenu>

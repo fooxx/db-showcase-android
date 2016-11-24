@@ -1,6 +1,7 @@
 #Android local database showcase
 
-![DbShowcase](./mobile/src/main/res/mipmap-hdpi/ic_launcher.png "DbShowcase")
+![DbShowcase](./mobile/src/main/res/mipmap-hdpi/ic_launcher.png "DbShowcase") <a href="https://play.google.com/store/apps/details?id=cz.koto.misak.dbshowcase.android"><img src="./extras/banner/google-play-badge.png" height="72"/></a>
+
 
 This is sample of local database implementation for small set of Android related local databases.
 

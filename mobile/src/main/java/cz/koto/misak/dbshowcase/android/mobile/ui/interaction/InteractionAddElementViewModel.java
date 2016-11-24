@@ -12,25 +12,25 @@ import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationProvider;
 import timber.log.Timber;
 
 
-public class InteractionAddViewModel implements InteractionCard, DataHandlerListener {
+public class InteractionAddElementViewModel implements InteractionCard, DataHandlerListener {
 
 	private NavigationProvider mNavigationProvider;
 	private StateListener mStateListener;
 
 
-	public InteractionAddViewModel(NavigationProvider navigationProvider, StateListener stateListener) {
+	public InteractionAddElementViewModel(NavigationProvider navigationProvider, StateListener stateListener) {
 		mNavigationProvider = navigationProvider;
 		mStateListener = stateListener;
 	}
 
 
 	public static InteractionCard getInstance(NavigationProvider navigationProvider, StateListener stateListener) {
-		return new InteractionAddViewModel(navigationProvider, stateListener);
+		return new InteractionAddElementViewModel(navigationProvider, stateListener);
 	}
 
 
 	public int getPagerLayoutResource() {
-		return R.layout.item_interaction_add;
+		return R.layout.item_interaction_add_card;
 	}
 
 
@@ -46,7 +46,7 @@ public class InteractionAddViewModel implements InteractionCard, DataHandlerList
 	public void handleFailed(Throwable throwable) {
 		if(mStateListener != null)
 			mStateListener.setContent();
-		Timber.e(throwable, "InteractionAddViewModel was unable to add new school class!");
+		Timber.e(throwable, "InteractionAddCardViewModel was unable to add new school class!");
 	}
 
 

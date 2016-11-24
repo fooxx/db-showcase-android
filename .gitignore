@@ -52,6 +52,6 @@ crashlytics-build.properties
 
 
 #SSL
-/extras/keystore/kotipoint.properties
-/extras/keystore/kotipoint.jks
+/extras/keystore/*.properties
+/extras/keystore/*.jks
 /mobile/src/main/res/values/private-config.xml

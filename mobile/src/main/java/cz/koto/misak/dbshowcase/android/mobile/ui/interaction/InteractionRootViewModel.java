@@ -94,7 +94,7 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 					.toList().blockingGet();
 		}
 		if(mCardItemList == null) mCardItemList = new ArrayList<>();
-		mCardItemList.add(InteractionAddViewModel.getInstance(this, this));
+		mCardItemList.add(InteractionAddCardViewModel.getInstance(this, this));
 		return mCardItemList;
 	}
 

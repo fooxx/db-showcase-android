@@ -89,4 +89,14 @@ public class InteractionItemViewModel extends BaseObservable implements Interact
 				.toList().blockingGet();
 	}
 
+
+	public void addStudent() {
+
+	}
+
+
+	public void addTeacher() {
+
+	}
+
 }
