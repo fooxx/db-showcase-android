@@ -13,6 +13,8 @@ import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.model.DataHandlerListener;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.StudentRealmEntity;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.utility.RealmQueryUtility;
 import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
 import dagger.Module;
 import dagger.Provides;
@@ -74,11 +76,12 @@ public class ShowcaseRealmModule {
 						bgRealm -> bgRealm.copyToRealmOrUpdate(persistenceModel),
 						() -> {
 							if(realm != null) realm.close();
+							broadcastSuccess(dataHandlerListener);
 							dataHandlerListener.handleSuccess();
 						},
 						error -> {
 							if(realm != null) realm.close();
-							dataHandlerListener.handleFailed(error);
+							broadcastFail(dataHandlerListener, error);
 						});
 			}
 		} catch(Exception e) {
@@ -108,14 +111,59 @@ public class ShowcaseRealmModule {
 						bgRealm -> bgRealm.copyToRealmOrUpdate(persistenceModel),
 						() -> {
 							if(realm != null) realm.close();
-							dataHandlerListener.handleSuccess();
+							broadcastSuccess(dataHandlerListener);
 						},
 						error -> {
 							if(realm != null) realm.close();
-							dataHandlerListener.handleFailed(error);
+							broadcastFail(dataHandlerListener, error);
 						});
 
 			}
+		} catch(Exception e) {
+			dataHandlerListener.handleFailed(e);
+			if(realm != null) {
+				realm.close();
+			}
+		}
+	}
+
+
+	/**
+	 * Persist complete model to realm.
+	 * Realm will run that transaction on a background thread and report back when the transaction is done.
+	 *
+	 * @param schoolClass
+	 * @param student
+	 * @param dataHandlerListener
+	 */
+	public void addStudentToClass(SchoolClassRealmEntity schoolClass,
+								  StudentRealmEntity student,
+								  DataHandlerListener dataHandlerListener) {
+		if((schoolClass == null) || (student == null)) {
+			broadcastFail(dataHandlerListener, new RuntimeException("Missing schoolClass or student entity for add operation!"));
+			return;
+		}
+		final Realm realm = Realm.getDefaultInstance();
+		try {
+
+			if(realm.where(StudentRealmEntity.class).equalTo("name", student.getName()).findAll().size() > 0) {
+				broadcastFail(dataHandlerListener, new RuntimeException("Add failed! Student already exists. Name: " + student.getName()));
+				return;
+			}
+			student.setId(RealmQueryUtility.getNextFreePrimaryKey(realm, StudentRealmEntity.class));
+			schoolClass.getStudentList().add(student);
+			// Asynchronously update objects on a background thread
+			realm.executeTransactionAsync(
+					bgRealm -> bgRealm.copyToRealmOrUpdate(schoolClass),
+					() -> {
+						if(realm != null) realm.close();
+						broadcastSuccess(dataHandlerListener);
+					},
+					error -> {
+						if(realm != null) realm.close();
+						dataHandlerListener.handleFailed(error);
+					});
+
 		} catch(Exception e) {
 			dataHandlerListener.handleFailed(e);
 			if(realm != null) {
@@ -199,4 +247,19 @@ public class ShowcaseRealmModule {
 	public boolean deleteModel() {
 		return Realm.deleteRealm(DbApplication.get().getDbComponent().provideRealmConfiguration());
 	}
+
+
+	private void broadcastFail(DataHandlerListener listener, Throwable th) {
+		if(listener != null) {
+			listener.handleFailed(th);
+		}
+	}
+
+
+	private void broadcastSuccess(DataHandlerListener listener) {
+		if(listener != null) {
+			listener.handleSuccess();
+		}
+	}
+
 }

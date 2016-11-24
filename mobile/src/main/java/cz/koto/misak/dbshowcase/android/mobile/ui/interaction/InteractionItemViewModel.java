@@ -3,15 +3,19 @@ package cz.koto.misak.dbshowcase.android.mobile.ui.interaction;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.koto.misak.dbshowcase.android.mobile.BR;
 import cz.koto.misak.dbshowcase.android.mobile.R;
+import cz.koto.misak.dbshowcase.android.mobile.model.DataHandlerListener;
+import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.model.StudentInterface;
 import cz.koto.misak.dbshowcase.android.mobile.model.TeacherInterface;
+import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
 import io.reactivex.Observable;
 import me.tatarka.bindingcollectionadapter.BaseItemViewSelector;
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -91,7 +95,20 @@ public class InteractionItemViewModel extends BaseObservable implements Interact
 
 
 	public void addStudent() {
+		if(mSchoolModelItem == null) return;
+		ModelProvider.get().addRandomStudent(mSchoolModelItem, new DataHandlerListener() {
+			@Override
+			public void handleSuccess() {
+				Toast.makeText(ContextProvider.getContext(), "Success", Toast.LENGTH_SHORT);
+				notifyPropertyChanged(BR.studentViewModelList);
+			}
 
+
+			@Override
+			public void handleFailed(Throwable throwable) {
+				Toast.makeText(ContextProvider.getContext(), throwable.getMessage(), Toast.LENGTH_LONG);
+			}
+		});
 	}
 
 

@@ -6,14 +6,17 @@ import java.util.List;
 import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.api.DbShowcaseAPIClient;
 import cz.koto.misak.dbshowcase.android.mobile.model.utility.SchoolModelComposer;
+import cz.koto.misak.dbshowcase.android.mobile.model.utility.SchoolModelGenerator;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceSyncState;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceType;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.preference.SettingsStorage;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.StudentRealmEntity;
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 
 public class ModelProvider extends SettingsStorage {
@@ -150,7 +153,40 @@ public class ModelProvider extends SettingsStorage {
 	}
 
 
-	public final <X extends SchoolClassInterface> void addSchoolClass(SchoolClassRealmEntity re, DataHandlerListener resultListener) {
+	public final void addRandomSchoolClass(DataHandlerListener resultListener) {
+		switch(mPersistenceType) {
+			case REALM:
+				SchoolClassRealmEntity s = SchoolModelGenerator.generateSchoolClassRealmEntity(mSchoolModel.getTeachersCount(),
+						mSchoolModel.getStudentsCount(), mSchoolModel.getSchoolClassCount());
+				addSchoolClass(s, resultListener);
+				break;
+			case DB_FLOW:
+			default:
+				Timber.e("Adding school class NOT implemented for %s yet!", mPersistenceType);
+		}
+	}
+
+
+	public final <T extends SchoolClassInterface> void addRandomStudent(T schoolClass, DataHandlerListener resultListener) {
+		switch(mPersistenceType) {
+			case REALM:
+				if(schoolClass instanceof SchoolClassRealmEntity) {
+					StudentRealmEntity s = SchoolModelGenerator.getRandomStudent(null);
+					mRealmModule.addStudentToClass((SchoolClassRealmEntity) schoolClass, s, resultListener);
+				} else {
+					if(resultListener != null) {
+						resultListener.handleFailed(new RuntimeException("Attempt to mix database types in addRandomStudent!"));
+					}
+				}
+				break;
+			case DB_FLOW:
+			default:
+				Timber.e("Adding school class NOT implemented for %s yet!", mPersistenceType);
+		}
+	}
+
+
+	private final <X extends SchoolClassInterface> void addSchoolClass(SchoolClassRealmEntity re, DataHandlerListener resultListener) {
 		List<SchoolClassInterface> ret = new ArrayList<>();
 		ret.addAll(mSchoolModel.getSchoolItems());
 		ret.add(re);
