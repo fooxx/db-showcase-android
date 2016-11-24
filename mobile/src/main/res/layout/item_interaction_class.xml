@@ -100,6 +100,7 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:onClick="@{()-> viewModel.addTeacher()}"
+						android:visibility="gone"
 						fab:fab_icon="@drawable/ic_teacher_circle_black_24dp"
 						fab:fab_colorNormal="@color/theme_accent"
 						fab:fab_colorPressed="@color/theme_accent_pressed"

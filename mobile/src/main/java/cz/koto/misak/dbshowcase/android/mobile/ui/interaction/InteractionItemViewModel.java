@@ -3,7 +3,6 @@ package cz.koto.misak.dbshowcase.android.mobile.ui.interaction;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +14,11 @@ import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.model.StudentInterface;
 import cz.koto.misak.dbshowcase.android.mobile.model.TeacherInterface;
-import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
 import io.reactivex.Observable;
 import me.tatarka.bindingcollectionadapter.BaseItemViewSelector;
 import me.tatarka.bindingcollectionadapter.ItemView;
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
+import timber.log.Timber;
 
 
 public class InteractionItemViewModel extends BaseObservable implements InteractionCard {
@@ -99,14 +98,12 @@ public class InteractionItemViewModel extends BaseObservable implements Interact
 		ModelProvider.get().addRandomStudent(mSchoolModelItem, new DataHandlerListener() {
 			@Override
 			public void handleSuccess() {
-				Toast.makeText(ContextProvider.getContext(), "Success", Toast.LENGTH_SHORT);
 				notifyPropertyChanged(BR.studentViewModelList);
 			}
 
-
 			@Override
 			public void handleFailed(Throwable throwable) {
-				Toast.makeText(ContextProvider.getContext(), throwable.getMessage(), Toast.LENGTH_LONG);
+				Timber.e(throwable);
 			}
 		});
 	}
