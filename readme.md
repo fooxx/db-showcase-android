@@ -14,6 +14,8 @@ Every implemented database is based on the same application model:
 
 ![ModelIllustration](./extras/screens/scr_showcase_dbflow_int1.png "ModelIllustration")| ![ModelIllustration](./extras/screens/scr_showcase_dbflow_int2.png "ModelIllustration")
 
+[![CircleCI](https://circleci.com/gh/kotomisak/db-showcase-android.svg?style=svg)](https://circleci.com/gh/kotomisak/db-showcase-android)
+
 ./gradlew assembleRelease
 
 <!--**Couchbase Lite** (http://developer.couchbase.com/mobile/) - a lightweight embedded NoSQL database engine for Android with the built-in ability to sync to Couchbase Server.  
