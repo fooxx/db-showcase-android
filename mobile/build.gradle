@@ -13,8 +13,16 @@ final GIT_TAG_COUNT = 'git tag --list'.execute([], project.rootDir).text.split("
 
 apply from: 'common.gradle'
 
+repositories {
+	flatDir {
+		dirs 'libs'
+	}
+}
+
 dependencies
 		{
+			compile("org.jetbrains.kotlin:kotlin-stdlib:1.0.6")
+			compile(name: "android-keystore-compat-release", ext: "aar")
 
 			// DBFLOW basic
 			final DBFLOW_VERSION = '4.0.0-beta2'
