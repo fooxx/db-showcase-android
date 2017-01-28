@@ -14,35 +14,152 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_gravity="center"
+		android:background="@color/theme_card_background"
 		android:orientation="vertical">
 
 		<include layout="@layout/toolbar" />
 
-		<FrameLayout
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-			<LinearLayout
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				android:layout_gravity="center"
-				android:gravity="center"
-				android:orientation="horizontal">
-				<android.support.v7.widget.AppCompatTextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textColor="@color/theme_text_primary"
-					android:text="@string/control_label_db_size"
-					android:padding="@dimen/global_spacing_4"
-					tools:text="DB size:" />
-				<android.support.v7.widget.AppCompatTextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textColor="@color/theme_text_primary"
-					android:padding="@dimen/global_spacing_4"
-					app:humanReadableByteCount="@{viewModel.dbSize}"
-					tools:text="24kB" />
+		<FrameLayout android:layout_width="match_parent"
+			android:layout_height="match_parent">
+			<ScrollView
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
 
-			</LinearLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="vertical">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="@dimen/global_spacing_56"
+						android:padding="@dimen/global_spacing_16"
+						android:gravity="bottom"
+						android:textSize="@dimen/global_text_size_body_1"
+						android:textColor="@color/theme_primary"
+						android:text="@string/settings_security_label" />
+
+
+					<FrameLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:minHeight="@dimen/global_spacing_56"
+						android:paddingLeft="@dimen/global_spacing_16"
+						android:paddingRight="@dimen/global_spacing_16"
+						android:background="?attr/selectableItemBackground"
+						app:show="@{viewModel.androidSecurityAvailable}">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="vertical">
+
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="horizontal">
+
+								<TextView
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:layout_gravity="center_vertical"
+									android:textAppearance="@style/TextAppearance.DbShow.Subhead.Primary"
+									android:text="@string/settings_security_label_android_security" />
+
+								<android.support.v7.widget.SwitchCompat
+									android:id="@+id/settings_android_security_switch"
+									android:layout_width="match_parent"
+									android:layout_height="wrap_content"
+									android:layout_gravity="center_vertical|right"
+									android:enabled="@{viewModel.androidSecuritySelectable}" />
+							</LinearLayout>
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="vertical"
+								app:show="@{!viewModel.androidSecuritySelectable}">
+								<TextView
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:layout_gravity="center_vertical"
+									android:textAppearance="@style/TextAppearance.DbShow.Subhead.Secondary"
+									android:text="@string/settings_security_tip_android_security"
+									tools:text="Enable Android Security to use this option." />
+								<TextView
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:layout_gravity="center_vertical"
+									android:onClick="@{()->viewModel.onClickSecuritySettings()}"
+									android:textAppearance="@style/TextAppearance.DbShow.Subhead.Link"
+									android:text="@string/settings_security_link_android_security"
+									tools:text="Go to Android Security Settings" />
+							</LinearLayout>
+						</LinearLayout>
+					</FrameLayout>
+
+					<View
+						android:layout_width="match_parent"
+						android:layout_height="1dp"
+						android:background="@drawable/divider_vertical"
+						app:show="@{viewModel.androidSecurityAvailable}" />
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_margin="@dimen/global_spacing_16"
+						android:orientation="vertical"
+						app:hide="@{viewModel.androidSecurityAvailable}">
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:layout_gravity="center_vertical"
+							android:textAppearance="@style/TextAppearance.DbShow.Subhead.Primary"
+							android:text="@string/settings_security_empty"
+							tools:text="No security options available for your device." />
+					</LinearLayout>
+
+					<View
+						android:layout_width="match_parent"
+						android:layout_height="1dp"
+						android:background="@drawable/divider_vertical"
+						app:hide="@{viewModel.androidSecurityAvailable}" />
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="@dimen/global_spacing_56"
+						android:padding="@dimen/global_spacing_16"
+						android:gravity="bottom"
+						android:textSize="@dimen/global_text_size_body_1"
+						android:textColor="@color/theme_primary"
+						android:text="@string/persistence_stat_label" />
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="@dimen/global_spacing_16"
+						android:layout_marginRight="@dimen/global_spacing_16"
+						android:orientation="horizontal">
+						<android.support.v7.widget.AppCompatTextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textColor="@color/theme_text_primary"
+							android:text="@string/control_label_db_size"
+							android:padding="@dimen/global_spacing_4"
+							tools:text="DB size:" />
+						<android.support.v7.widget.AppCompatTextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:gravity="end"
+							android:textColor="@color/theme_text_primary"
+							android:padding="@dimen/global_spacing_4"
+							app:humanReadableByteCount="@{viewModel.dbSize}"
+							tools:text="24kB" />
+					</LinearLayout>
+				</LinearLayout>
+
+
+			</ScrollView>
 			<RelativeLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -61,6 +178,7 @@
 					fab:fab_title="@string/action_generate_random_class" />
 			</RelativeLayout>
 		</FrameLayout>
+
 	</LinearLayout>
 
 </layout>

@@ -1,15 +1,27 @@
 package cz.koto.misak.dbshowcase.android.mobile.ui.control;
 
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableLong;
 
 import cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentControlRootBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseViewModel;
+import cz.koto.misak.keystorecompat.KeystoreCompat;
+import cz.koto.misak.keystorecompat.utility.AndroidVersionUtilityKt;
+import cz.koto.misak.keystorecompat.utility.IntentUtilityKt;
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import kotlin.Unit;
+import timber.log.Timber;
 
 
 public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBinding> {
 
 	public final ObservableLong dbSize = new ObservableLong();
+
+	public final ObservableBoolean androidSecurityAvailable = new ObservableBoolean(false);
+	public final ObservableBoolean androidSecuritySelectable = new ObservableBoolean(false);
 
 
 	@Override
@@ -17,6 +29,38 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 		super.onViewAttached(firstAttachment);
 		updateToolbar();
 		dbSize.set(ModelProvider.get().getDbSizeInBytes());
+
+
+		setVisibility();
+
+		AndroidVersionUtilityKt.runSinceKitKat(() -> {
+			getBinding().settingsAndroidSecuritySwitch.setChecked(KeystoreCompat.INSTANCE.hasCredentialsLoadable());
+			getBinding().settingsAndroidSecuritySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+				if(isChecked) {
+					getBinding().settingsAndroidSecuritySwitch.setEnabled(false);
+
+					Flowable.fromCallable(() -> {
+						KeystoreCompat.INSTANCE.storeCredentials("cool-password",
+								() -> {
+									Timber.e("Store credentials failed!");
+									return Unit.INSTANCE;
+								});
+						return Unit.INSTANCE;
+					}).subscribeOn(Schedulers.io())
+							.observeOn(AndroidSchedulers.mainThread())
+							.subscribe(unit -> {
+							}, unit -> {
+								getBinding().settingsAndroidSecuritySwitch.setEnabled(true);
+							}, () -> {
+								getBinding().settingsAndroidSecuritySwitch.setEnabled(true);
+							});
+
+				} else {
+					KeystoreCompat.INSTANCE.clearCredentials();
+				}
+			});
+			return Unit.INSTANCE;
+		});
 	}
 
 
@@ -38,4 +82,19 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 		if(ModelProvider.get().deleteModel())
 			getNavigationManager().getControlNavigationManager().switchToRoot();
 	}
+
+
+	public void onClickSecuritySettings() {
+		IntentUtilityKt.showLockScreenSettings(getContext());
+	}
+
+
+	private void setVisibility() {
+		AndroidVersionUtilityKt.runSinceKitKat(() -> {
+			androidSecurityAvailable.set(KeystoreCompat.INSTANCE.isKeystoreCompatAvailable());
+			androidSecuritySelectable.set(KeystoreCompat.INSTANCE.isSecurityEnabled());
+			return Unit.INSTANCE;
+		});
+	}
+
 }

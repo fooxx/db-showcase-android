@@ -5,4 +5,27 @@
 		<item name="android:background">@drawable/fab_label_background</item>
 		<item name="android:textColor">@color/white</item>
 	</style>
+
+	<style name="TextAppearance.DbShow.Subhead" parent="@style/TextAppearance.AppCompat.Subhead">
+		<item name="android:textSize">@dimen/global_text_size_subhead</item>
+		<item name="android:fontFamily">sans-serif</item>
+		<item name="android:textStyle">normal</item>
+		<item name="android:textColor">@color/text_hint_light</item>
+		<item name="android:lineSpacingExtra">@dimen/global_font_spacing_0</item>
+	</style>
+
+	<style name="TextAppearance.DbShow.Subhead.Primary"
+		parent="@style/TextAppearance.DbShow.Subhead">
+		<item name="android:textColor">@color/theme_text_primary</item>
+	</style>
+
+	<style name="TextAppearance.DbShow.Subhead.Secondary"
+		parent="@style/TextAppearance.DbShow.Subhead">
+		<item name="android:textColor">@color/theme_text_secondary</item>
+	</style>
+
+	<style name="TextAppearance.DbShow.Subhead.Link" parent="@style/TextAppearance.DbShow.Subhead">
+		<item name="android:textColor">@color/theme_accent</item>
+	</style>
+
 </resources>
