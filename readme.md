@@ -25,7 +25,9 @@ Every implemented database is based on the same application model:
 (https://realm.io/) - replacement for SQLLite.   
 _Engine: TightDB_
 
-Look for my notes from [Android Developer 11/2016](./extras/talks/realm.meetup.11-2016.pdf)
+Look for my notes from
+[Android Developer Meetup 11/2016 pdf](./extras/talks/realm.meetup.11-2016.pdf)
+[Android Developer Meetup 11/2016 Google slides](https://docs.google.com/presentation/d/1kT0RNL0JYa1TZ2Vs9Ft34XAIS5ej3DEpecz7RnXXXQ8/edit?usp=sharing)
 
 ### Inspect data with chrome
 chrome://inspect/#devices
