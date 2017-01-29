@@ -20,31 +20,21 @@ internal object KeystoreCompatK : KeystoreCompatFacade {
 
     private val LOG_TAG = javaClass.name
 
-    override fun loadIvAndEncryptedKey(onSuccess: (ByteArray) -> Unit,
-                                       onFailure: (Exception) -> Unit,
-                                       clearCredentials: () -> Unit,
-                                       forceFlag: Boolean?,
-                                       ivAndEncryptedKey: ByteArray,
-                                       privateKeyEntry: KeyStore.PrivateKeyEntry) {
-        try {
-            SecurityDeviceAdmin.INSTANCE.forceLockPreLollipop(
-                    { lockIntent -> onFailure.invoke(ForceLockScreenKitKatException(lockIntent)) },
-                    { onSuccess.invoke(KeystoreCrypto.decryptKey(privateKeyEntry, ivAndEncryptedKey)) })
-        } catch (e: Exception) {
-            onFailure.invoke(e)
-        }
+    override fun storeSecret(secret: ByteArray, privateKeyEntry: KeyStore.PrivateKeyEntry): String {
+        return KeystoreCrypto.encryptRSA(secret, privateKeyEntry)
     }
 
-    override fun loadCredentials(onSuccess: (String) -> Unit,
-                                 onFailure: (Exception) -> Unit,
-                                 clearCredentials: () -> Unit,
-                                 forceFlag: Boolean?,
-                                 encryptedUserData: String,
-                                 privateKeyEntry: KeyStore.PrivateKeyEntry) {
+
+    override fun loadSecret(onSuccess: (ByteArray) -> Unit,
+                            onFailure: (Exception) -> Unit,
+                            clearCredentials: () -> Unit,
+                            forceFlag: Boolean?,
+                            encryptedUserData: String,
+                            privateKeyEntry: KeyStore.PrivateKeyEntry) {
         try {
             SecurityDeviceAdmin.INSTANCE.forceLockPreLollipop(
                     { lockIntent -> onFailure.invoke(ForceLockScreenKitKatException(lockIntent)) },
-                    { onSuccess.invoke(KeystoreCrypto.decryptCredentials(privateKeyEntry, encryptedUserData)) })
+                    { onSuccess.invoke(KeystoreCrypto.decryptRSA(privateKeyEntry, encryptedUserData)) })
         } catch (e: Exception) {
             onFailure.invoke(e)
         }

@@ -35,14 +35,14 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 		setVisibility();
 
 		AndroidVersionUtilityKt.runSinceKitKat(() -> {
-			getBinding().settingsAndroidSecuritySwitch.setChecked(KeystoreCompat.INSTANCE.hasCredentialsLoadable());
+			getBinding().settingsAndroidSecuritySwitch.setChecked(KeystoreCompat.INSTANCE.hasSecretLoadable());
 			getBinding().settingsAndroidSecuritySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
 				if(isChecked) {
 					getBinding().settingsAndroidSecuritySwitch.setEnabled(false);
 
 					Flowable.fromCallable(() -> {
 						byte[] secretKey = KeystoreHashKt.createHashKey("ThisIsMyVeryScreetPassword", false);
-						KeystoreCompat.INSTANCE.storeByteArrayKey(secretKey,
+						KeystoreCompat.INSTANCE.storeSecret(secretKey,
 								() -> {
 									Timber.e("Store credentials failed!");
 									return Unit.INSTANCE;
@@ -53,8 +53,10 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 							.subscribe(unit -> {
 							}, unit -> {
 								getBinding().settingsAndroidSecuritySwitch.setEnabled(true);
+								getBinding().settingsAndroidSecuritySwitch.setChecked(false);
 							}, () -> {
 								getBinding().settingsAndroidSecuritySwitch.setEnabled(true);
+								getBinding().settingsAndroidSecuritySwitch.setChecked(true);
 							});
 
 				} else {

@@ -76,8 +76,6 @@ public class DbApplication extends Application {
 		 */
 		Realm.init(this);
 		Realm.setDefaultConfiguration(mDbComponent.provideRealmConfiguration());
-
-//		KeystoreHashKt.createHashKey("COOL-PASSWORD", false);
 	}
 
 
