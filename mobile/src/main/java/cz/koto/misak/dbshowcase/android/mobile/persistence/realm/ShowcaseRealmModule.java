@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 
 import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.model.DataHandlerListener;
+import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.StudentRealmEntity;
@@ -33,9 +34,22 @@ import timber.log.Timber;
 @Module
 public class ShowcaseRealmModule {
 
+	private boolean ready = false;
+
+
 	public interface LoadSchoolClassAsyncListener {
 		void onSuccess(List<SchoolClassRealmEntity> schoolClassRealmEntityList);
 		void onError(Throwable throwable);
+	}
+
+
+	public interface InitConfigSuccessListener {
+		void onSuccess();
+	}
+
+
+	public interface InitConfigErrorListener {
+		void onError(Exception e);
 	}
 
 
@@ -43,6 +57,23 @@ public class ShowcaseRealmModule {
 	@Singleton
 	public ShowcaseRealmModule provideShowcaseRealmLoadModule() {
 		return new ShowcaseRealmModule();
+	}
+
+
+	public void initConfig(InitConfigSuccessListener successListener, InitConfigErrorListener errorListener) {
+		if(ModelProvider.get().isPersistenceEncrypted())
+			ModelProvider.get().loadSecretKey(
+					secret -> {
+						Realm.setDefaultConfiguration(DbApplication.get().getDbComponent().provideRealmConfiguration());
+						successListener.onSuccess();
+					},
+					exception -> {
+						errorListener.onError(exception);
+					});
+		else {
+			Realm.setDefaultConfiguration(DbApplication.get().getDbComponent().provideRealmConfiguration());
+			successListener.onSuccess();
+		}
 	}
 
 
@@ -56,38 +87,40 @@ public class ShowcaseRealmModule {
 	public void saveOrUpdateSchoolClass(List<? extends SchoolClassInterface> schoolModel,
 										DataHandlerListener dataHandlerListener) {
 
-		if(schoolModel == null) return;
-		final Realm realm = Realm.getDefaultInstance();
-		try {
-			List<SchoolClassRealmEntity> persistenceModel = new ArrayList<>();
-			for(SchoolClassInterface schoolClass : schoolModel) {
-				if(schoolClass instanceof SchoolClassRealmEntity) {
-					persistenceModel.add((SchoolClassRealmEntity) schoolClass);
-				} else {
-					//TODO translate from DBFlow entity to Realm entity
-					throw new RuntimeException("Translation from DBFlow entity to Realm entity is NOT implemented yet!");
+		if(isReady()) {
+			if(schoolModel == null) return;
+			final Realm realm = Realm.getDefaultInstance();
+			try {
+				List<SchoolClassRealmEntity> persistenceModel = new ArrayList<>();
+				for(SchoolClassInterface schoolClass : schoolModel) {
+					if(schoolClass instanceof SchoolClassRealmEntity) {
+						persistenceModel.add((SchoolClassRealmEntity) schoolClass);
+					} else {
+						//TODO translate from DBFlow entity to Realm entity
+						throw new RuntimeException("Translation from DBFlow entity to Realm entity is NOT implemented yet!");
+					}
 				}
-			}
 
-			if(!persistenceModel.isEmpty()) {
-				realm.setAutoRefresh(true);
-				realm.executeTransactionAsync(
-						// Asynchronously update objects on a background thread
-						bgRealm -> bgRealm.copyToRealmOrUpdate(persistenceModel),
-						() -> {
-							if(realm != null) realm.close();
-							broadcastSuccess(dataHandlerListener);
-							dataHandlerListener.handleSuccess();
-						},
-						error -> {
-							if(realm != null) realm.close();
-							broadcastFail(dataHandlerListener, error);
-						});
-			}
-		} catch(Exception e) {
-			dataHandlerListener.handleFailed(e);
-			if(realm != null) {
-				realm.close();
+				if(!persistenceModel.isEmpty()) {
+					realm.setAutoRefresh(true);
+					realm.executeTransactionAsync(
+							// Asynchronously update objects on a background thread
+							bgRealm -> bgRealm.copyToRealmOrUpdate(persistenceModel),
+							() -> {
+								if(realm != null) realm.close();
+								broadcastSuccess(dataHandlerListener);
+								dataHandlerListener.handleSuccess();
+							},
+							error -> {
+								if(realm != null) realm.close();
+								broadcastFail(dataHandlerListener, error);
+							});
+				}
+			} catch(Exception e) {
+				dataHandlerListener.handleFailed(e);
+				if(realm != null) {
+					realm.close();
+				}
 			}
 		}
 	}
@@ -102,27 +135,29 @@ public class ShowcaseRealmModule {
 	 */
 	public void saveOrUpdateRealmSchoolClass(List<SchoolClassRealmEntity> persistenceModel,
 											 DataHandlerListener dataHandlerListener) {
-		if(persistenceModel == null) return;
-		final Realm realm = Realm.getDefaultInstance();
-		try {
-			if(!persistenceModel.isEmpty()) {
-				// Asynchronously update objects on a background thread
-				realm.executeTransactionAsync(
-						bgRealm -> bgRealm.copyToRealmOrUpdate(persistenceModel),
-						() -> {
-							if(realm != null) realm.close();
-							broadcastSuccess(dataHandlerListener);
-						},
-						error -> {
-							if(realm != null) realm.close();
-							broadcastFail(dataHandlerListener, error);
-						});
+		if(isReady()) {
+			if(persistenceModel == null) return;
+			final Realm realm = Realm.getDefaultInstance();
+			try {
+				if(!persistenceModel.isEmpty()) {
+					// Asynchronously update objects on a background thread
+					realm.executeTransactionAsync(
+							bgRealm -> bgRealm.copyToRealmOrUpdate(persistenceModel),
+							() -> {
+								if(realm != null) realm.close();
+								broadcastSuccess(dataHandlerListener);
+							},
+							error -> {
+								if(realm != null) realm.close();
+								broadcastFail(dataHandlerListener, error);
+							});
 
-			}
-		} catch(Exception e) {
-			dataHandlerListener.handleFailed(e);
-			if(realm != null) {
-				realm.close();
+				}
+			} catch(Exception e) {
+				dataHandlerListener.handleFailed(e);
+				if(realm != null) {
+					realm.close();
+				}
 			}
 		}
 	}
@@ -139,35 +174,37 @@ public class ShowcaseRealmModule {
 	public void addStudentToClass(SchoolClassRealmEntity schoolClass,
 								  StudentRealmEntity student,
 								  DataHandlerListener dataHandlerListener) {
-		if((schoolClass == null) || (student == null)) {
-			broadcastFail(dataHandlerListener, new RuntimeException("Missing schoolClass or student entity for add operation!"));
-			return;
-		}
-		final Realm realm = Realm.getDefaultInstance();
-		try {
-
-			if(realm.where(StudentRealmEntity.class).equalTo("name", student.getName()).findAll().size() > 0) {
-				broadcastFail(dataHandlerListener, new RuntimeException("Add failed! Student already exists. Name: " + student.getName()));
+		if(isReady()) {
+			if((schoolClass == null) || (student == null)) {
+				broadcastFail(dataHandlerListener, new RuntimeException("Missing schoolClass or student entity for add operation!"));
 				return;
 			}
-			student.setId(RealmQueryUtility.getNextFreePrimaryKey(realm, StudentRealmEntity.class));
-			schoolClass.getStudentList().add(student);
-			// Asynchronously update objects on a background thread
-			realm.executeTransactionAsync(
-					bgRealm -> bgRealm.copyToRealmOrUpdate(schoolClass),
-					() -> {
-						if(realm != null) realm.close();
-						broadcastSuccess(dataHandlerListener);
-					},
-					error -> {
-						if(realm != null) realm.close();
-						dataHandlerListener.handleFailed(error);
-					});
+			final Realm realm = Realm.getDefaultInstance();
+			try {
 
-		} catch(Exception e) {
-			dataHandlerListener.handleFailed(e);
-			if(realm != null) {
-				realm.close();
+				if(realm.where(StudentRealmEntity.class).equalTo("name", student.getName()).findAll().size() > 0) {
+					broadcastFail(dataHandlerListener, new RuntimeException("Add failed! Student already exists. Name: " + student.getName()));
+					return;
+				}
+				student.setId(RealmQueryUtility.getNextFreePrimaryKey(realm, StudentRealmEntity.class));
+				schoolClass.getStudentList().add(student);
+				// Asynchronously update objects on a background thread
+				realm.executeTransactionAsync(
+						bgRealm -> bgRealm.copyToRealmOrUpdate(schoolClass),
+						() -> {
+							if(realm != null) realm.close();
+							broadcastSuccess(dataHandlerListener);
+						},
+						error -> {
+							if(realm != null) realm.close();
+							dataHandlerListener.handleFailed(error);
+						});
+
+			} catch(Exception e) {
+				dataHandlerListener.handleFailed(e);
+				if(realm != null) {
+					realm.close();
+				}
 			}
 		}
 	}
@@ -180,16 +217,20 @@ public class ShowcaseRealmModule {
 	 */
 	@Nullable
 	public List<SchoolClassRealmEntity> getSchoolClass() {
-		final Realm realm = Realm.getDefaultInstance();
-		try {
-			return realm.copyFromRealm(realm.where(SchoolClassRealmEntity.class).findAll());
-		} catch(Exception e) {
-			Timber.e(e, "getSchoolClass from realm failed!");
-			return null;
-		} finally {
-			if(realm != null) {
-				realm.close();
+		if(isReady()) {
+			final Realm realm = Realm.getDefaultInstance();
+			try {
+				return realm.copyFromRealm(realm.where(SchoolClassRealmEntity.class).findAll());
+			} catch(Exception e) {
+				Timber.e(e, "getSchoolClass from realm failed!");
+				return null;
+			} finally {
+				if(realm != null) {
+					realm.close();
+				}
 			}
+		} else {
+			return null;
 		}
 	}
 
@@ -201,51 +242,73 @@ public class ShowcaseRealmModule {
 	 * @return
 	 */
 	public void loadSchoolClassAsync(LoadSchoolClassAsyncListener loadSchoolClassAsyncListener) {
-		final Realm realm = Realm.getDefaultInstance();
-		RealmChangeListener callback = new RealmChangeListener<RealmResults<SchoolClassRealmEntity>>() {
-			@Override
-			public void onChange(RealmResults<SchoolClassRealmEntity> results) {
-				// called once the query complete and on every update
-				loadSchoolClassAsyncListener.onSuccess(realm.copyFromRealm(results));
-				results.removeChangeListeners();
+		if(isReady()) {
+			final Realm realm = Realm.getDefaultInstance();
+			RealmChangeListener callback = new RealmChangeListener<RealmResults<SchoolClassRealmEntity>>() {
+				@Override
+				public void onChange(RealmResults<SchoolClassRealmEntity> results) {
+					// called once the query complete and on every update
+					loadSchoolClassAsyncListener.onSuccess(realm.copyFromRealm(results));
+					results.removeChangeListeners();
+					if(realm != null) {
+						realm.close();
+					}
+				}
+			};
+
+			RealmChangeListener callb = new RealmChangeListener() {
+				@Override
+				public void onChange(Object element) {
+					Timber.d(String.valueOf(element));
+				}
+			};
+
+			try {
+				realm.copyFromRealm(realm.where(SchoolClassRealmEntity.class).findAllAsync());
+				realm.addChangeListener(callb);
+			} catch(Exception e) {
+				Timber.e(e, "getSchoolClass from realm failed!");
 				if(realm != null) {
 					realm.close();
 				}
+				loadSchoolClassAsyncListener.onError(e);
 			}
-		};
-
-		RealmChangeListener callb = new RealmChangeListener() {
-			@Override
-			public void onChange(Object element) {
-				Timber.d(String.valueOf(element));
-			}
-		};
-
-		try {
-			realm.copyFromRealm(realm.where(SchoolClassRealmEntity.class).findAllAsync());
-			realm.addChangeListener(callb);
-		} catch(Exception e) {
-			Timber.e(e, "getSchoolClass from realm failed!");
-			if(realm != null) {
-				realm.close();
-			}
-			loadSchoolClassAsyncListener.onError(e);
+		} else {
+			loadSchoolClassAsyncListener.onError(new RuntimeException("Realm is NOT initialized yet!"));
 		}
 	}
 
 
 	public long getDbSizeInBytes() {
-		final Realm realm = Realm.getDefaultInstance();
-		File realmFile = new File(ContextProvider.getContext().getFilesDir(), realm.getConfiguration().getRealmFileName());
+		if(isReady()) {
+			final Realm realm = Realm.getDefaultInstance();
+			File realmFile = new File(ContextProvider.getContext().getFilesDir(), realm.getConfiguration().getRealmFileName());
 //		FileUtils.folderSize(ContextProvider.getContext().getFilesDir());
-		Timber.d("Getting size of realm file %s:", realmFile.getName());
-		realm.close();
-		return realmFile.length();
+			Timber.d("Getting size of realm file %s:", realmFile.getName());
+			realm.close();
+			return realmFile.length();
+		} else {
+			return 0;
+		}
 	}
 
 
 	public boolean deleteModel() {
-		return Realm.deleteRealm(DbApplication.get().getDbComponent().provideRealmConfiguration());
+		if(isReady()) {
+			return Realm.deleteRealm(DbApplication.get().getDbComponent().provideRealmConfiguration());
+		} else {
+			return false;
+		}
+	}
+
+
+	public boolean isReady() {
+		return ready;
+	}
+
+
+	public void setReady(boolean ready) {
+		this.ready = ready;
 	}
 
 
@@ -261,5 +324,4 @@ public class ShowcaseRealmModule {
 			listener.handleSuccess();
 		}
 	}
-
 }

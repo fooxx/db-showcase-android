@@ -75,7 +75,6 @@ public class DbApplication extends Application {
 		 * INIT DB REALM
 		 */
 		Realm.init(this);
-		Realm.setDefaultConfiguration(mDbComponent.provideRealmConfiguration());
 	}
 
 
@@ -87,4 +86,5 @@ public class DbApplication extends Application {
 	public DbComponent getDbComponent() {
 		return mDbComponent;
 	}
+
 }

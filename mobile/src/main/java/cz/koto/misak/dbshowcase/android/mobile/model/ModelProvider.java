@@ -13,9 +13,11 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.preference.SettingsSt
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.StudentRealmEntity;
+import cz.koto.misak.keystorecompat.KeystoreCompat;
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import kotlin.Unit;
 import timber.log.Timber;
 
 
@@ -27,6 +29,17 @@ public class ModelProvider extends SettingsStorage {
 	ShowcaseRealmModule mRealmModule = DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule();
 	private PersistenceType mPersistenceType;
 	private PersistenceSyncState mPersistenceSyncState;
+	private byte[] mSecretKey = null;
+
+
+	public interface SecretLoadedCallback {
+		void onSecretLoaded(byte[] secret);
+	}
+
+
+	public interface SecretNotFoundCallback {
+		void onSecretNotFound(Exception e);
+	}
 
 
 	public ModelProvider() {
@@ -183,6 +196,35 @@ public class ModelProvider extends SettingsStorage {
 			default:
 				Timber.e("Adding school class NOT implemented for %s yet!", mPersistenceType);
 		}
+	}
+
+
+	public void loadSecretKey(SecretLoadedCallback loadedCallback, SecretNotFoundCallback notFoundCallback) {
+		if(mSecretKey == null) {
+			if(KeystoreCompat.INSTANCE.hasSecretLoadable() && KeystoreCompat.INSTANCE.isKeystoreCompatAvailable()) {
+				KeystoreCompat.INSTANCE.loadSecret(bytes -> {
+							mSecretKey = bytes;
+							loadedCallback.onSecretLoaded(mSecretKey);
+							return Unit.INSTANCE;
+						}
+						, e -> {
+							notFoundCallback.onSecretNotFound(e);
+							return Unit.INSTANCE;
+						}, ModelProvider.get().isForceLockScreenFlag());
+			} else {
+				notFoundCallback.onSecretNotFound(new RuntimeException("Secret is not loadable or keystoreCompat is not available."));
+			}
+		}
+	}
+
+
+	public byte[] getSecretKey() {
+		return mSecretKey;
+	}
+
+
+	public void setSecretKey(byte[] secretKey) {
+		mSecretKey = secretKey;
 	}
 
 

@@ -1,5 +1,6 @@
 package cz.koto.misak.dbshowcase.android.mobile.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseActivity;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationManager;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationProvider;
 import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
+import cz.koto.misak.keystorecompat.KeystoreCompat;
 
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements NavigationProvider {
@@ -33,6 +35,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		mNavigationManager.restore(savedInstanceState);
 
 		if(savedInstanceState == null)
@@ -58,6 +61,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 					return false;
 			}
 		});
+
 	}
 
 
@@ -84,5 +88,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 		else
 			super.onBackPressed();
 	}
+
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == getViewModel().FORCE_SIGNUP_REQUEST) {
+			if(resultCode == Activity.RESULT_CANCELED) {
+				KeystoreCompat.INSTANCE.increaseLockScreenCancel();
+				this.finish();
+			} else {
+				getViewModel().onViewAttached(false);
+			}
+		} else
+			super.onActivityResult(requestCode, resultCode, data);
+	}
+
 
 }

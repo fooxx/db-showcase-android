@@ -73,13 +73,14 @@ object KeystoreCompat {
      * Call this function in separated thread, as eventual keyPair init may takes longer time
      *
      */
-    fun storeSecret(secret: ByteArray, onError: () -> Unit) {
+    fun storeSecret(secret: ByteArray, onError: () -> Unit, onSuccess: () -> Unit) {
         runSinceKitKat {
             Log.d(LOG_TAG, "Before load KeyPair...")
             if (isKeystoreCompatAvailable() && isSecurityEnabled()) {
                 initKeyPairIfNecessary(uniqueId)
                 KeystoreCompat.encryptedSecret = KeystoreCompatImpl.keystoreCompat.storeSecret(secret,
                         KeystoreCompat.keyStore.getEntry(uniqueId, null) as KeyStore.PrivateKeyEntry)
+                onSuccess.invoke()
             } else {
                 onError.invoke()
             }
@@ -92,13 +93,14 @@ object KeystoreCompat {
      *
      * @param secret - UTF-8 based non-null string
      */
-    fun storeSecret(secret: String, onError: () -> Unit) {
+    fun storeSecret(secret: String, onError: () -> Unit, onSuccess: () -> Unit) {
         runSinceKitKat {
             Log.d(LOG_TAG, "Before load KeyPair...")
             if (isKeystoreCompatAvailable() && isSecurityEnabled()) {
                 initKeyPairIfNecessary(uniqueId)
                 KeystoreCompat.encryptedSecret = KeystoreCompatImpl.keystoreCompat.storeSecret(secret.toByteArray(Charsets.UTF_8),
                         KeystoreCompat.keyStore.getEntry(uniqueId, null) as KeyStore.PrivateKeyEntry)
+                onSuccess.invoke()
             } else {
                 onError.invoke()
             }
@@ -124,13 +126,17 @@ object KeystoreCompat {
      */
     fun loadSecret(onSuccess: (cre: ByteArray) -> Unit, onFailure: (e: Exception) -> Unit, forceFlag: Boolean?) {
         runSinceKitKat {
-            val privateEntry: KeyStore.PrivateKeyEntry = KeystoreCompat.keyStore.getEntry(KeystoreCompat.uniqueId, null) as KeyStore.PrivateKeyEntry
-            KeystoreCompatImpl.keystoreCompat.loadSecret(onSuccess,
-                    onFailure,
-                    { clearCredentials() },
-                    forceFlag,
-                    this.encryptedSecret,
-                    privateEntry)
+            val privateEntry: KeyStore.PrivateKeyEntry? = KeystoreCompat.keyStore.getEntry(KeystoreCompat.uniqueId, null) as KeyStore.PrivateKeyEntry
+            if (privateEntry == null) {
+                onFailure.invoke(RuntimeException("No entry in keystore available."))
+            } else {
+                KeystoreCompatImpl.keystoreCompat.loadSecret(onSuccess,
+                        onFailure,
+                        { clearCredentials() },
+                        forceFlag,
+                        this.encryptedSecret,
+                        privateEntry)
+            }
         }
     }
 

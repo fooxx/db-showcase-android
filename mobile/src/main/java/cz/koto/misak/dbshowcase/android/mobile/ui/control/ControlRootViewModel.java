@@ -45,6 +45,13 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 						KeystoreCompat.INSTANCE.storeSecret(secretKey,
 								() -> {
 									Timber.e("Store credentials failed!");
+									ModelProvider.get().setPersistenceEncrypted(false);
+									return Unit.INSTANCE;
+								}, () -> {
+									ModelProvider.get().setSecretKey(secretKey);
+									ModelProvider.get().setPersistenceEncrypted(true);
+
+
 									return Unit.INSTANCE;
 								});
 						return Unit.INSTANCE;
@@ -60,6 +67,7 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 							});
 
 				} else {
+					ModelProvider.get().setPersistenceEncrypted(false);
 					KeystoreCompat.INSTANCE.clearCredentials();
 				}
 			});
