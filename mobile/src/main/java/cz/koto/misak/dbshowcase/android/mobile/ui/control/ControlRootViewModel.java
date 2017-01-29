@@ -7,6 +7,7 @@ import cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentControlRootBi
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseViewModel;
 import cz.koto.misak.keystorecompat.KeystoreCompat;
+import cz.koto.misak.keystorecompat.KeystoreHashKt;
 import cz.koto.misak.keystorecompat.utility.AndroidVersionUtilityKt;
 import cz.koto.misak.keystorecompat.utility.IntentUtilityKt;
 import io.reactivex.Flowable;
@@ -40,7 +41,8 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 					getBinding().settingsAndroidSecuritySwitch.setEnabled(false);
 
 					Flowable.fromCallable(() -> {
-						KeystoreCompat.INSTANCE.storeCredentials("cool-password",
+						byte[] secretKey = KeystoreHashKt.createHashKey("ThisIsMyVeryScreetPassword", false);
+						KeystoreCompat.INSTANCE.storeByteArrayKey(secretKey,
 								() -> {
 									Timber.e("Store credentials failed!");
 									return Unit.INSTANCE;

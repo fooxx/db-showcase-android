@@ -1,1 +1,1 @@
-include ':mobile'
+include ':mobile', ':android-keystore-compat'
