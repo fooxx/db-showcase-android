@@ -15,9 +15,14 @@ import timber.log.Timber;
 public class ShowcaseRealmConfigModule {
 
 	public static final int SCHEMA_VERSION = 1;
-	public static final String REALM_NAME_DEFAULT = DbApplication.class.getName().toLowerCase() + ".default.realm";
-	public static final String REALM_NAME_ENCRYPTED = DbApplication.class.getName().toLowerCase() + ".encrypted.realm";
-	public static final String REALM_NAME_ASSET = DbApplication.class.getName().toLowerCase() + ".asset.realm";
+	/**
+	 * Use temporarily default.realm to see realm db in Stetho.
+	 * TODO use this until this PR will be solved: https://github.com/uPhyca/stetho-realm/pull/38
+	 */
+	public static final String REALM_DEFAULT = "default.realm";
+	public static final String REALM_NAME_DEFAULT = REALM_DEFAULT;//DbApplication.class.getSimpleName().toLowerCase() + ".default.realm";
+	public static final String REALM_NAME_ENCRYPTED = REALM_DEFAULT;//DbApplication.class.getSimpleName().toLowerCase() + ".encrypted.realm";
+	public static final String REALM_NAME_ASSET = REALM_DEFAULT;//DbApplication.class.getSimpleName().toLowerCase() + ".asset.realm";
 	private RealmConfiguration mRealmDefaultConfiguration;
 	private RealmConfiguration mRealmEnhancedConfiguration;
 	private ShowcaseRealmMigration mRealmMigration;
