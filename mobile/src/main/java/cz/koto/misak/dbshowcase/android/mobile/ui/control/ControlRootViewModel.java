@@ -52,8 +52,8 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 									return Unit.INSTANCE;
 								}, () -> {
 									byte[] secretKey64 = ByteUtility.doubleSizeBytes(secretKey32);
-									ModelProvider.get().setSecretKey(secretKey64);
-									ModelProvider.get().setPersistenceEncrypted(true);
+									ModelProvider.get().encryptDb(secretKey64);
+
 									return Unit.INSTANCE;
 								});
 						return Unit.INSTANCE;

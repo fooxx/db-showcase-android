@@ -15,12 +15,12 @@ import timber.log.Timber;
 public class ShowcaseRealmConfigModule {
 
 	public static final int SCHEMA_VERSION = 1;
+	public static final String REALM_NAME_OPEN = "open.realm";//REALM_DEFAULT;//DbApplication.class.getSimpleName().toLowerCase() + ".default.realm";
 	/**
 	 * Use temporarily default.realm to see realm db in Stetho.
 	 * TODO use this until this PR will be solved: https://github.com/uPhyca/stetho-realm/pull/38
 	 */
-	public static final String REALM_DEFAULT = "default.realm";
-	public static final String REALM_NAME_DEFAULT = REALM_DEFAULT;//DbApplication.class.getSimpleName().toLowerCase() + ".default.realm";
+	private static final String REALM_DEFAULT = "default.realm";
 	public static final String REALM_NAME_ENCRYPTED = REALM_DEFAULT;//DbApplication.class.getSimpleName().toLowerCase() + ".encrypted.realm";
 	public static final String REALM_NAME_ASSET = REALM_DEFAULT;//DbApplication.class.getSimpleName().toLowerCase() + ".asset.realm";
 	private RealmConfiguration mRealmDefaultConfiguration;
@@ -44,7 +44,7 @@ public class ShowcaseRealmConfigModule {
 			Timber.d("Realm configuration path [%s]", mRealmDefaultConfiguration.getPath());
 		} else {
 			mRealmDefaultConfiguration = new RealmConfiguration.Builder()
-					.name(REALM_NAME_DEFAULT)
+					.name(REALM_NAME_OPEN)
 					.deleteRealmIfMigrationNeeded()
 					.build();
 			DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().setReady(true);

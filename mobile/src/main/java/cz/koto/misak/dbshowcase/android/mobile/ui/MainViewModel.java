@@ -5,6 +5,7 @@ import android.databinding.ObservableField;
 
 import cz.kinst.jakub.viewmodelbinding.ViewModel;
 import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
+import cz.koto.misak.dbshowcase.android.mobile.DbKeystoreCompatConfig;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
@@ -26,6 +27,7 @@ public class MainViewModel extends ViewModel<ActivityMainBinding> {
 	@Override
 	public void onViewModelCreated() {
 		super.onViewModelCreated();
+		KeystoreCompat.INSTANCE.setConfig(new DbKeystoreCompatConfig());
 	}
 
 

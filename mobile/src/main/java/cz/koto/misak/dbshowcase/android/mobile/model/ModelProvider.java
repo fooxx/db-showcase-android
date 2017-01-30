@@ -94,6 +94,19 @@ public class ModelProvider extends SettingsStorage {
 	}
 
 
+	public void encryptDb(byte[] secretKey) {
+		switch(mPersistenceType) {
+			case REALM:
+				DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().encryptRealm(secretKey);
+				setSecretKey(secretKey);
+				setPersistenceEncrypted(true);
+				break;
+			case DB_FLOW:
+			default:
+		}
+	}
+
+
 	public void loadModel(DataHandlerListener successListener) {
 		switch(mPersistenceType) {
 			case REALM:
