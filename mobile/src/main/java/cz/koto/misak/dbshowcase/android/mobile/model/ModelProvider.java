@@ -99,7 +99,7 @@ public class ModelProvider extends SettingsStorage {
 			case REALM:
 
 				//SYNCHRONOUS READ
-				mSchoolModel.addSchoolItems(mRealmModule.getSchoolClass());
+				mSchoolModel.setSchoolItems(mRealmModule.getSchoolClass());
 				successListener.handleSuccess();
 
 				//ASYNCHRONOUS READ
@@ -229,7 +229,7 @@ public class ModelProvider extends SettingsStorage {
 	}
 
 
-	private final <X extends SchoolClassInterface> void addSchoolClass(SchoolClassRealmEntity re, DataHandlerListener resultListener) {
+	private final void addSchoolClass(SchoolClassRealmEntity re, DataHandlerListener resultListener) {
 		List<SchoolClassInterface> ret = new ArrayList<>();
 		ret.addAll(mSchoolModel.getSchoolItems());
 		ret.add(re);
