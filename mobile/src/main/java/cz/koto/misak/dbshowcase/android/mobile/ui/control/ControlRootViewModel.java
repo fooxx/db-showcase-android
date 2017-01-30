@@ -2,7 +2,9 @@ package cz.koto.misak.dbshowcase.android.mobile.ui.control;
 
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableLong;
+import android.widget.Toast;
 
+import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentControlRootBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseViewModel;
@@ -69,8 +71,10 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 							});
 
 				} else {
-					ModelProvider.get().setPersistenceEncrypted(false);
-					KeystoreCompat.INSTANCE.clearCredentials();
+					Toast.makeText(getContext(), R.string.settings_security_migration_to_open_not_implemented, Toast.LENGTH_SHORT).show();
+					getBinding().settingsAndroidSecuritySwitch.setChecked(KeystoreCompat.INSTANCE.hasSecretLoadable());
+//					ModelProvider.get().setPersistenceEncrypted(false);
+//					KeystoreCompat.INSTANCE.clearCredentials();
 				}
 			});
 			return Unit.INSTANCE;

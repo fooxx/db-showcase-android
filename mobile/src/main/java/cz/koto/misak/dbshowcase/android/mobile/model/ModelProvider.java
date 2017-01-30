@@ -1,5 +1,6 @@
 package cz.koto.misak.dbshowcase.android.mobile.model;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import cz.koto.misak.keystorecompat.KeystoreCompat;
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.Realm;
 import kotlin.Unit;
 import timber.log.Timber;
 
@@ -97,9 +99,11 @@ public class ModelProvider extends SettingsStorage {
 	public void encryptDb(byte[] secretKey) {
 		switch(mPersistenceType) {
 			case REALM:
-				DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().encryptRealm(secretKey);
+				File olpenRealmFile = DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().encryptRealm(secretKey);
 				setSecretKey(secretKey);
 				setPersistenceEncrypted(true);
+				Realm.setDefaultConfiguration(DbApplication.get().getDbComponent().provideRealmConfiguration());
+				olpenRealmFile.deleteOnExit();
 				break;
 			case DB_FLOW:
 			default:

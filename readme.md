@@ -21,16 +21,20 @@ Every implemented database is based on the same application model:
 <!--**Couchbase Lite** (http://developer.couchbase.com/mobile/) - a lightweight embedded NoSQL database engine for Android with the built-in ability to sync to Couchbase Server.  
 -->
 ##2. Realm.io
-:large_orange_diamond: In progress...  
-(https://realm.io/) - replacement for SQLLite.   
+:large_orange_diamond: In progress...
+(https://realm.io/) - replacement for SQLLite.
 _Engine: TightDB_
 
 Look for my notes from Android meetup:<br/>
 [Android Developer Meetup 11/2016 pdf](./extras/talks/realm.meetup.11-2016.pdf)<br/>
 [Android Developer Meetup 11/2016 Google slides](https://docs.google.com/presentation/d/1kT0RNL0JYa1TZ2Vs9Ft34XAIS5ej3DEpecz7RnXXXQ8/edit?usp=sharing)<br/>
 
-### Inspect data with chrome
+### Inspect unencrypted data with Stetho/Chrome
 chrome://inspect/#devices
+
+### Inspect encrypted data with adb
+adb pull /data/data/cz.koto.misak.dbshowcase.android.debug/files/open.realm
+adb pull /data/data/cz.koto.misak.dbshowcase.android.debug/files/default.realm
 
 ##3. SQL Lite - DBFlow
 :heavy_exclamation_mark: Prepared some early written code, but not refactored yet...  

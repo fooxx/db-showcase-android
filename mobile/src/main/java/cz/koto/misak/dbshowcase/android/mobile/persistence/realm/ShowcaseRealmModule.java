@@ -293,7 +293,7 @@ public class ShowcaseRealmModule {
 	}
 
 
-	public void encryptRealm(byte[] secretKey) {
+	public File encryptRealm(byte[] secretKey) {
 		File openRealmFile = new File(ContextProvider.getContext().getFilesDir(), ShowcaseRealmConfigModule.REALM_NAME_OPEN);
 		File encryptedRealmFile = new File(ContextProvider.getContext().getFilesDir(), ShowcaseRealmConfigModule.REALM_NAME_ENCRYPTED);
 		encryptedRealmFile.delete();
@@ -301,7 +301,9 @@ public class ShowcaseRealmModule {
 			Realm realm = Realm.getDefaultInstance();
 			realm.writeEncryptedCopyTo(encryptedRealmFile, secretKey);
 			realm.close();
-			openRealmFile.deleteOnExit();
+			Realm.deleteRealm(realm.getConfiguration());
+			Realm.removeDefaultConfiguration();
+			return openRealmFile;
 		} else {
 			throw new RuntimeException("Migration failed");
 		}
