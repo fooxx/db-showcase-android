@@ -71,7 +71,7 @@ object KeystoreCompat {
     /**
      * Store credentials string in encrypted form to shared preferences.
      * Call this function in separated thread, as eventual keyPair init may takes longer time
-     * Use @JvmOverloads to force optional parameters be optional even in java code.
+     * Function is using @JvmOverloads to force optional parameters be optional even in java code.
      */
     @JvmOverloads fun storeSecret(secret: ByteArray, onError: () -> Unit, onSuccess: () -> Unit, useBase64Encoding: Boolean = true) {
         runSinceKitKat {
@@ -90,7 +90,7 @@ object KeystoreCompat {
     /**
      * Store credentials string in encrypted form to shared preferences.
      * Call this function in separated thread, as eventual keyPair init may takes longer time
-     * Use @JvmOverloads to force optional parameters be optional even in java code.
+     * Function is using @JvmOverloads to force optional parameters be optional even in java code.
      *
      * @param secret - UTF-8 based non-null string
      */
@@ -124,7 +124,7 @@ object KeystoreCompat {
 
     /**
      * Load secret byteArray in decrypted form from shared preferences
-     * Use @JvmOverloads to force optional parameters be optional even in java code.
+     * Function is using @JvmOverloads to force optional parameters be optional even in java code.
      */
     @JvmOverloads fun loadSecret(onSuccess: (cre: ByteArray) -> Unit, onFailure: (e: Exception) -> Unit, forceFlag: Boolean?, isBase64Encoded: Boolean = true) {
         runSinceKitKat {
@@ -144,7 +144,7 @@ object KeystoreCompat {
 
     /**
      * Load secret string in decrypted form from shared preferences
-     * Use @JvmOverloads to force optional parameters be optional even in java code.
+     * Function is using @JvmOverloads to force optional parameters be optional even in java code.
      */
     @JvmOverloads fun loadSecretAsString(onSuccess: (cre: String) -> Unit, onFailure: (e: Exception) -> Unit, forceFlag: Boolean?, isBase64Encoded: Boolean = true) {
         runSinceKitKat {
