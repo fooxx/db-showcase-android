@@ -1,5 +1,6 @@
 package cz.koto.misak.dbshowcase.android.mobile.model;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +14,13 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.preference.SettingsSt
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.StudentRealmEntity;
+import cz.koto.misak.dbshowcase.android.mobile.utility.ByteUtility;
+import cz.koto.misak.keystorecompat.KeystoreCompat;
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.Realm;
+import kotlin.Unit;
 import timber.log.Timber;
 
 
@@ -27,6 +32,17 @@ public class ModelProvider extends SettingsStorage {
 	ShowcaseRealmModule mRealmModule = DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule();
 	private PersistenceType mPersistenceType;
 	private PersistenceSyncState mPersistenceSyncState;
+	private byte[] mSecretKey = null;
+
+
+	public interface SecretLoadedCallback {
+		void onSecretLoaded(byte[] secret);
+	}
+
+
+	public interface SecretNotFoundCallback {
+		void onSecretNotFound(Exception e);
+	}
 
 
 	public ModelProvider() {
@@ -80,12 +96,27 @@ public class ModelProvider extends SettingsStorage {
 	}
 
 
+	public void encryptDb(byte[] secretKey) {
+		switch(mPersistenceType) {
+			case REALM:
+				File olpenRealmFile = DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().encryptRealm(secretKey);
+				setSecretKey(secretKey);
+				setPersistenceEncrypted(true);
+				Realm.setDefaultConfiguration(DbApplication.get().getDbComponent().provideRealmConfiguration());
+				olpenRealmFile.deleteOnExit();
+				break;
+			case DB_FLOW:
+			default:
+		}
+	}
+
+
 	public void loadModel(DataHandlerListener successListener) {
 		switch(mPersistenceType) {
 			case REALM:
 
 				//SYNCHRONOUS READ
-				mSchoolModel.addSchoolItems(mRealmModule.getSchoolClass());
+				mSchoolModel.setSchoolItems(mRealmModule.getSchoolClass());
 				successListener.handleSuccess();
 
 				//ASYNCHRONOUS READ
@@ -186,7 +217,36 @@ public class ModelProvider extends SettingsStorage {
 	}
 
 
-	private final <X extends SchoolClassInterface> void addSchoolClass(SchoolClassRealmEntity re, DataHandlerListener resultListener) {
+	public void loadSecretKey(SecretLoadedCallback loadedCallback, SecretNotFoundCallback notFoundCallback) {
+		if(mSecretKey == null) {
+			if(KeystoreCompat.INSTANCE.hasSecretLoadable() && KeystoreCompat.INSTANCE.isKeystoreCompatAvailable()) {
+				KeystoreCompat.INSTANCE.loadSecret(secretKey32 -> {
+							mSecretKey = ByteUtility.doubleSizeBytes(secretKey32);
+							loadedCallback.onSecretLoaded(mSecretKey);
+							return Unit.INSTANCE;
+						}
+						, e -> {
+							notFoundCallback.onSecretNotFound(e);
+							return Unit.INSTANCE;
+						}, ModelProvider.get().isForceLockScreenFlag());
+			} else {
+				notFoundCallback.onSecretNotFound(new RuntimeException("Secret is not loadable or keystoreCompat is not available."));
+			}
+		}
+	}
+
+
+	public byte[] getSecretKey() {
+		return mSecretKey;
+	}
+
+
+	public void setSecretKey(byte[] secretKey) {
+		mSecretKey = secretKey;
+	}
+
+
+	private final void addSchoolClass(SchoolClassRealmEntity re, DataHandlerListener resultListener) {
 		List<SchoolClassInterface> ret = new ArrayList<>();
 		ret.addAll(mSchoolModel.getSchoolItems());
 		ret.add(re);

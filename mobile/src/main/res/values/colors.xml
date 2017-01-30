@@ -16,6 +16,8 @@
 	<color name="black_semi_transparent">#B2000000</color>
 	<color name="white">#fafafa</color>
 
+	<color name="text_hint_light">#4c2f2f2f</color>
+
 	<color name="button_green">#E0E0E0</color>
 	<color name="button_green_dark">#BDBDBD</color>
 	<color name="button_green_light">#EEEEEE</color>

@@ -12,6 +12,7 @@ public class ShowcaseRealmMigration implements io.realm.RealmMigration {
         // DynamicRealm exposes an editable schema
         RealmSchema schema = realm.getSchema();
 
+
         Timber.e("Realm needs migration from %s to %s, but has NO implementation yet!", oldVersion, newVersion);
     }
 }

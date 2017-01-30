@@ -38,4 +38,16 @@
 	<string name="persistence_state_desc_on">Sync on</string>
 	<string name="persistence_state_desc_off">Sync off</string>
 	<string name="persistence_state_desc_error">Sync failed</string>
+
+	<string name="persistence_stat_label">DB info</string>
+	<string name="persistence_stat_size">DB size</string>
+
+	<string name="settings_security_label">Security</string>
+	<string name="settings_security_empty">No security options available for your device.</string>
+	<string name="settings_security_label_android_security">Android security</string>
+	<string name="settings_security_tip_android_security">Enable Android Security to use this option.</string>
+	<string name="settings_security_link_android_security">Go to Android Security Settings</string>
+	<string name="settings_security_migration_to_open_not_implemented">Migration back from secured Realm not implemented
+		yet!
+	</string>
 </resources>

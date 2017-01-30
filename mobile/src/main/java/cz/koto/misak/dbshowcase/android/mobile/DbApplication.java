@@ -53,6 +53,10 @@ public class DbApplication extends Application {
 
 		LeakCanary.install(this);
 
+		/*
+		 * INIT DB REALM
+		 */
+		Realm.init(this);
 
 		/*
 		 * INIT STETHO VIEW to DBFLOW/REALM
@@ -61,8 +65,14 @@ public class DbApplication extends Application {
 			Stetho.initialize(
 					Stetho.newInitializerBuilder(this)
 							.enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-							.enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-							.enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+							.enableWebKitInspector(RealmInspectorModulesProvider.builder(this)
+									//.withFolder(getCacheDir())
+									//.withEncryptionKey("encrypted.realm", key)
+									.withMetaTables()
+									//.withDescendingOrder()
+									//.withLimit(1000)
+									//.databaseNamePattern(Pattern.compile(".+\\\\.realm"))//https://github.com/uPhyca/stetho-realm/pull/38
+									.build())
 							.build());
 		}
 
@@ -71,13 +81,6 @@ public class DbApplication extends Application {
 		 */
 		FlowManager.init(new FlowConfig.Builder(this).openDatabasesOnInit(true).build());
 
-		/*
-		 * INIT DB REALM
-		 */
-		Realm.init(this);
-		Realm.setDefaultConfiguration(mDbComponent.provideRealmConfiguration());
-
-//		KeystoreHashKt.createHashKey("COOL-PASSWORD", false);
 	}
 
 
@@ -89,4 +92,5 @@ public class DbApplication extends Application {
 	public DbComponent getDbComponent() {
 		return mDbComponent;
 	}
+
 }

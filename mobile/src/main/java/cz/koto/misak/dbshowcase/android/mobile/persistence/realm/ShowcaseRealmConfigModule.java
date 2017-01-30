@@ -4,6 +4,7 @@ package cz.koto.misak.dbshowcase.android.mobile.persistence.realm;
 import javax.inject.Singleton;
 
 import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
+import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import dagger.Module;
 import dagger.Provides;
 import io.realm.RealmConfiguration;
@@ -14,8 +15,14 @@ import timber.log.Timber;
 public class ShowcaseRealmConfigModule {
 
 	public static final int SCHEMA_VERSION = 1;
-	public static final String REALM_NAME_DEFAULT = DbApplication.class.getName().toLowerCase() + ".default.realm";
-	public static final String REALM_NAME_ASSET = DbApplication.class.getName().toLowerCase() + ".asset.realm";
+	public static final String REALM_NAME_OPEN = "open.realm";//REALM_DEFAULT;//DbApplication.class.getSimpleName().toLowerCase() + ".default.realm";
+	/**
+	 * Use temporarily default.realm to see realm db in Stetho.
+	 * TODO use this until this PR will be solved: https://github.com/uPhyca/stetho-realm/pull/38
+	 */
+	private static final String REALM_DEFAULT = "default.realm";
+	public static final String REALM_NAME_ENCRYPTED = REALM_DEFAULT;//DbApplication.class.getSimpleName().toLowerCase() + ".encrypted.realm";
+	public static final String REALM_NAME_ASSET = REALM_DEFAULT;//DbApplication.class.getSimpleName().toLowerCase() + ".asset.realm";
 	private RealmConfiguration mRealmDefaultConfiguration;
 	private RealmConfiguration mRealmEnhancedConfiguration;
 	private ShowcaseRealmMigration mRealmMigration;
@@ -25,14 +32,22 @@ public class ShowcaseRealmConfigModule {
 	@Singleton
 	@ShowcaseRealmConfigurationDefault
 	public RealmConfiguration provideRealmDefaultConfiguration() {
-//        return new RealmConfiguration.Builder(DbApplication.get().getApplicationContext())
-//                //.modules(new ShowcaseRealmModule())
 
-		if(mRealmDefaultConfiguration == null) {
+		if(ModelProvider.get().isPersistenceEncrypted()) {
 			mRealmDefaultConfiguration = new RealmConfiguration.Builder()
-					.name(REALM_NAME_DEFAULT)
+					.name(REALM_NAME_ENCRYPTED)
+					.encryptionKey(ModelProvider.get().getSecretKey())//Ensure secret key is already loaded!
+					.schemaVersion(2)
+					.migration(mRealmMigration == null ? new ShowcaseRealmMigration() : mRealmMigration)
+					.build();
+			DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().setReady(true);
+			Timber.d("Realm configuration path [%s]", mRealmDefaultConfiguration.getPath());
+		} else {
+			mRealmDefaultConfiguration = new RealmConfiguration.Builder()
+					.name(REALM_NAME_OPEN)
 					.deleteRealmIfMigrationNeeded()
 					.build();
+			DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().setReady(true);
 			Timber.d("Realm configuration path [%s]", mRealmDefaultConfiguration.getPath());
 		}
 
@@ -55,7 +70,7 @@ public class ShowcaseRealmConfigModule {
 	@Provides
 	@Singleton
 	@ShowcaseRealmConfigurationAsset
-	public RealmConfiguration provideRealmAssetConfiguration() {
+	public RealmConfiguration provideRealmAssetConfiguration(byte[] secret) {
 		if(mRealmEnhancedConfiguration == null) {
 
 
@@ -68,6 +83,7 @@ public class ShowcaseRealmConfigModule {
 					.migration(mRealmMigration == null ? new ShowcaseRealmMigration() : mRealmMigration)
 					.assetFile("realm/init.realm")
 					.build();
+			DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().setReady(true);
 		}
 		return mRealmEnhancedConfiguration;
 	}

@@ -21,6 +21,11 @@
 	<dimen name="global_spacing_104">104dp</dimen>
 	<dimen name="global_spacing_140">140dp</dimen>
 
+	<dimen name="global_font_spacing_0">0sp</dimen>
+	<dimen name="global_font_spacing_2">2sp</dimen>
+	<dimen name="global_font_spacing_4">4sp</dimen>
+	<dimen name="global_font_spacing_8">8sp</dimen>
+
 	<dimen name="global_text_size_display_4">112sp</dimen>
 	<dimen name="global_text_size_display_3">56sp</dimen>
 	<dimen name="global_text_size_display_2">45sp</dimen>
