@@ -41,7 +41,7 @@ public class MainViewModel extends ViewModel<ActivityMainBinding> {
 
 		DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().initConfig(
 				() -> {
-					((MainActivity) getActivity()).getNavigationManager().getInteractionNavigationManager().switchToRoot();
+					//((MainActivity) getActivity()).getNavigationManager().getInteractionNavigationManager().switchToRoot();
 				}, exception -> {
 					ModelProvider.get().dismissForceLockScreenFlag();
 					if(exception instanceof ForceLockScreenKitKatException) {

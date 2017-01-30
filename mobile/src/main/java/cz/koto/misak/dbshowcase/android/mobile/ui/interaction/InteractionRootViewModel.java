@@ -51,6 +51,7 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 	@Override
 	public void onResume() {
 		super.onResume();
+		notifyPropertyChanged(BR.cardItemList);
 		updateToolbar();
 	}
 

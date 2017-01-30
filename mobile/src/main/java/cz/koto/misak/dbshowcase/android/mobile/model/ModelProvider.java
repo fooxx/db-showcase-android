@@ -13,6 +13,7 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.preference.SettingsSt
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.StudentRealmEntity;
+import cz.koto.misak.dbshowcase.android.mobile.utility.ByteUtility;
 import cz.koto.misak.keystorecompat.KeystoreCompat;
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -202,8 +203,8 @@ public class ModelProvider extends SettingsStorage {
 	public void loadSecretKey(SecretLoadedCallback loadedCallback, SecretNotFoundCallback notFoundCallback) {
 		if(mSecretKey == null) {
 			if(KeystoreCompat.INSTANCE.hasSecretLoadable() && KeystoreCompat.INSTANCE.isKeystoreCompatAvailable()) {
-				KeystoreCompat.INSTANCE.loadSecret(bytes -> {
-							mSecretKey = bytes;
+				KeystoreCompat.INSTANCE.loadSecret(secretKey32 -> {
+							mSecretKey = ByteUtility.doubleSizeBytes(secretKey32);
 							loadedCallback.onSecretLoaded(mSecretKey);
 							return Unit.INSTANCE;
 						}

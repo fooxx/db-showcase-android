@@ -71,15 +71,15 @@ object KeystoreCompat {
     /**
      * Store credentials string in encrypted form to shared preferences.
      * Call this function in separated thread, as eventual keyPair init may takes longer time
-     *
+     * Use @JvmOverloads to force optional parameters be optional even in java code.
      */
-    fun storeSecret(secret: ByteArray, onError: () -> Unit, onSuccess: () -> Unit) {
+    @JvmOverloads fun storeSecret(secret: ByteArray, onError: () -> Unit, onSuccess: () -> Unit, useBase64Encoding: Boolean = true) {
         runSinceKitKat {
             Log.d(LOG_TAG, "Before load KeyPair...")
             if (isKeystoreCompatAvailable() && isSecurityEnabled()) {
                 initKeyPairIfNecessary(uniqueId)
                 KeystoreCompat.encryptedSecret = KeystoreCompatImpl.keystoreCompat.storeSecret(secret,
-                        KeystoreCompat.keyStore.getEntry(uniqueId, null) as KeyStore.PrivateKeyEntry)
+                        KeystoreCompat.keyStore.getEntry(uniqueId, null) as KeyStore.PrivateKeyEntry, useBase64Encoding)
                 onSuccess.invoke()
             } else {
                 onError.invoke()
@@ -90,16 +90,17 @@ object KeystoreCompat {
     /**
      * Store credentials string in encrypted form to shared preferences.
      * Call this function in separated thread, as eventual keyPair init may takes longer time
+     * Use @JvmOverloads to force optional parameters be optional even in java code.
      *
      * @param secret - UTF-8 based non-null string
      */
-    fun storeSecret(secret: String, onError: () -> Unit, onSuccess: () -> Unit) {
+    @JvmOverloads fun storeSecret(secret: String, onError: () -> Unit, onSuccess: () -> Unit, useBase64Encoding: Boolean = true) {
         runSinceKitKat {
             Log.d(LOG_TAG, "Before load KeyPair...")
             if (isKeystoreCompatAvailable() && isSecurityEnabled()) {
                 initKeyPairIfNecessary(uniqueId)
                 KeystoreCompat.encryptedSecret = KeystoreCompatImpl.keystoreCompat.storeSecret(secret.toByteArray(Charsets.UTF_8),
-                        KeystoreCompat.keyStore.getEntry(uniqueId, null) as KeyStore.PrivateKeyEntry)
+                        KeystoreCompat.keyStore.getEntry(uniqueId, null) as KeyStore.PrivateKeyEntry, useBase64Encoding)
                 onSuccess.invoke()
             } else {
                 onError.invoke()
@@ -123,8 +124,9 @@ object KeystoreCompat {
 
     /**
      * Load secret byteArray in decrypted form from shared preferences
+     * Use @JvmOverloads to force optional parameters be optional even in java code.
      */
-    fun loadSecret(onSuccess: (cre: ByteArray) -> Unit, onFailure: (e: Exception) -> Unit, forceFlag: Boolean?) {
+    @JvmOverloads fun loadSecret(onSuccess: (cre: ByteArray) -> Unit, onFailure: (e: Exception) -> Unit, forceFlag: Boolean?, isBase64Encoded: Boolean = true) {
         runSinceKitKat {
             val privateEntry: KeyStore.PrivateKeyEntry? = KeystoreCompat.keyStore.getEntry(KeystoreCompat.uniqueId, null) as KeyStore.PrivateKeyEntry
             if (privateEntry == null) {
@@ -135,15 +137,16 @@ object KeystoreCompat {
                         { clearCredentials() },
                         forceFlag,
                         this.encryptedSecret,
-                        privateEntry)
+                        privateEntry, isBase64Encoded)
             }
         }
     }
 
     /**
      * Load secret string in decrypted form from shared preferences
+     * Use @JvmOverloads to force optional parameters be optional even in java code.
      */
-    fun loadSecretAsString(onSuccess: (cre: String) -> Unit, onFailure: (e: Exception) -> Unit, forceFlag: Boolean?) {
+    @JvmOverloads fun loadSecretAsString(onSuccess: (cre: String) -> Unit, onFailure: (e: Exception) -> Unit, forceFlag: Boolean?, isBase64Encoded: Boolean = true) {
         runSinceKitKat {
             val privateEntry: KeyStore.PrivateKeyEntry = KeystoreCompat.keyStore.getEntry(KeystoreCompat.uniqueId, null) as KeyStore.PrivateKeyEntry
             KeystoreCompatImpl.keystoreCompat.loadSecret(
@@ -154,7 +157,7 @@ object KeystoreCompat {
                     { clearCredentials() },
                     forceFlag,
                     this.encryptedSecret,
-                    privateEntry)
+                    privateEntry, isBase64Encoded)
         }
     }
 

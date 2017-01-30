@@ -6,6 +6,7 @@ import android.databinding.ObservableLong;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentControlRootBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseViewModel;
+import cz.koto.misak.dbshowcase.android.mobile.utility.ByteUtility;
 import cz.koto.misak.keystorecompat.KeystoreCompat;
 import cz.koto.misak.keystorecompat.KeystoreHashKt;
 import cz.koto.misak.keystorecompat.utility.AndroidVersionUtilityKt;
@@ -41,17 +42,18 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 					getBinding().settingsAndroidSecuritySwitch.setEnabled(false);
 
 					Flowable.fromCallable(() -> {
-						byte[] secretKey = KeystoreHashKt.createHashKey("ThisIsMyVeryScreetPassword", false);
-						KeystoreCompat.INSTANCE.storeSecret(secretKey,
+						byte[] secretKey32 = KeystoreHashKt.createHashKey("ThisIsMyVeryScreetPasswordXXXX", false, KeystoreHashKt.getLENGTH32BYTES());
+
+						Timber.d("Generated secretKeySmall Length:%s", secretKey32.length);
+						KeystoreCompat.INSTANCE.storeSecret(secretKey32,
 								() -> {
 									Timber.e("Store credentials failed!");
 									ModelProvider.get().setPersistenceEncrypted(false);
 									return Unit.INSTANCE;
 								}, () -> {
-									ModelProvider.get().setSecretKey(secretKey);
+									byte[] secretKey64 = ByteUtility.doubleSizeBytes(secretKey32);
+									ModelProvider.get().setSecretKey(secretKey64);
 									ModelProvider.get().setPersistenceEncrypted(true);
-
-
 									return Unit.INSTANCE;
 								});
 						return Unit.INSTANCE;
