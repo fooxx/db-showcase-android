@@ -20,7 +20,7 @@ Every implemented database is based on the same application model:
 
 <!--**Couchbase Lite** (http://developer.couchbase.com/mobile/) - a lightweight embedded NoSQL database engine for Android with the built-in ability to sync to Couchbase Server.  
 -->
-##2. Realm.io
+## Realm.io
 :large_orange_diamond: In progress...
 (https://realm.io/) - replacement for SQLLite.
 _Engine: TightDB_
@@ -36,26 +36,22 @@ chrome://inspect/#devices
 adb pull /data/data/cz.koto.misak.dbshowcase.android.debug/files/open.realm
 adb pull /data/data/cz.koto.misak.dbshowcase.android.debug/files/default.realm
 
-##3. SQL Lite - DBFlow
-:heavy_exclamation_mark: Prepared some early written code, but not refactored yet...  
+
+
+## Open to implement
+
+- **ObjectBox**
+NoSQL object database from the team of GreenRobot.
+
+- **DBFlow**
+Refactor/Refresh DBFlow implementation & add this feature to app
 (https://github.com/Raizlabs/DBFlow/) - fastest ORM on top of SQLLite engine  
 _Engine: SQLLite_  
 
 
-
-<h2>4. Couchbase Lite</h2>
-:x: Not started yet...  
+- **Couchbase Lite**
 (http://developer.couchbase.com/mobile/) - NoSQL database solution that delivers NoSQL to mobile.   
 _Engine: ForestDB_  
 
-Couchbase Mobile is a NoSQL database solution that delivers NoSQL to mobile. 
-It's engineered to provide fast and consistent access to data, 
-with or without a network connection, removing network dependency. 
-It is comprised of two components:
 
-* Couchbase Lite: An embedded NoSQL database that runs on the device, in your application, with a very small footprint.
-* Couchbase Sync Gateway: An internet-facing cloud component that securely synchronizes data between the mobile device and the cloud.
-
-Among the enhancements to the solution is increased security on mobile devices 
-by encrypting data at rest on the device using enterprise level 256-bit AES full database encryption. 
 
