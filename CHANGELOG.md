@@ -1,3 +1,7 @@
+##1.1.1
+### Bug Fixes
+* Fix buggy refresh behaviour after adding new class or student.
+
 ##1.1.0
 
 ### Enhancement
