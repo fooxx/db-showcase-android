@@ -13,16 +13,18 @@ public class InteractionAddCardViewModel implements InteractionCard, DataHandler
 
 	private NavigationProvider mNavigationProvider;
 	private StateListener mStateListener;
+	private DataHandlerListener mDataHandlerListener;
 
 
-	public InteractionAddCardViewModel(NavigationProvider navigationProvider, StateListener stateListener) {
+	public InteractionAddCardViewModel(NavigationProvider navigationProvider, StateListener stateListener, DataHandlerListener dataHandlerListener) {
 		mNavigationProvider = navigationProvider;
 		mStateListener = stateListener;
+		mDataHandlerListener = dataHandlerListener;
 	}
 
 
-	public static InteractionCard getInstance(NavigationProvider navigationProvider, StateListener stateListener) {
-		return new InteractionAddCardViewModel(navigationProvider, stateListener);
+	public static InteractionCard getInstance(NavigationProvider navigationProvider, StateListener stateListener, DataHandlerListener dataHandlerListener) {
+		return new InteractionAddCardViewModel(navigationProvider, stateListener, dataHandlerListener);
 	}
 
 
@@ -35,7 +37,7 @@ public class InteractionAddCardViewModel implements InteractionCard, DataHandler
 	public void handleSuccess() {
 		if(mStateListener != null)
 			mStateListener.setContent();
-		mNavigationProvider.getNavigationManager().getInteractionNavigationManager().switchToRoot();
+		mDataHandlerListener.handleSuccess();
 	}
 
 
@@ -44,6 +46,7 @@ public class InteractionAddCardViewModel implements InteractionCard, DataHandler
 		if(mStateListener != null)
 			mStateListener.setContent();
 		Timber.e(throwable, "InteractionAddCardViewModel was unable to add new school class!");
+		mDataHandlerListener.handleFailed(throwable);
 	}
 
 

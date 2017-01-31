@@ -53,10 +53,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/kotomisak/db-showcase-android"));
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					ContextProvider.getContext().startActivity(intent);
-					return true;
+					return false;
 //				case R.id.menu_settings:
 //					getNavigationManager().getSettingsNavigationManager().switchToRoot();
 //					break;
+				case R.id.menu_logout:
+					finishAffinity();
+					System.exit(0);
+					return false;
 				default:
 					return false;
 			}

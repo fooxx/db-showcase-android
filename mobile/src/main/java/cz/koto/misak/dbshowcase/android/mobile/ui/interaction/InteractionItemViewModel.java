@@ -1,6 +1,7 @@
 package cz.koto.misak.dbshowcase.android.mobile.ui.interaction;
 
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 import cz.koto.misak.dbshowcase.android.mobile.BR;
 import cz.koto.misak.dbshowcase.android.mobile.R;
+import cz.koto.misak.dbshowcase.android.mobile.databinding.ItemInteractionClassBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.DataHandlerListener;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
@@ -35,17 +37,21 @@ public class InteractionItemViewModel extends BaseObservable implements Interact
 			itemView.set(BR.teacherViewModel, item.getPagerLayoutResource());
 		}
 	};
-
+	public final ListScrollController listScrollController = new ListScrollController();
+	Context modelContext;
 	private SchoolClassInterface mSchoolModelItem;
+	private ItemInteractionClassBinding classBinding;
 
 
-	public InteractionItemViewModel(SchoolClassInterface schoolModelItem) {
+	public InteractionItemViewModel(Context modelContext, SchoolClassInterface schoolModelItem) {
 		mSchoolModelItem = schoolModelItem;
+		//classBinding = DataBindingUtil.inflate(LayoutInflater.from(modelContext), R.layout.item_interaction_class, null, false);
+		this.modelContext = modelContext;
 	}
 
 
-	public static InteractionCard getInstance(SchoolClassInterface schoolModelItem) {
-		return new InteractionItemViewModel(schoolModelItem);
+	public static InteractionCard getInstance(Context modelContext, SchoolClassInterface schoolModelItem) {
+		return new InteractionItemViewModel(modelContext, schoolModelItem);
 	}
 
 
@@ -99,6 +105,7 @@ public class InteractionItemViewModel extends BaseObservable implements Interact
 			@Override
 			public void handleSuccess() {
 				notifyPropertyChanged(BR.studentViewModelList);
+				listScrollController.smoothScrollToEnd();
 			}
 
 			@Override
