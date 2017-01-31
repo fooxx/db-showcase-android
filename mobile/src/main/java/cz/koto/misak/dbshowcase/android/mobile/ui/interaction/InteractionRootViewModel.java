@@ -92,7 +92,7 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 		ModelProvider modelProvider = ModelProvider.get();
 		if(modelProvider.getSchoolModel() != null || !modelProvider.getSchoolModel().getSchoolItems().isEmpty()) {
 			mCardItemList = Observable.fromIterable(modelProvider.getSchoolModel().getSchoolItems())
-					.map(item -> InteractionItemViewModel.getInstance(item))
+					.map(item -> InteractionItemViewModel.getInstance(getContext(), item))
 					.toList().blockingGet();
 		}
 		if(mCardItemList == null) mCardItemList = new ArrayList<>();
