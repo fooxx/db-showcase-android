@@ -50,4 +50,11 @@
 	<string name="settings_security_migration_to_open_not_implemented">Migration back from secured Realm not implemented
 		yet!
 	</string>
+
+	<!-- Override resources from KeystoreCompat library -->
+	<string name="kc_lock_screen_title">DBShowcase</string>
+	<string name="kc_lock_screen_description">Unlock screen to access encrypted database.</string>
+	<string name="kc_kitkat_admin_explanatory">DBShowcase require DeviceAdmin rights to securely handle encrypted
+		database.
+	</string>
 </resources>

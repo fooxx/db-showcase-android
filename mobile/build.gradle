@@ -18,6 +18,42 @@ repositories {
 		dirs 'libs'
 	}
 }
+android
+		{
+			compileSdkVersion 25
+			buildToolsVersion "25.0.2"
+
+			defaultConfig
+					{
+						applicationId APPLICATION_ID
+						minSdkVersion 16
+						targetSdkVersion 25
+						versionCode GIT_TAG_COUNT
+						versionName GIT_TAG_NAME
+					}
+
+
+			lintOptions {
+				abortOnError false
+			}
+
+			dataBinding {
+				enabled = true
+			}
+
+			compileOptions {
+				sourceCompatibility JavaVersion.VERSION_1_8
+				targetCompatibility JavaVersion.VERSION_1_8
+			}
+
+
+			buildTypes {
+				release {
+					minifyEnabled false
+					proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+				}
+			}
+		}
 
 dependencies
 		{
@@ -36,7 +72,7 @@ dependencies
 			final SQL_CIPHER_VERSION = "3.5.4"
 			compile "net.zetetic:android-database-sqlcipher:$SQL_CIPHER_VERSION@aar"
 
-			final SUPPORT_LIB_VERSION = '25.0.1'
+			final SUPPORT_LIB_VERSION = '25.1.0'
 			compile "com.android.support:support-v4:$SUPPORT_LIB_VERSION"
 			compile "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION"
 			compile "com.android.support:recyclerview-v7:$SUPPORT_LIB_VERSION"
@@ -82,42 +118,4 @@ dependencies
 			testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$LEAK_CANARY_VERSION"
 
 			compile fileTree(include: ['*.jar'], dir: 'libs')
-		}
-
-
-android
-		{
-			compileSdkVersion 25
-			buildToolsVersion "25.0.0"
-
-			defaultConfig
-					{
-						applicationId APPLICATION_ID
-						minSdkVersion 16
-						targetSdkVersion 25
-						versionCode GIT_TAG_COUNT
-						versionName GIT_TAG_NAME
-					}
-
-
-			lintOptions {
-				abortOnError false
-			}
-
-			dataBinding {
-				enabled = true
-			}
-
-			compileOptions {
-				sourceCompatibility JavaVersion.VERSION_1_8
-				targetCompatibility JavaVersion.VERSION_1_8
-			}
-
-
-			buildTypes {
-				release {
-					minifyEnabled false
-					proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-				}
-			}
 		}
