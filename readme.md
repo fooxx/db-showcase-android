@@ -14,7 +14,8 @@ Every implemented database is based on the same application model:
 **TEACHER** _(can teach more classes)_  
 **STUDENT** _(can be in one class only, can have more teachers)_  
 
-![ModelIllustration](./extras/screens/scr_showcase_dbflow_int1.png "ModelIllustration")| ![ModelIllustration](./extras/screens/scr_showcase_dbflow_int2.png "ModelIllustration")
+![ModelIllustration](./extras/screens/scr_showcase_dbflow_int1.png "ModelIllustration")| ![ModelIllustration](./extras/screens/scr_showcase_dbflow_int2.png "ModelIllustration") <br/>
+![Security control](./extras/screens/scr_showcase_dbflow_con1.png "ModelIllustration")
 
 ./gradlew assembleRelease
 
