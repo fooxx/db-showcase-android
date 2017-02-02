@@ -17,7 +17,15 @@ Every implemented database is based on the same application model:
 ![ModelIllustration](./extras/screens/scr_showcase_dbflow_int1.png "ModelIllustration")| ![ModelIllustration](./extras/screens/scr_showcase_dbflow_int2.png "ModelIllustration") <br/>
 ![Security control](./extras/screens/scr_showcase_dbflow_con1.png "Security control")
 
+
+## Build app
 ./gradlew assembleRelease
+
+## Dependency diagnostic ##
+
+  `./gradlew dependencyReport --configuration compile`
+  `./gradlew dependencyInsighty --configuration compile --dependency com.android.support:appcompat-v7`
+  `./gradlew dependencyInsighty --configuration compile --dependency org.jetbrains.kotlin:kotlin-stdlib`
 
 <!--**Couchbase Lite** (http://developer.couchbase.com/mobile/) - a lightweight embedded NoSQL database engine for Android with the built-in ability to sync to Couchbase Server.  
 -->

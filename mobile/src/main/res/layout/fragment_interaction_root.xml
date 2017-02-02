@@ -8,12 +8,14 @@
 			type="cz.koto.misak.dbshowcase.android.mobile.ui.interaction.InteractionRootViewModel" />
 	</data>
 
-	<cz.kinst.jakub.view.StatefulLayout
+	<cz.kinst.jakub.view.SimpleStatefulLayout
+		android:id="@+id/stateful"
 		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:layout_weight="1"
-		app:progressLayout="@layout/include_progress"
-		app:state="@{viewModel.state}">
+		android:layout_height="match_parent"
+		android:animateLayoutChanges="true"
+		android:orientation="vertical"
+		app:state="content">
+
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
@@ -34,6 +36,6 @@
 				app:itemView="@{viewModel.cardItemView}" />
 
 		</LinearLayout>
-	</cz.kinst.jakub.view.StatefulLayout>
+	</cz.kinst.jakub.view.SimpleStatefulLayout>
 
 </layout>

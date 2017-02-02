@@ -6,7 +6,6 @@ import android.databinding.ObservableField;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.kinst.jakub.view.StatefulLayout;
 import cz.koto.misak.dbshowcase.android.mobile.BR;
 import cz.koto.misak.dbshowcase.android.mobile.model.DataHandlerListener;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
@@ -28,7 +27,7 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 			itemView.set(BR.viewModel, item.getPagerLayoutResource());
 		}
 	};
-	public ObservableField<StatefulLayout.State> state = new ObservableField<>();
+
 	ObservableField<SchoolModel> schoolModel = new ObservableField<>();
 	private List<InteractionCard> mCardItemList;
 
@@ -36,7 +35,7 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 	@Override
 	public void onViewModelCreated() {
 		super.onViewModelCreated();
-		state.set(StatefulLayout.State.PROGRESS);
+		getBinding().stateful.showProgress();
 		ModelProvider.get().loadModel(this);
 	}
 
@@ -51,6 +50,7 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 	@Override
 	public void onResume() {
 		super.onResume();
+		getBinding().stateful.showProgress();
 		ModelProvider.get().loadModel(this);
 		notifyPropertyChanged(BR.cardItemList);
 		updateToolbar();
@@ -59,7 +59,7 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 
 	@Override
 	public void handleSuccess() {
-		state.set(StatefulLayout.State.CONTENT);
+		getBinding().stateful.showContent();
 		schoolModel.set(ModelProvider.get().getSchoolModel());
 		notifyPropertyChanged(BR.cardItemList);
 		updateToolbar();
@@ -68,7 +68,7 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 
 	@Override
 	public void handleFailed(Throwable throwable) {
-		state.set(StatefulLayout.State.CONTENT);
+		getBinding().stateful.showContent();
 		schoolModel.set(ModelProvider.get().getSchoolModel());
 		notifyPropertyChanged(BR.cardItemList);
 		updateToolbar();
@@ -77,13 +77,13 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 
 	@Override
 	public void setProgress() {
-		state.set(StatefulLayout.State.PROGRESS);
+		getBinding().stateful.showProgress();
 	}
 
 
 	@Override
 	public void setContent() {
-		state.set(StatefulLayout.State.CONTENT);
+		getBinding().stateful.showContent();
 	}
 
 
