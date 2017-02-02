@@ -58,7 +58,9 @@ android
 dependencies
 		{
 			compile("org.jetbrains.kotlin:kotlin-stdlib:1.0.6")
-			compile 'cz.koto.misak:android-keystore-compat:0.5.0-BETA'
+			compile('cz.koto.misak:android-keystore-compat:0.6.0-BETA') {
+				exclude group: 'com.android.support'
+			}
 //			compile project(':android-keystore-compat')
 //			compile(name: "android-keystore-compat-release", ext: "aar")
 

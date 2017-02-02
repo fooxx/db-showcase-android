@@ -9,4 +9,13 @@ public class DbKeystoreCompatConfig extends KeystoreCompatConfig {
 	public int getDialogDismissThreshold() {
 		return Integer.MAX_VALUE;
 	}
+
+
+	@Override
+	public boolean isRootDetectionEnabled() {
+		if(BuildConfig.DEBUG) {
+			return false;
+		} else
+			return super.isRootDetectionEnabled();
+	}
 }
