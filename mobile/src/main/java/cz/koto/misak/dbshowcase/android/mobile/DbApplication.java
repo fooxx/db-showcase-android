@@ -1,6 +1,7 @@
 package cz.koto.misak.dbshowcase.android.mobile;
 
 import android.app.Application;
+import android.os.StrictMode;
 
 import com.facebook.stetho.Stetho;
 import com.raizlabs.android.dbflow.config.FlowConfig;
@@ -33,6 +34,24 @@ public class DbApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+		if(BuildConfig.DEBUG) {
+
+			StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+//					.detectDiskReads()
+//					.detectDiskWrites()
+//					.detectNetwork()
+					.detectAll()// for all detectable problems
+					.penaltyLog()
+					.build());
+			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+//					.detectLeakedSqlLiteObjects()
+//					.detectLeakedClosableObjects()
+					.detectAll()
+					.penaltyLog()
+					.penaltyDeath()
+					.build());
+		}
 
 		mNetComponent = DaggerNetComponent.builder()
 				.restModule(new RestModule())
@@ -80,7 +99,6 @@ public class DbApplication extends Application {
 		 * INIT DB FLOW
 		 */
 		FlowManager.init(new FlowConfig.Builder(this).openDatabasesOnInit(true).build());
-
 	}
 
 
