@@ -8,7 +8,7 @@ buildscript {
 	dependencies {
 		classpath "com.android.tools.build:gradle:$android_tools_version"
 //		classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-		classpath "io.realm:realm-gradle-plugin:2.2.0"//REALM.IO
+		classpath "io.realm:realm-gradle-plugin:2.3.1"//REALM.IO
 		classpath "me.tatarka:gradle-retrolambda:3.3.1"
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 	}
