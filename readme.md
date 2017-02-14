@@ -42,7 +42,7 @@ Look for my notes from Android meetup:<br/>
 ### Inspect unencrypted data with Stetho/Chrome
 chrome://inspect/#devices
 
-### Inspect encrypted data with adb
+### Inspect encrypted data with adb & Realm browser
 adb pull /data/data/cz.koto.misak.dbshowcase.android.debug/files/open.realm
 adb pull /data/data/cz.koto.misak.dbshowcase.android.debug/files/default.realm
 
