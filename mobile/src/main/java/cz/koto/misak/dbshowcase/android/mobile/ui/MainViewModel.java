@@ -10,8 +10,8 @@ import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolModel;
-import cz.koto.misak.keystorecompat.ForceLockScreenKitKatException;
 import cz.koto.misak.keystorecompat.KeystoreCompat;
+import cz.koto.misak.keystorecompat.exception.ForceLockScreenKitKatException;
 import cz.koto.misak.keystorecompat.utility.IntentUtilityKt;
 import kotlin.Unit;
 

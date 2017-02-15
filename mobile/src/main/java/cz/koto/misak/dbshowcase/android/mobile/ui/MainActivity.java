@@ -17,6 +17,7 @@ import cz.koto.misak.keystorecompat.KeystoreCompat;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements NavigationProvider {
 
+	public static final int FORCE_ENCRYPTION_REQUEST_M = 1112;
 	private NavigationManager mNavigationManager = new NavigationManager(this, R.id.content);
 
 
@@ -103,8 +104,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 			} else {
 				getViewModel().onViewAttached(false);
 			}
+		} else if(requestCode == FORCE_ENCRYPTION_REQUEST_M) {
+			if(resultCode == Activity.RESULT_CANCELED) {
+				getNavigationManager().getControlNavigationManager().switchToRoot();
+			} else if(resultCode == Activity.RESULT_OK) {
+				getNavigationManager().getControlNavigationManager().switchToRoot(true);
+			} else {
+				getNavigationManager().getControlNavigationManager().switchToRoot();
+			}
 		} else
 			super.onActivityResult(requestCode, resultCode, data);
+
+
 	}
 
 

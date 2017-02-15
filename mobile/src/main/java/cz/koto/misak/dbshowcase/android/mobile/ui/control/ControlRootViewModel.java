@@ -11,12 +11,15 @@ import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.DialogPasswordBinding;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentControlRootBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
+import cz.koto.misak.dbshowcase.android.mobile.ui.MainActivity;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseViewModel;
 import cz.koto.misak.dbshowcase.android.mobile.ui.dialog.PasswordDialogListener;
 import cz.koto.misak.dbshowcase.android.mobile.ui.dialog.PasswordDialogViewModel;
 import cz.koto.misak.dbshowcase.android.mobile.utility.ByteUtility;
+import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
 import cz.koto.misak.keystorecompat.KeystoreCompat;
 import cz.koto.misak.keystorecompat.KeystoreHashKt;
+import cz.koto.misak.keystorecompat.exception.ForceLockScreenMarshmallowException;
 import cz.koto.misak.keystorecompat.utility.AndroidVersionUtilityKt;
 import cz.koto.misak.keystorecompat.utility.IntentUtilityKt;
 import io.reactivex.Flowable;
@@ -28,8 +31,8 @@ import timber.log.Timber;
 
 public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBinding> implements PasswordDialogListener {
 
+	public static final String EXTRA_ENCRYPTION_REQUEST_SCHEDULED = "EXTRA_ENCRYPTION_REQUEST_SCHEDULED";
 	public final ObservableLong dbSize = new ObservableLong();
-
 	public final ObservableBoolean androidSecurityAvailable = new ObservableBoolean(false);
 	public final ObservableBoolean androidSecuritySelectable = new ObservableBoolean(false);
 
@@ -46,13 +49,7 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 			getBinding().settingsAndroidSecuritySwitch.setChecked(KeystoreCompat.INSTANCE.hasSecretLoadable());
 			getBinding().settingsAndroidSecuritySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
 				if(isChecked) {
-					getBinding().settingsAndroidSecuritySwitch.setEnabled(false);
-					AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-					DialogPasswordBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.dialog_password, null, false);
-					dialogBuilder.setView(binding.getRoot());
-					AlertDialog dialog = dialogBuilder.create();
-					binding.setViewModel(new PasswordDialogViewModel(dialog, this));
-					dialog.show();
+					requestEncryption();
 				} else {
 					if(ModelProvider.get().isPersistenceEncrypted())
 						Toast.makeText(getContext(), R.string.settings_security_migration_to_open_not_implemented, Toast.LENGTH_SHORT).show();
@@ -70,6 +67,9 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 	@Override
 	public void onViewModelCreated() {
 		super.onViewModelCreated();
+		if(getView().getBundle().getBoolean(EXTRA_ENCRYPTION_REQUEST_SCHEDULED)) {
+			requestEncryption();
+		}
 	}
 
 
@@ -89,9 +89,18 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 
 			Timber.d("Generated secretKeySmall Length:%s", secretKey32.length);
 			KeystoreCompat.INSTANCE.storeSecret(secretKey32,
-					() -> {
-						Timber.e("Store credentials failed!");
-						ModelProvider.get().setPersistenceEncrypted(false);
+					(exception) -> {
+						Timber.e("Store credentials failed!", exception);
+						//ModelProvider.get().setPersistenceEncrypted(false);
+						if(exception instanceof ForceLockScreenMarshmallowException) {
+							IntentUtilityKt.forceAndroidAuth(getString(R.string.kc_lock_screen_title), getString(R.string.kc_lock_screen_description),
+									intent -> {
+										getActivity().startActivityForResult(intent, MainActivity.FORCE_ENCRYPTION_REQUEST_M);
+										return Unit.INSTANCE;
+									},
+									KeystoreCompat.context);
+						}
+
 						return Unit.INSTANCE;
 					}, () -> {
 						byte[] secretKey64 = ByteUtility.doubleSizeBytes(secretKey32);
@@ -104,6 +113,7 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(unit -> {
 				}, unit -> {
+					showSnackBar(ContextProvider.getString(R.string.settings_security_store_failed));
 					getBinding().settingsAndroidSecuritySwitch.setEnabled(true);
 					getBinding().settingsAndroidSecuritySwitch.setChecked(false);
 				}, () -> {
@@ -128,6 +138,17 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 
 	public void onClickSecuritySettings() {
 		IntentUtilityKt.showLockScreenSettings(getContext());
+	}
+
+
+	private void requestEncryption() {
+		getBinding().settingsAndroidSecuritySwitch.setEnabled(false);
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+		DialogPasswordBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.dialog_password, null, false);
+		dialogBuilder.setView(binding.getRoot());
+		AlertDialog dialog = dialogBuilder.create();
+		binding.setViewModel(new PasswordDialogViewModel(dialog, this));
+		dialog.show();
 	}
 
 
