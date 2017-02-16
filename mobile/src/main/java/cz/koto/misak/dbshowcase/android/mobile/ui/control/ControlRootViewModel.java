@@ -46,7 +46,6 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 
 
 		setVisibility();
-		Timber.w("KC:onViewAttached");
 		AndroidVersionUtilityKt.runSinceKitKat(() -> {
 			getBinding().settingsAndroidSecuritySwitch.setChecked(KeystoreCompat.INSTANCE.hasSecretLoadable());
 			getBinding().settingsAndroidSecuritySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -93,7 +92,6 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 
 	@Override
 	public void onSubmitPassword(String password) {
-		Timber.w("KC:onSubmitPassword");
 		Flowable.fromCallable(() -> {
 			byte[] secretKey32 = KeystoreHashKt.createHashKey(/*"ThisIsMyVeryScreetPasswordXXXX"*/password, false,
 					KeystoreHashKt.getLENGTH32BYTES());
@@ -102,7 +100,6 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 					(exception) -> {
 						ModelProvider.get().setTemporaryPassword(password);
 						Timber.e("Store credentials failed!", exception);
-						//ModelProvider.get().setPersistenceEncrypted(false);
 						if(exception instanceof ForceLockScreenMarshmallowException) {
 							IntentUtilityKt.forceAndroidAuth(getString(R.string.kc_lock_screen_title), getString(R.string.kc_lock_screen_description),
 									intent -> {
@@ -182,7 +179,6 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 
 
 	private void setVisibility() {
-		Timber.w("KC:setVisibility");
 		AndroidVersionUtilityKt.runSinceKitKat(() -> {
 			androidSecurityAvailable.set(KeystoreCompat.INSTANCE.isKeystoreCompatAvailable());
 			androidSecuritySelectable.set(KeystoreCompat.INSTANCE.isSecurityEnabled());

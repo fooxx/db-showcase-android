@@ -61,7 +61,6 @@ public class ShowcaseRealmModule {
 
 
 	public void initConfig(InitConfigSuccessListener successListener, InitConfigErrorListener errorListener) {
-		Timber.w("KC:initConfig");
 		if(isRealmEncrypted()) {
 			Timber.d("KC:encrypted persistence");
 			ModelProvider.get().loadSecretKey(
@@ -73,7 +72,7 @@ public class ShowcaseRealmModule {
 						errorListener.onError(exception);
 					});
 		} else {
-			Timber.w("KC:open persistence");
+			Timber.d("KC:open persistence");
 			Realm.setDefaultConfiguration(DbApplication.get().getDbComponent().provideRealmConfiguration());
 			successListener.onSuccess();
 		}

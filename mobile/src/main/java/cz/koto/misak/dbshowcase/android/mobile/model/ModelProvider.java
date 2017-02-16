@@ -241,7 +241,7 @@ public class ModelProvider extends SettingsStorage {
 
 
 	public void loadSecretKey(SecretLoadedCallback loadedCallback, SecretNotFoundCallback notFoundCallback) {
-		Timber.w("KC:loadSecretKey");
+		Timber.d("KC:loadSecretKey");
 		if(mSecretKey == null) {
 			if(KeystoreCompat.INSTANCE.hasSecretLoadable() && KeystoreCompat.INSTANCE.isKeystoreCompatAvailable()) {
 				KeystoreCompat.INSTANCE.loadSecret(secretKey32 -> {

@@ -14,7 +14,6 @@ import cz.koto.misak.keystorecompat.KeystoreCompat;
 import cz.koto.misak.keystorecompat.exception.ForceLockScreenKitKatException;
 import cz.koto.misak.keystorecompat.utility.IntentUtilityKt;
 import kotlin.Unit;
-import timber.log.Timber;
 
 
 public class MainViewModel extends ViewModel<ActivityMainBinding> {
@@ -28,7 +27,6 @@ public class MainViewModel extends ViewModel<ActivityMainBinding> {
 	@Override
 	public void onViewModelCreated() {
 		super.onViewModelCreated();
-		Timber.w("KC:onViewModelCreated");
 		KeystoreCompat.INSTANCE.setConfig(new DbKeystoreCompatConfig());
 	}
 
@@ -42,7 +40,6 @@ public class MainViewModel extends ViewModel<ActivityMainBinding> {
 	@Override
 	public void onViewAttached(boolean firstAttachment) {
 		super.onViewAttached(firstAttachment);
-		Timber.w("KC:MainViewModel.onViewModelCreated");
 		DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().initConfig(
 				() -> {
 					//((MainActivity) getActivity()).getNavigationManager().getInteractionNavigationManager().switchToRoot();
