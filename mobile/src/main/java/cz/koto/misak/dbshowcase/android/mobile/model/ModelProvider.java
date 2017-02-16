@@ -111,7 +111,7 @@ public class ModelProvider extends SettingsStorage {
 			case REALM:
 				File olpenRealmFile = DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().encryptRealm(secretKey);
 				setSecretKey(secretKey);
-				setPersistenceEncrypted(true);
+				//setPersistenceEncrypted(true);
 				Realm.setDefaultConfiguration(DbApplication.get().getDbComponent().provideRealmConfiguration());
 				olpenRealmFile.deleteOnExit();
 				break;
@@ -228,6 +228,7 @@ public class ModelProvider extends SettingsStorage {
 
 
 	public void loadSecretKey(SecretLoadedCallback loadedCallback, SecretNotFoundCallback notFoundCallback) {
+		Timber.w("KC:loadSecretKey");
 		if(mSecretKey == null) {
 			if(KeystoreCompat.INSTANCE.hasSecretLoadable() && KeystoreCompat.INSTANCE.isKeystoreCompatAvailable()) {
 				KeystoreCompat.INSTANCE.loadSecret(secretKey32 -> {

@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.widget.Toast;
 
+import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.DialogPasswordBinding;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentControlRootBinding;
@@ -46,6 +47,7 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 
 
 		setVisibility();
+		Timber.w("KC:onViewAttached");
 		AndroidVersionUtilityKt.runSinceKitKat(() -> {
 			getBinding().settingsAndroidSecuritySwitch.setChecked(KeystoreCompat.INSTANCE.hasSecretLoadable());
 			getBinding().settingsAndroidSecuritySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -54,7 +56,7 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 						requestEncryption();
 					}
 				} else {
-					if(ModelProvider.get().isPersistenceEncrypted())
+					if(DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().isPersistenceEncrypted())
 						Toast.makeText(getContext(), R.string.settings_security_migration_to_open_not_implemented, Toast.LENGTH_SHORT).show();
 
 					getBinding().settingsAndroidSecuritySwitch.setChecked(KeystoreCompat.INSTANCE.hasSecretLoadable());
@@ -92,10 +94,10 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 
 	@Override
 	public void onSubmitPassword(String password) {
+		Timber.w("KC:onSubmitPassword");
 		Flowable.fromCallable(() -> {
 			byte[] secretKey32 = KeystoreHashKt.createHashKey(/*"ThisIsMyVeryScreetPasswordXXXX"*/password, false,
 					KeystoreHashKt.getLENGTH32BYTES());
-
 			Timber.d("Generated secretKeySmall Length:%s", secretKey32.length);
 			KeystoreCompat.INSTANCE.storeSecret(secretKey32,
 					(exception) -> {
@@ -181,6 +183,7 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 
 
 	private void setVisibility() {
+		Timber.w("KC:setVisibility");
 		AndroidVersionUtilityKt.runSinceKitKat(() -> {
 			androidSecurityAvailable.set(KeystoreCompat.INSTANCE.isKeystoreCompatAvailable());
 			androidSecuritySelectable.set(KeystoreCompat.INSTANCE.isSecurityEnabled());

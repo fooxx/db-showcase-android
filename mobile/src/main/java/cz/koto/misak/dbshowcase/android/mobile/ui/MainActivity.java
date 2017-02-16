@@ -14,6 +14,7 @@ import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationManager;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationProvider;
 import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
 import cz.koto.misak.keystorecompat.KeystoreCompat;
+import timber.log.Timber;
 
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements NavigationProvider {
@@ -100,6 +101,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(requestCode == getViewModel().FORCE_SIGNUP_REQUEST) {
 			if(resultCode == Activity.RESULT_CANCELED) {
+				Timber.w("KC:onActivityResult FORCE_SIGNUP_REQUEST");
 				KeystoreCompat.INSTANCE.increaseLockScreenCancel();
 				this.finish();
 			} else {

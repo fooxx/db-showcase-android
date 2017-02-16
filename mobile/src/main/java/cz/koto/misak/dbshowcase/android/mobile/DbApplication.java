@@ -66,11 +66,12 @@ public class DbApplication extends Application {
 
 		ContextProvider.initialize(this);
 
-		if(BuildConfig.DEBUG) {
+		if(true || BuildConfig.DEBUG) {
 			Timber.plant(new Timber.DebugTree());
 		}
 
 		LeakCanary.install(this);
+		Timber.w("KC:dbApplication");
 
 		/*
 		 * INIT DB REALM
