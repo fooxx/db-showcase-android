@@ -33,7 +33,7 @@ public class ModelProvider extends SettingsStorage {
 	private PersistenceType mPersistenceType;
 	private PersistenceSyncState mPersistenceSyncState;
 	private byte[] mSecretKey = null;
-
+	private String temporaryPassword = null;
 
 	public interface SecretLoadedCallback {
 		void onSecretLoaded(byte[] secret);
@@ -82,6 +82,16 @@ public class ModelProvider extends SettingsStorage {
 	protected void setActivePersistenceType(PersistenceType persistenceType) {
 		super.setActivePersistenceType(persistenceType);
 		mPersistenceType = persistenceType;
+	}
+
+
+	public String getTemporaryPassword() {
+		return temporaryPassword;
+	}
+
+
+	public void setTemporaryPassword(String temporaryPassword) {
+		this.temporaryPassword = temporaryPassword;
 	}
 
 

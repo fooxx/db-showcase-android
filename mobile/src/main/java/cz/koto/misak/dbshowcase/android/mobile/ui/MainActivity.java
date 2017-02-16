@@ -8,6 +8,7 @@ import android.os.Bundle;
 import cz.kinst.jakub.viewmodelbinding.ViewModelBindingConfig;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
+import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseActivity;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationManager;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationProvider;
@@ -106,11 +107,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 			}
 		} else if(requestCode == FORCE_ENCRYPTION_REQUEST_M) {
 			if(resultCode == Activity.RESULT_CANCELED) {
-				getNavigationManager().getControlNavigationManager().switchToRoot();
-			} else if(resultCode == Activity.RESULT_OK) {
-				getNavigationManager().getControlNavigationManager().switchToRoot(true);
-			} else {
-				getNavigationManager().getControlNavigationManager().switchToRoot();
+				ModelProvider.get().setTemporaryPassword(null);
 			}
 		} else
 			super.onActivityResult(requestCode, resultCode, data);
