@@ -14,25 +14,12 @@ public abstract class SettingsStorage {
 	private static final String PREF_NAME = "modelProvider";
 	private static final String KEY_PERSISTENCE_TYPE = "persistence_type";
 	private static final String KEY_PERSISTENCE_STATE = "persistence_state";
-	private static final String KEY_PERSISTENCE_ENCRYPTED = "persistence_encrypted";
 	private final SharedPreferences mPrefs;
 	private boolean forceLockScreenFlag = true;
 
 
 	protected SettingsStorage() {
 		mPrefs = ContextProvider.getContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-	}
-
-
-	public boolean isPersistenceEncrypted() {
-		return mPrefs.getBoolean(KEY_PERSISTENCE_ENCRYPTED, false);
-	}
-
-
-	public void setPersistenceEncrypted(boolean encrypted) {
-		SharedPreferences.Editor editor = mPrefs.edit();
-		editor.putBoolean(KEY_PERSISTENCE_ENCRYPTED, encrypted);
-		editor.apply();
 	}
 
 

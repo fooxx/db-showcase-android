@@ -57,11 +57,13 @@ android
 dependencies
 		{
 			compile("org.jetbrains.kotlin:kotlin-stdlib:1.0.6")
-			compile('cz.koto.misak:android-keystore-compat:0.6.0-BETA') {
+			compile('cz.koto.misak:android-keystore-compat:1.0.3-BETA') {
 				exclude group: 'com.android.support'
 			}
 //			compile project(':android-keystore-compat')
-//			compile(name: "android-keystore-compat-release", ext: "aar")
+//			compile(name: "android-keystore-compat-release", ext: "aar") {
+//				exclude group: 'com.android.support'
+//			}
 
 			// DBFLOW basic
 			final DBFLOW_VERSION = '4.0.0-beta2'
@@ -73,7 +75,7 @@ dependencies
 			final SQL_CIPHER_VERSION = "3.5.4"
 			compile "net.zetetic:android-database-sqlcipher:$SQL_CIPHER_VERSION@aar"
 
-			final SUPPORT_LIB_VERSION = '25.1.0'
+			final SUPPORT_LIB_VERSION = '25.1.1'
 			compile "com.android.support:support-v4:$SUPPORT_LIB_VERSION"
 			compile "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION"
 			compile "com.android.support:recyclerview-v7:$SUPPORT_LIB_VERSION"

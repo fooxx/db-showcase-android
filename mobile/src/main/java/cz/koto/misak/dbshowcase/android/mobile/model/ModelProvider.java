@@ -33,6 +33,7 @@ public class ModelProvider extends SettingsStorage {
 	private PersistenceType mPersistenceType;
 	private PersistenceSyncState mPersistenceSyncState;
 	private byte[] mSecretKey = null;
+	private String temporaryPassword = null;
 
 
 	public interface SecretLoadedCallback {
@@ -85,6 +86,16 @@ public class ModelProvider extends SettingsStorage {
 	}
 
 
+	public String getTemporaryPassword() {
+		return temporaryPassword;
+	}
+
+
+	public void setTemporaryPassword(String temporaryPassword) {
+		this.temporaryPassword = temporaryPassword;
+	}
+
+
 	public long getDbSizeInBytes() {
 		switch(mPersistenceType) {
 			case REALM:
@@ -101,7 +112,7 @@ public class ModelProvider extends SettingsStorage {
 			case REALM:
 				File olpenRealmFile = DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().encryptRealm(secretKey);
 				setSecretKey(secretKey);
-				setPersistenceEncrypted(true);
+				//setPersistenceEncrypted(true);
 				Realm.setDefaultConfiguration(DbApplication.get().getDbComponent().provideRealmConfiguration());
 				olpenRealmFile.deleteOnExit();
 				break;
@@ -141,6 +152,18 @@ public class ModelProvider extends SettingsStorage {
 			case NONE:
 			default:
 				successListener.handleFailed(new RuntimeException("Unsupported persistence type:" + mPersistenceType));
+		}
+	}
+
+
+	public boolean isPersistenceEncrypted() {
+		switch(mPersistenceType) {
+			case REALM:
+				return mRealmModule.isRealmEncrypted();
+			case DB_FLOW:
+			case NONE:
+			default:
+				return false;
 		}
 	}
 
@@ -218,6 +241,7 @@ public class ModelProvider extends SettingsStorage {
 
 
 	public void loadSecretKey(SecretLoadedCallback loadedCallback, SecretNotFoundCallback notFoundCallback) {
+		Timber.d("KC:loadSecretKey");
 		if(mSecretKey == null) {
 			if(KeystoreCompat.INSTANCE.hasSecretLoadable() && KeystoreCompat.INSTANCE.isKeystoreCompatAvailable()) {
 				KeystoreCompat.INSTANCE.loadSecret(secretKey32 -> {

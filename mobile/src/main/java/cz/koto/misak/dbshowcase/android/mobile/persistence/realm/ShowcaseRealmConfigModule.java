@@ -15,14 +15,14 @@ import timber.log.Timber;
 public class ShowcaseRealmConfigModule {
 
 	public static final int SCHEMA_VERSION = 1;
-	public static final String REALM_NAME_OPEN = "open.realm";//REALM_DEFAULT;//DbApplication.class.getSimpleName().toLowerCase() + ".default.realm";
+	public static final String REALM_NAME_OPEN = "open.realm";
+	public static final String REALM_NAME_ENCRYPTED = "encrypted.realm";
 	/**
-	 * Use temporarily default.realm to see realm db in Stetho.
-	 * TODO use this until this PR will be solved: https://github.com/uPhyca/stetho-realm/pull/38
+	 * Use only default.realm to see realm db in Stetho.
+	 * This PR should solve this issue in the future: https://github.com/uPhyca/stetho-realm/pull/38
 	 */
 	private static final String REALM_DEFAULT = "default.realm";
-	public static final String REALM_NAME_ENCRYPTED = REALM_DEFAULT;//DbApplication.class.getSimpleName().toLowerCase() + ".encrypted.realm";
-	public static final String REALM_NAME_ASSET = REALM_DEFAULT;//DbApplication.class.getSimpleName().toLowerCase() + ".asset.realm";
+	public static final String REALM_NAME_ASSET = REALM_DEFAULT;
 	private RealmConfiguration mRealmDefaultConfiguration;
 	private RealmConfiguration mRealmEnhancedConfiguration;
 	private ShowcaseRealmMigration mRealmMigration;
@@ -33,7 +33,7 @@ public class ShowcaseRealmConfigModule {
 	@ShowcaseRealmConfigurationDefault
 	public RealmConfiguration provideRealmDefaultConfiguration() {
 
-		if(ModelProvider.get().isPersistenceEncrypted()) {
+		if(DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().isRealmEncrypted()) {
 			mRealmDefaultConfiguration = new RealmConfiguration.Builder()
 					.name(REALM_NAME_ENCRYPTED)
 					.encryptionKey(ModelProvider.get().getSecretKey())//Ensure secret key is already loaded!

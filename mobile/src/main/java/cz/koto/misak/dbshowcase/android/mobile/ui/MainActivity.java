@@ -8,6 +8,7 @@ import android.os.Bundle;
 import cz.kinst.jakub.viewmodelbinding.ViewModelBindingConfig;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
+import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseActivity;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationManager;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationProvider;
@@ -17,6 +18,7 @@ import cz.koto.misak.keystorecompat.KeystoreCompat;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements NavigationProvider {
 
+	public static final int FORCE_ENCRYPTION_REQUEST_M = 1112;
 	private NavigationManager mNavigationManager = new NavigationManager(this, R.id.content);
 
 
@@ -103,8 +105,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 			} else {
 				getViewModel().onViewAttached(false);
 			}
+		} else if(requestCode == FORCE_ENCRYPTION_REQUEST_M) {
+			if(resultCode == Activity.RESULT_CANCELED) {
+				ModelProvider.get().setTemporaryPassword(null);
+			}
 		} else
 			super.onActivityResult(requestCode, resultCode, data);
+
+
 	}
 
 

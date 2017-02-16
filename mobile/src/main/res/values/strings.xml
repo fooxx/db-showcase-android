@@ -52,6 +52,7 @@
 	<string name="settings_security_migration_to_open_not_implemented">Migration back from secured Realm not implemented
 		yet!
 	</string>
+	<string name="settings_security_store_failed">Store credentails failed unexpctedly!</string>
 
 	<!-- Override resources from KeystoreCompat library -->
 	<string name="kc_lock_screen_title">DBShowcase</string>

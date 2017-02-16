@@ -12,8 +12,14 @@ import cz.koto.misak.dbshowcase.android.mobile.ui.base.RootFragment;
 public class ControlRootFragment extends BaseFragment<FragmentControlRootBinding, ControlRootViewModel> implements RootFragment {
 
 	public static ControlRootFragment newInstance() {
+		return ControlRootFragment.newInstance(false);
+	}
+
+
+	public static ControlRootFragment newInstance(Boolean encryptionRequested) {
 		ControlRootFragment f = new ControlRootFragment();
 		Bundle args = new Bundle();
+		args.putBoolean(ControlRootViewModel.EXTRA_ENCRYPTION_REQUEST_SCHEDULED, encryptionRequested);
 		f.setArguments(args);
 		return f;
 	}
