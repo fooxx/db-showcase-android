@@ -14,8 +14,8 @@ Every implemented database is based on the same application model:
 **TEACHER** _(can teach more classes)_  
 **STUDENT** _(can be in one class only, can have more teachers)_  
 
-![ModelIllustration](./extras/screens/scr_showcase_int1.png "ModelIllustration")| ![ModelIllustration](./extras/screens/scr_showcase_int2.png "ModelIllustration") <br/>
-![Security control](./extras/screens/scr_showcase_con1.png "Security control") | ![ModelIllustration](./extras/screens/scr_showcase_lockscreen.png "ModelIllustration") <br/>
+![ModelIllustration](./extras/screens/scr_showcase_int1.png "ModelIllustration")&nbsp; ![ModelIllustration](./extras/screens/scr_showcase_int2.png "ModelIllustration") <br/><br/>
+![Security control](./extras/screens/scr_showcase_con1.png "Security control") &nbsp; ![ModelIllustration](./extras/screens/scr_showcase_lockscreen.png "ModelIllustration") <br/>
 
 
 ## Build app
