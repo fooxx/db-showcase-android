@@ -30,7 +30,6 @@ Every implemented database is based on the same application model:
 <!--**Couchbase Lite** (http://developer.couchbase.com/mobile/) - a lightweight embedded NoSQL database engine for Android with the built-in ability to sync to Couchbase Server.  
 -->
 ## Realm.io
-:large_orange_diamond: In progress...
 (https://realm.io/) - replacement for SQLLite.
 _Engine: TightDB_
 
