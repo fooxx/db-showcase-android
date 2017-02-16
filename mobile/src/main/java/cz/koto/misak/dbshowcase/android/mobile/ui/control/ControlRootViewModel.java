@@ -99,6 +99,7 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 			Timber.d("Generated secretKeySmall Length:%s", secretKey32.length);
 			KeystoreCompat.INSTANCE.storeSecret(secretKey32,
 					(exception) -> {
+						ModelProvider.get().setTemporaryPassword(password);
 						Timber.e("Store credentials failed!", exception);
 						//ModelProvider.get().setPersistenceEncrypted(false);
 						if(exception instanceof ForceLockScreenMarshmallowException) {
