@@ -304,8 +304,11 @@ public class ShowcaseRealmModule {
 	 * @return
 	 */
 	public boolean isRealmEncrypted() {
-		return new File(ContextProvider.getContext().getFilesDir(), ShowcaseRealmConfigModule.REALM_NAME_ENCRYPTED).exists();
+		File encryptedRealm = new File(ContextProvider.getContext().getFilesDir(), ShowcaseRealmConfigModule.REALM_NAME_ENCRYPTED);
+		if(encryptedRealm.exists()) Timber.i("encryptedRealm:%s", encryptedRealm.getAbsoluteFile());
+		return encryptedRealm.exists();
 	}
+
 
 	public File encryptRealm(byte[] secretKey) {
 		File openRealmFile = new File(ContextProvider.getContext().getFilesDir(), ShowcaseRealmConfigModule.REALM_NAME_OPEN);
