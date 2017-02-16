@@ -33,7 +33,7 @@ public class ShowcaseRealmConfigModule {
 	@ShowcaseRealmConfigurationDefault
 	public RealmConfiguration provideRealmDefaultConfiguration() {
 
-		if(DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().isPersistenceEncrypted()) {
+		if(DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().isRealmEncrypted()) {
 			mRealmDefaultConfiguration = new RealmConfiguration.Builder()
 					.name(REALM_NAME_ENCRYPTED)
 					.encryptionKey(ModelProvider.get().getSecretKey())//Ensure secret key is already loaded!

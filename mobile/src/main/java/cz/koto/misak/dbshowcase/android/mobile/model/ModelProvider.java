@@ -35,6 +35,7 @@ public class ModelProvider extends SettingsStorage {
 	private byte[] mSecretKey = null;
 	private String temporaryPassword = null;
 
+
 	public interface SecretLoadedCallback {
 		void onSecretLoaded(byte[] secret);
 	}
@@ -151,6 +152,18 @@ public class ModelProvider extends SettingsStorage {
 			case NONE:
 			default:
 				successListener.handleFailed(new RuntimeException("Unsupported persistence type:" + mPersistenceType));
+		}
+	}
+
+
+	public boolean isPersistenceEncrypted() {
+		switch(mPersistenceType) {
+			case REALM:
+				return mRealmModule.isRealmEncrypted();
+			case DB_FLOW:
+			case NONE:
+			default:
+				return false;
 		}
 	}
 

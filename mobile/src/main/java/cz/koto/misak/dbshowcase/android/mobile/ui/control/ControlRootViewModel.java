@@ -7,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.widget.Toast;
 
-import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.DialogPasswordBinding;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentControlRootBinding;
@@ -56,7 +55,7 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 						requestEncryption();
 					}
 				} else {
-					if(DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().isPersistenceEncrypted())
+					if(ModelProvider.get().isPersistenceEncrypted())
 						Toast.makeText(getContext(), R.string.settings_security_migration_to_open_not_implemented, Toast.LENGTH_SHORT).show();
 
 					getBinding().settingsAndroidSecuritySwitch.setChecked(KeystoreCompat.INSTANCE.hasSecretLoadable());

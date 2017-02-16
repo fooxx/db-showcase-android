@@ -62,8 +62,8 @@ public class ShowcaseRealmModule {
 
 	public void initConfig(InitConfigSuccessListener successListener, InitConfigErrorListener errorListener) {
 		Timber.w("KC:initConfig");
-		if(isPersistenceEncrypted()) {
-			Timber.w("KC:encrypted persistence");
+		if(isRealmEncrypted()) {
+			Timber.d("KC:encrypted persistence");
 			ModelProvider.get().loadSecretKey(
 					secret -> {
 						Realm.setDefaultConfiguration(DbApplication.get().getDbComponent().provideRealmConfiguration());
@@ -296,7 +296,14 @@ public class ShowcaseRealmModule {
 	}
 
 
-	public boolean isPersistenceEncrypted() {
+	/**
+	 * Check whether encrypted realm exists.
+	 * Do NOT use this outside the realm related classes.
+	 * Use general ModelProvider.isPersistenceEncrypted instead!
+	 *
+	 * @return
+	 */
+	public boolean isRealmEncrypted() {
 		return new File(ContextProvider.getContext().getFilesDir(), ShowcaseRealmConfigModule.REALM_NAME_ENCRYPTED).exists();
 	}
 
