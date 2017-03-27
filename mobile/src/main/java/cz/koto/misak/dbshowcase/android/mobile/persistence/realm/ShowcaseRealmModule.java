@@ -303,9 +303,13 @@ public class ShowcaseRealmModule {
 	 * @return
 	 */
 	public boolean isRealmEncrypted() {
-		File encryptedRealm = new File(ContextProvider.getContext().getFilesDir(), ShowcaseRealmConfigModule.REALM_NAME_ENCRYPTED);
-		if(encryptedRealm.exists()) Timber.i("encryptedRealm:%s", encryptedRealm.getAbsoluteFile());
-		return encryptedRealm.exists();
+		/**
+		 * Uninstall of the app doesn't necessarily uninstall  encrypted realm file.
+		 * This can cause existence of the encrypted file during next uninstall/install cycle.
+		 * DBShowcase has not implemented backup encryption plan for deleted keystore => encrypted realm from the previous installation is therefore useless.
+		 * Fresh encryption cause cleanup of the open database => real sign of the fresh encrypted database is therefore following combination!
+		 */
+		return realmEncryptedAtDisposal() && !realmOpenAtDisposal();
 	}
 
 
@@ -342,6 +346,18 @@ public class ShowcaseRealmModule {
 
 	public void setReady(boolean ready) {
 		this.ready = ready;
+	}
+
+
+	private boolean realmEncryptedAtDisposal() {
+		File encryptedRealm = new File(ContextProvider.getContext().getFilesDir(), ShowcaseRealmConfigModule.REALM_NAME_ENCRYPTED);
+		return encryptedRealm.exists() && encryptedRealm.length() > 0;
+	}
+
+
+	private boolean realmOpenAtDisposal() {
+		File openRealm = new File(ContextProvider.getContext().getFilesDir(), ShowcaseRealmConfigModule.REALM_NAME_OPEN);
+		return openRealm.exists() && openRealm.length() > 0;
 	}
 
 

@@ -1,3 +1,9 @@
+## 1.3.1
+### Bug fixing
+* Fix situation after first uninstall/install cycle. If the realm file is not deleted after uninstall,
+next installation will recognize this encrypted zombie file and will ignore it. This is necessary behaviour until
+there will be implemented BACKUP PLAN (to restore encryption key base on original password) - which is not implemented yet.
+
 ## 1.3.0
 ### Enhancement
 * Bump KeystoreCompat to KC-1.0.3-BETA (It change encryption from RSA to AES on API 23+)
