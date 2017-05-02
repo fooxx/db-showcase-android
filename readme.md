@@ -4,7 +4,7 @@
 
 | Branch | Status |
 | --- | --- |
-| master | [![CircleCI](https://circleci.com/gh/kotomisak/db-showcase-android/tree/develop.svg?style=shield)](https://circleci.com/gh/kotomisak/db-showcase-android/tree/master) |  
+| master | [![CircleCI](https://circleci.com/gh/kotomisak/db-showcase-android/tree/master.svg?style=shield)](https://circleci.com/gh/kotomisak/db-showcase-android/tree/master) |  
 | develop| [![CircleCI](https://circleci.com/gh/kotomisak/db-showcase-android/tree/develop.svg?style=shield)](https://circleci.com/gh/kotomisak/db-showcase-android/tree/develop) |
 
 
