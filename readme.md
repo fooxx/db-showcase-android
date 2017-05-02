@@ -2,7 +2,10 @@
 
 ![DbShowcase](./mobile/src/main/res/mipmap-hdpi/ic_launcher.png "DbShowcase") <a href="https://play.google.com/store/apps/details?id=cz.koto.misak.dbshowcase.android"><img src="./extras/banner/google-play-badge.png" height="72"/></a>
 
-[![CircleCI](https://circleci.com/gh/kotomisak/db-showcase-android/tree/develop.svg?style=shield)](https://circleci.com/gh/kotomisak/db-showcase-android/tree/develop)
+| Branch | Status |
+| --- | --- |
+| master | [![CircleCI](https://circleci.com/gh/kotomisak/db-showcase-android/tree/develop.svg?style=shield)](https://circleci.com/gh/kotomisak/db-showcase-android/tree/master) |  
+| develop| [![CircleCI](https://circleci.com/gh/kotomisak/db-showcase-android/tree/develop.svg?style=shield)](https://circleci.com/gh/kotomisak/db-showcase-android/tree/develop) |
 
 
 This is sample of local database implementation for small set of Android related local databases.
