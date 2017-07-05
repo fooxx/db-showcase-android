@@ -41,7 +41,6 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 	@Override
 	public void onViewAttached(boolean firstAttachment) {
 		super.onViewAttached(firstAttachment);
-		//TODO updateToolbar();
 		dbSize.set(ModelProvider.get().getDbSizeInBytes());
 
 
@@ -68,7 +67,6 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 	@Override
 	public void onResume() {
 		super.onResume();
-		//TODO updateToolbar();
 		dbSize.set(ModelProvider.get().getDbSizeInBytes());
 		String password = ModelProvider.get().getTemporaryPassword();
 		if(password != null) {

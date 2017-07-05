@@ -51,7 +51,7 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 	@Override
 	public void onResume() {
 		super.onResume();
-		stateController.setState(SimpleStatefulLayout.State.PROGRESS);
+		setProgress();
 		ModelProvider.get().loadModel(this);
 		refreshCardItemList();
 	}
@@ -59,18 +59,17 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 
 	@Override
 	public void handleSuccess() {
-		stateController.setState(SimpleStatefulLayout.State.CONTENT);
-		schoolModel.set(ModelProvider.get().getSchoolModel());
+		setContent();
 		refreshCardItemList();
+		schoolModel.set(ModelProvider.get().getSchoolModel());
 	}
 
 
 	@Override
 	public void handleFailed(Throwable throwable) {
-		stateController.setState(SimpleStatefulLayout.State.CONTENT);
+		setContent();
 		schoolModel.set(ModelProvider.get().getSchoolModel());
 		refreshCardItemList();
-		//TODO updateToolbar();
 	}
 
 
@@ -89,11 +88,13 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 	public void refreshCardItemList() {
 		ModelProvider modelProvider = ModelProvider.get();
 		if(modelProvider.getSchoolModel() != null || !modelProvider.getSchoolModel().getSchoolItems().isEmpty()) {
+			cardItemList.clear();
 			cardItemList.addAll(Observable.fromIterable(modelProvider.getSchoolModel().getSchoolItems())
 					.map(item -> InteractionItemViewModel.getInstance(getContext(), item))
 					.toList().blockingGet());
+			cardItemList.add(InteractionAddCardViewModel.getInstance(this, this, this));
+
 		}
-		cardItemList.add(InteractionAddCardViewModel.getInstance(this, this, this));
 	}
 
 
