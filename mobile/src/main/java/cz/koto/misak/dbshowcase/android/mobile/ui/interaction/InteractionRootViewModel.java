@@ -13,20 +13,25 @@ import cz.koto.misak.dbshowcase.android.mobile.model.SchoolModel;
 import cz.koto.misak.dbshowcase.android.mobile.ui.StateListener;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseViewModel;
 import io.reactivex.Observable;
-import me.tatarka.bindingcollectionadapter.BaseItemViewSelector;
-import me.tatarka.bindingcollectionadapter.ItemView;
-import me.tatarka.bindingcollectionadapter.ItemViewSelector;
+import me.tatarka.bindingcollectionadapter2.OnItemBind;
+//import me.tatarka.bindingcollectionadapter.BaseItemViewSelector;
+//import me.tatarka.bindingcollectionadapter.ItemView;
+//import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 
 
 public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentInteractionRootBinding>
 		implements DataHandlerListener, StateListener {
 
-	public final ItemViewSelector<InteractionCard> cardItemView = new BaseItemViewSelector<InteractionCard>() {
-		@Override
-		public void select(ItemView itemView, int position, InteractionCard item) {
-			itemView.set(BR.viewModel, item.getPagerLayoutResource());
-		}
-	};
+//	public final ItemViewSelector<InteractionCard> cardItemView = new BaseItemViewSelector<InteractionCard>() {
+//		@Override
+//		public void select(ItemView itemView, int position, InteractionCard item) {
+//			itemView.set(BR.viewModel, item.getPagerLayoutResource());
+//		}
+//	};
+
+
+	public final OnItemBind<InteractionCard> cardItemView = (itemBinding, position, item) -> itemBinding.set(BR.viewModel, item.getPagerLayoutResource());
+
 
 	ObservableField<SchoolModel> schoolModel = new ObservableField<>();
 	private List<InteractionCard> mCardItemList;

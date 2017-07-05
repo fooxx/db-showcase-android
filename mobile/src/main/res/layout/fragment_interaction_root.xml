@@ -33,7 +33,7 @@
 				android:paddingRight="@dimen/global_spacing_16"
 				android:clipChildren="false"
 				app:items="@{viewModel.cardItemList}"
-				app:itemView="@{viewModel.cardItemView}" />
+				app:itemBinding="@{viewModel.cardItemView}" />
 
 		</LinearLayout>
 	</cz.kinst.jakub.view.SimpleStatefulLayout>
