@@ -14,7 +14,7 @@
 		android:layout_height="match_parent"
 		android:animateLayoutChanges="true"
 		android:orientation="vertical"
-		app:state="content">
+		app:stateController="@{viewModel.stateController}">
 
 		<LinearLayout
 			android:layout_width="match_parent"
