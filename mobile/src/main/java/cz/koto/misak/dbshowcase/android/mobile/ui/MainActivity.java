@@ -72,7 +72,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		mNavigationManager.onSaveInstanceState(outState);
 	}
 
 

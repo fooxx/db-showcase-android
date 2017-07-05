@@ -45,7 +45,6 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 	@Override
 	public void onViewAttached(boolean firstAttachment) {
 		super.onViewAttached(firstAttachment);
-		//TODO updateToolbar();
 	}
 
 
@@ -55,7 +54,6 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 		stateController.setState(SimpleStatefulLayout.State.PROGRESS);
 		ModelProvider.get().loadModel(this);
 		refreshCardItemList();
-		//TODO updateToolbar();
 	}
 
 
@@ -64,7 +62,6 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 		stateController.setState(SimpleStatefulLayout.State.CONTENT);
 		schoolModel.set(ModelProvider.get().getSchoolModel());
 		refreshCardItemList();
-		//TODO updateToolbar();
 	}
 
 
