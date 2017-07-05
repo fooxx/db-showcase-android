@@ -1,8 +1,8 @@
 package cz.koto.misak.dbshowcase.android.mobile.ui.settings;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
-import cz.kinst.jakub.viewmodelbinding.ViewModelBindingConfig;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentSettingsRootBinding;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseFragment;
@@ -20,7 +20,14 @@ public class SettingsRootFragment extends BaseFragment<FragmentSettingsRootBindi
 
 
 	@Override
-	public ViewModelBindingConfig<SettingsRootViewModel> getViewModelBindingConfig() {
-		return new ViewModelBindingConfig<>(R.layout.fragment_settings_root, SettingsRootViewModel.class);
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		setupViewModel(R.layout.fragment_settings_root, SettingsRootViewModel.class);
+		super.onCreate(savedInstanceState);
 	}
+
+
+//	@Override
+//	public ViewModelBindingConfig<SettingsRootViewModel> getViewModelBindingConfig() {
+//		return new ViewModelBindingConfig<>(R.layout.fragment_settings_root, SettingsRootViewModel.class);
+//	}
 }

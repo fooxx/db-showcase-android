@@ -2,7 +2,6 @@ package cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.model;
 
 import android.databinding.Bindable;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.google.gson.annotations.SerializedName;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ManyToMany;
@@ -12,6 +11,7 @@ import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.List;
 
+import cz.koto.misak.dbshowcase.android.mobile.BR;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.DbFlowDatabase;
 

@@ -109,7 +109,7 @@ dependencies
 			provided "javax.annotation:jsr250-api:1.0"
 
 			compile "cz.kinst.jakub:android-stateful-layout-simple:2.0.4"
-			compile "cz.kinst.jakub:viewmodelbinding:0.9.4"
+			compile "cz.kinst.jakub:viewmodelbinding:2.0.0"
 			compile "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:2.1.0"
 			compile "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:2.1.0"
 

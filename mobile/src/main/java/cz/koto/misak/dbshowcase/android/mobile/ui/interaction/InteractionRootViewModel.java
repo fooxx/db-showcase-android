@@ -1,10 +1,8 @@
 package cz.koto.misak.dbshowcase.android.mobile.ui.interaction;
 
-import android.databinding.Bindable;
+import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.databinding.ObservableList;
 
 import cz.koto.misak.dbshowcase.android.mobile.BR;
 import cz.koto.misak.dbshowcase.android.mobile.model.DataHandlerListener;
@@ -33,14 +31,14 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 	public final OnItemBind<InteractionCard> cardItemView = (itemBinding, position, item) -> itemBinding.set(BR.viewModel, item.getPagerLayoutResource());
 
 
-	ObservableField<SchoolModel> schoolModel = new ObservableField<>();
-	private List<InteractionCard> mCardItemList;
+	public final ObservableField<SchoolModel> schoolModel = new ObservableField<>();
+	public final ObservableList<InteractionCard> cardItemList = new ObservableArrayList<>();
 
 
 	@Override
 	public void onViewModelCreated() {
 		super.onViewModelCreated();
-		getBinding().stateful.showProgress();
+		//TODO getBinding().stateful.showProgress();
 		ModelProvider.get().loadModel(this);
 	}
 
@@ -48,61 +46,58 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 	@Override
 	public void onViewAttached(boolean firstAttachment) {
 		super.onViewAttached(firstAttachment);
-		updateToolbar();
+		//TODO updateToolbar();
 	}
 
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		getBinding().stateful.showProgress();
+		//TODO getBinding().stateful.showProgress();
 		ModelProvider.get().loadModel(this);
-		notifyPropertyChanged(BR.cardItemList);
-		updateToolbar();
+		refreshCardItemList();
+		//TODO updateToolbar();
 	}
 
 
 	@Override
 	public void handleSuccess() {
-		getBinding().stateful.showContent();
+		//TODO getBinding().stateful.showContent();
 		schoolModel.set(ModelProvider.get().getSchoolModel());
-		notifyPropertyChanged(BR.cardItemList);
-		updateToolbar();
+		refreshCardItemList();
+		//TODO updateToolbar();
 	}
 
 
 	@Override
 	public void handleFailed(Throwable throwable) {
-		getBinding().stateful.showContent();
+		//TODO getBinding().stateful.showContent();
 		schoolModel.set(ModelProvider.get().getSchoolModel());
-		notifyPropertyChanged(BR.cardItemList);
-		updateToolbar();
+		refreshCardItemList();
+		//TODO updateToolbar();
 	}
 
 
 	@Override
 	public void setProgress() {
-		getBinding().stateful.showProgress();
+		//TODO getBinding().stateful.showProgress();
 	}
 
 
 	@Override
 	public void setContent() {
-		getBinding().stateful.showContent();
+		//TODO getBinding().stateful.showContent();
 	}
 
 
-	@Bindable
-	public List<? extends InteractionCard> getCardItemList() {
+	public void refreshCardItemList() {
 		ModelProvider modelProvider = ModelProvider.get();
 		if(modelProvider.getSchoolModel() != null || !modelProvider.getSchoolModel().getSchoolItems().isEmpty()) {
-			mCardItemList = Observable.fromIterable(modelProvider.getSchoolModel().getSchoolItems())
+			cardItemList.addAll(Observable.fromIterable(modelProvider.getSchoolModel().getSchoolItems())
 					.map(item -> InteractionItemViewModel.getInstance(getContext(), item))
-					.toList().blockingGet();
+					.toList().blockingGet());
 		}
-		if(mCardItemList == null) mCardItemList = new ArrayList<>();
-		mCardItemList.add(InteractionAddCardViewModel.getInstance(this, this, this));
-		return mCardItemList;
+		cardItemList.add(InteractionAddCardViewModel.getInstance(this, this, this));
 	}
 
 

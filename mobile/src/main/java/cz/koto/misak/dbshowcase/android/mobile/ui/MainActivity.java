@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import cz.kinst.jakub.viewmodelbinding.ViewModelBindingConfig;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
@@ -22,10 +21,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 	private NavigationManager mNavigationManager = new NavigationManager(this, R.id.content);
 
 
-	@Override
-	public ViewModelBindingConfig<MainViewModel> getViewModelBindingConfig() {
-		return new ViewModelBindingConfig<>(R.layout.activity_main, MainViewModel.class);
-	}
+//	@Override
+//	public ViewModelBindingConfig<MainViewModel> getViewModelBindingConfig() {
+//		return new ViewModelBindingConfig<>(R.layout.activity_main, MainViewModel.class);
+//	}
 
 
 	@Override
@@ -36,6 +35,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setupViewModel(R.layout.activity_main, MainViewModel.class);
 		super.onCreate(savedInstanceState);
 
 		mNavigationManager.restore(savedInstanceState);
