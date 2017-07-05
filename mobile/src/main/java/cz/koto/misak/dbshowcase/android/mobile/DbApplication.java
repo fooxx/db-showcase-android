@@ -49,7 +49,7 @@ public class DbApplication extends MultiDexApplication {
 //					.detectLeakedClosableObjects()
 					.detectAll()
 					.penaltyLog()
-					.penaltyDeath()
+					//.penaltyDeath()
 					.build());
 		}
 

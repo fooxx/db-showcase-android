@@ -25,9 +25,4 @@ public class InteractionRootFragment extends BaseFragment<FragmentInteractionRoo
 		super.onCreate(savedInstanceState);
 	}
 
-
-//	@Override
-//	public ViewModelBindingConfig<InteractionRootViewModel> getViewModelBindingConfig() {
-//		return new ViewModelBindingConfig<>(R.layout.fragment_interaction_root, InteractionRootViewModel.class);
-//	}
 }

@@ -3,7 +3,6 @@ package cz.koto.misak.dbshowcase.android.mobile.ui.navigation;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
@@ -146,20 +145,6 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 	}
 
 
-	public void configureToolbar(Toolbar toolbar,
-								 String title,
-								 @Nullable Integer leftIcon,
-								 String stateDesc,
-								 @Nullable Integer rightIcon,
-								 boolean backButtonEnabled) {
-		mToolbar = toolbar;
-		mToolbarTitle = title;
-		mStateDesc = stateDesc;
-		mToolbarLeftIcon = leftIcon;
-		mToolbarRightIcon = rightIcon;
-		mBackButtonVisible = backButtonEnabled;
-		updateToolbar();
-	}
 
 
 	public void cleanup() {

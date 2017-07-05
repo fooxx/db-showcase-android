@@ -8,6 +8,8 @@ import android.os.Bundle;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceSyncState;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceType;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseActivity;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationManager;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationProvider;
@@ -20,11 +22,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 	public static final int FORCE_ENCRYPTION_REQUEST_M = 1112;
 	private NavigationManager mNavigationManager = new NavigationManager(this, R.id.content);
 
-
-//	@Override
-//	public ViewModelBindingConfig<MainViewModel> getViewModelBindingConfig() {
-//		return new ViewModelBindingConfig<>(R.layout.activity_main, MainViewModel.class);
-//	}
 
 
 	@Override
@@ -39,6 +36,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 		super.onCreate(savedInstanceState);
 
 		mNavigationManager.restore(savedInstanceState);
+		updateToolbar();
 
 		if(savedInstanceState == null)
 			getNavigationManager().getInteractionNavigationManager().switchToRoot();
@@ -115,5 +113,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
 	}
 
+
+	public void updateToolbar() {
+		setSupportActionBar(getBinding().toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setTitle("");
+
+		PersistenceType activePersistenceType = ModelProvider.get().getActivePersistenceType();
+		PersistenceSyncState activePersistenceSyncState = ModelProvider.get().getActivePersistenceSyncState();
+		getViewModel().storageType.set(activePersistenceType == null ? "-" : ContextProvider.getString(activePersistenceType.getStringRes()));
+		getViewModel().storageState.set(activePersistenceSyncState == null ? null : ContextProvider.getString(activePersistenceSyncState.getDescRes()));
+		getViewModel().storageTypeIcon.set(activePersistenceType == null ? null : activePersistenceType.getIconRes());
+		getViewModel().storageStateIcon.set(activePersistenceSyncState == null ? null : activePersistenceSyncState.getIconRes());
+	}
 
 }
