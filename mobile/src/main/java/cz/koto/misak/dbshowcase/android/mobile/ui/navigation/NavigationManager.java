@@ -41,9 +41,9 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 	private String mToolbarTitle;
 	private String mStateDesc;
 	private
-	@DrawableRes Integer mToolbarLeftIcon;
+	@DrawableRes int mToolbarLeftIcon;
 	private
-	@DrawableRes Integer mToolbarRightIcon;
+	@DrawableRes int mToolbarRightIcon;
 
 
 	public NavigationManager(MainActivity activity, @IdRes int fragmentConatinerId) {
@@ -94,19 +94,10 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 			if(mActivity.getSupportActionBar() != null) {
 				((TextView) mToolbar.findViewById(R.id.title)).setText(mToolbarTitle);
 				((TextView) mToolbar.findViewById(R.id.state)).setText(mStateDesc);
-				if(mToolbarLeftIcon == null) {
-					mToolbar.findViewById(R.id.icon_left_1).setVisibility(View.GONE);
-				} else {
-					mToolbar.findViewById(R.id.icon_left_1).setVisibility(View.VISIBLE);
-					mToolbar.findViewById(R.id.icon_left_1).setBackgroundResource(mToolbarLeftIcon);
-				}
-				if(mToolbarRightIcon == null) {
-					mToolbar.findViewById(R.id.icon_right_1).setVisibility(View.GONE);
-					((TextView) mToolbar.findViewById(R.id.title)).setText("");
-				} else {
-					mToolbar.findViewById(R.id.icon_right_1).setVisibility(View.VISIBLE);
-					mToolbar.findViewById(R.id.icon_right_1).setBackgroundResource(mToolbarRightIcon);
-				}
+				mToolbar.findViewById(R.id.icon_left_1).setVisibility(View.VISIBLE);
+				mToolbar.findViewById(R.id.icon_left_1).setBackgroundResource(mToolbarLeftIcon);
+				mToolbar.findViewById(R.id.icon_right_1).setVisibility(View.VISIBLE);
+				mToolbar.findViewById(R.id.icon_right_1).setBackgroundResource(mToolbarRightIcon);
 				mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(mBackButtonVisible);
 				mActivity.getSupportActionBar().setTitle("");
 			}
@@ -169,6 +160,7 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 		mBackButtonVisible = backButtonEnabled;
 		updateToolbar();
 	}
+
 
 	public void cleanup() {
 		mActivity = null;
