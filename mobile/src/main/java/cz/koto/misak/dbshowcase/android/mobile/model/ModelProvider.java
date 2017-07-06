@@ -17,6 +17,7 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.StudentRe
 import cz.koto.misak.dbshowcase.android.mobile.utility.ByteUtility;
 import cz.koto.misak.keystorecompat.KeystoreCompat;
 import io.reactivex.Maybe;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
@@ -210,9 +211,17 @@ public class ModelProvider extends SettingsStorage {
 	public final void addRandomSchoolClass(DataHandlerListener resultListener) {
 		switch(mPersistenceType) {
 			case REALM:
-				SchoolClassRealmEntity s = SchoolModelGenerator.generateSchoolClassRealmEntity(mSchoolModel.getTeachersCount(),
-						mSchoolModel.getStudentsCount(), mSchoolModel.getSchoolClassCount());
-				addSchoolClass(s, resultListener);
+				Single<SchoolClassRealmEntity> s = Single.fromCallable(() -> SchoolModelGenerator.generateSchoolClassRealmEntity(mSchoolModel.getTeachersCount(),
+						mSchoolModel.getStudentsCount(), mSchoolModel.getSchoolClassCount()))
+						.subscribeOn(Schedulers.computation())
+						.observeOn(AndroidSchedulers.mainThread());
+
+				s.subscribe((schoolClassRealmEntity, throwable) -> {
+					if(schoolClassRealmEntity != null) {
+						addSchoolClass(schoolClassRealmEntity, resultListener);
+					}
+				});
+
 				break;
 			case DB_FLOW:
 			default:

@@ -37,7 +37,6 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 		stateController = StatefulLayout.StateController.create()
 				.withState(SimpleStatefulLayout.State.PROGRESS, LayoutInflater.from(getActivity()).inflate(R.layout.include_progress, null))
 				.build();
-		stateController.setState(SimpleStatefulLayout.State.PROGRESS);
 		ModelProvider.get().loadModel(this);
 	}
 
@@ -59,17 +58,17 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 
 	@Override
 	public void handleSuccess() {
-		setContent();
 		refreshCardItemList();
 		schoolModel.set(ModelProvider.get().getSchoolModel());
+		setContent();
 	}
 
 
 	@Override
 	public void handleFailed(Throwable throwable) {
-		setContent();
 		schoolModel.set(ModelProvider.get().getSchoolModel());
 		refreshCardItemList();
+		setContent();
 	}
 
 
