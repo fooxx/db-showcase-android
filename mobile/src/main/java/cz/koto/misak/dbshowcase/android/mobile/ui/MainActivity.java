@@ -20,7 +20,13 @@ import cz.koto.misak.keystorecompat.KeystoreCompat;
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements NavigationProvider {
 
 	public static final int FORCE_ENCRYPTION_REQUEST_M = 1112;
-	private NavigationManager mNavigationManager = new NavigationManager(this, R.id.content);
+	private NavigationManager mNavigationManager = new NavigationManager(this, R.id.content) {
+		@Override
+		public void selectNavigationItem(int itemId) {
+			getBinding().navigation.getMenu().getItem(itemId).setChecked(true);
+
+		}
+	};
 
 
 

@@ -20,6 +20,7 @@ public class ControlNavigationManager {
 	public void switchToRoot(Boolean encryptionRequested) {
 		getNavigationManager().clearBackStack();
 		getNavigationManager().switchToFragment(ControlRootFragment.newInstance(encryptionRequested), false);
+		getNavigationManager().selectNavigationItem(1);
 	}
 
 	private NavigationManager getNavigationManager() {

@@ -111,11 +111,12 @@ public class ModelProvider extends SettingsStorage {
 	public void encryptDb(byte[] secretKey) {
 		switch(mPersistenceType) {
 			case REALM:
-				File olpenRealmFile = DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().encryptRealm(secretKey);
+				File openRealmFile = DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule().encryptRealm(secretKey);
 				setSecretKey(secretKey);
 				//setPersistenceEncrypted(true);
 				Realm.setDefaultConfiguration(DbApplication.get().getDbComponent().provideRealmConfiguration());
-				olpenRealmFile.deleteOnExit();
+				openRealmFile.delete();
+				openRealmFile.deleteOnExit();
 				break;
 			case DB_FLOW:
 			default:

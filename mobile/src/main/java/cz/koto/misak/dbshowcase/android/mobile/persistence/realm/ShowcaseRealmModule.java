@@ -309,7 +309,9 @@ public class ShowcaseRealmModule {
 		 * DBShowcase has not implemented backup encryption plan for deleted keystore => encrypted realm from the previous installation is therefore useless.
 		 * Fresh encryption cause cleanup of the open database => real sign of the fresh encrypted database is therefore following combination!
 		 */
-		return realmEncryptedAtDisposal() && !realmOpenAtDisposal();
+		boolean ret = realmEncryptedAtDisposal() && !realmOpenAtDisposal();
+		Timber.d("isRealmEncrypted[%s] realmEncryptedAtDisposal[%s] realmOpenAtDisposal[%s]", ret, realmEncryptedAtDisposal(), realmOpenAtDisposal());
+		return ret;
 	}
 
 

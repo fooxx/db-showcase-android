@@ -80,11 +80,13 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 	}
 
 
-
-
 	public void cleanup() {
 		mActivity = null;
 	}
+
+
+	// Override this in activity with navigation instance.
+	public void selectNavigationItem(int itemId) {}
 
 
 	void switchToRootFragment(BaseFragment fragment) {
@@ -151,6 +153,5 @@ public class NavigationManager implements FragmentManager.OnBackStackChangedList
 
 
 	private void onCurrentFragmentChanged() {}
-
 
 }
