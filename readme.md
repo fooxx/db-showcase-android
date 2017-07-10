@@ -34,7 +34,7 @@ Every implemented database is based on the same application model:
 -->
 ## DBFlow
 
-[DBFlow guide](https://www.gitbook.com/book/agrosner/dbflow/details)
+[DBFlow usage guide](https://agrosner.gitbooks.io/dbflow/content/Usage.html)
 
 ## Realm.io
 _Engine: TightDB_ <br/>
