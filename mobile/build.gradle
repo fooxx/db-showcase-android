@@ -73,6 +73,7 @@ dependencies
 			compile "com.github.Raizlabs.DBFlow:dbflow-core:$DBFLOW_VERSION"
 			compile "com.github.Raizlabs.DBFlow:dbflow:$DBFLOW_VERSION"
 			compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:$DBFLOW_VERSION"
+			compile "com.github.Raizlabs.DBFlow:dbflow-rx2:$DBFLOW_VERSION"
 			final SQL_CIPHER_VERSION = "3.5.7"
 			compile "net.zetetic:android-database-sqlcipher:$SQL_CIPHER_VERSION@aar"
 			compile "com.github.Raizlabs.DBFlow:dbflow-rx2:$DBFLOW_VERSION"

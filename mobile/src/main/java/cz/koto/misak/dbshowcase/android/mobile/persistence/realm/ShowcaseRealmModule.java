@@ -13,6 +13,7 @@ import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.model.DataHandlerListener;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.ShowcasePersistence;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.StudentRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.utility.RealmQueryUtility;
@@ -32,7 +33,7 @@ import timber.log.Timber;
  */
 
 @Module
-public class ShowcaseRealmModule {
+public class ShowcaseRealmModule implements ShowcasePersistence {
 
 	private boolean ready = false;
 
@@ -50,32 +51,6 @@ public class ShowcaseRealmModule {
 
 	public interface InitConfigErrorListener {
 		void onError(Exception e);
-	}
-
-
-	@Provides
-	@Singleton
-	public ShowcaseRealmModule provideShowcaseRealmLoadModule() {
-		return new ShowcaseRealmModule();
-	}
-
-
-	public void initConfig(InitConfigSuccessListener successListener, InitConfigErrorListener errorListener) {
-		if(isRealmEncrypted()) {
-			Timber.d("KC:encrypted persistence");
-			ModelProvider.get().loadSecretKey(
-					secret -> {
-						Realm.setDefaultConfiguration(DbApplication.get().getDbComponent().provideRealmConfiguration());
-						successListener.onSuccess();
-					},
-					exception -> {
-						errorListener.onError(exception);
-					});
-		} else {
-			Timber.d("KC:open persistence");
-			Realm.setDefaultConfiguration(DbApplication.get().getDbComponent().provideRealmConfiguration());
-			successListener.onSuccess();
-		}
 	}
 
 
@@ -128,39 +103,28 @@ public class ShowcaseRealmModule {
 	}
 
 
-	/**
-	 * Persist complete model to realm.
-	 * Realm will run that transaction on a background thread and report back when the transaction is done.
-	 *
-	 * @param persistenceModel
-	 * @param dataHandlerListener
-	 */
-	public void saveOrUpdateRealmSchoolClass(List<SchoolClassRealmEntity> persistenceModel,
-											 DataHandlerListener dataHandlerListener) {
-		if(isReady()) {
-			if(persistenceModel == null) return;
-			final Realm realm = Realm.getDefaultInstance();
-			try {
-				if(!persistenceModel.isEmpty()) {
-					// Asynchronously update objects on a background thread
-					realm.executeTransactionAsync(
-							bgRealm -> bgRealm.copyToRealmOrUpdate(persistenceModel),
-							() -> {
-								if(realm != null) realm.close();
-								broadcastSuccess(dataHandlerListener);
-							},
-							error -> {
-								if(realm != null) realm.close();
-								broadcastFail(dataHandlerListener, error);
-							});
+	@Provides
+	@Singleton
+	public ShowcaseRealmModule provideShowcaseRealmLoadModule() {
+		return new ShowcaseRealmModule();
+	}
 
-				}
-			} catch(Exception e) {
-				dataHandlerListener.handleFailed(e);
-				if(realm != null) {
-					realm.close();
-				}
-			}
+
+	public void initConfig(InitConfigSuccessListener successListener, InitConfigErrorListener errorListener) {
+		if(isRealmEncrypted()) {
+			Timber.d("KC:encrypted persistence");
+			ModelProvider.get().loadSecretKey(
+					secret -> {
+						Realm.setDefaultConfiguration(DbApplication.get().getDbComponent().provideRealmConfiguration());
+						successListener.onSuccess();
+					},
+					exception -> {
+						errorListener.onError(exception);
+					});
+		} else {
+			Timber.d("KC:open persistence");
+			Realm.setDefaultConfiguration(DbApplication.get().getDbComponent().provideRealmConfiguration());
+			successListener.onSuccess();
 		}
 	}
 

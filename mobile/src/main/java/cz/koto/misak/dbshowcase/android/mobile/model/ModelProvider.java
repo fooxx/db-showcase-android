@@ -10,6 +10,8 @@ import cz.koto.misak.dbshowcase.android.mobile.model.utility.SchoolModelComposer
 import cz.koto.misak.dbshowcase.android.mobile.model.utility.SchoolModelGenerator;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceSyncState;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceType;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.ShowcasePersistence;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.ShowcaseDbFlowModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.preference.SettingsStorage;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
@@ -31,6 +33,7 @@ public class ModelProvider extends SettingsStorage {
 
 	private final SchoolModel mSchoolModel = new SchoolModel();
 	ShowcaseRealmModule mRealmModule = DbApplication.get().getDbComponent().provideShowcaseRealmLoadModule();
+	ShowcaseDbFlowModule mDbFlowModule = DbApplication.get().getDbComponent().provideShowcaseDbFlowModule();
 	private PersistenceType mPersistenceType;
 	private PersistenceSyncState mPersistenceSyncState;
 	private byte[] mSecretKey = null;
@@ -151,6 +154,13 @@ public class ModelProvider extends SettingsStorage {
 
 				break;
 			case DB_FLOW:
+				mDbFlowModule.getSchoolClass().subscribe((list) -> {
+					mSchoolModel.setSchoolItems(list);
+					successListener.handleSuccess();
+				}, (error) -> {
+					successListener.handleFailed(error);
+				});
+				break;
 			case NONE:
 			default:
 				successListener.handleFailed(new RuntimeException("Unsupported persistence type:" + mPersistenceType));
@@ -292,38 +302,39 @@ public class ModelProvider extends SettingsStorage {
 		switch(mPersistenceSyncState) {
 			case ERROR:
 			case ENABLED:
+				ShowcasePersistence persistence = null;
 				switch(mPersistenceType) {
 					case REALM:
-						mRealmModule.saveOrUpdateSchoolClass(schoolModelItems, new DataHandlerListener() {
-							@Override
-							public void handleSuccess() {
-								mSchoolModel.setSchoolItems(schoolModelItems);
-								outerDataHandlerListener.handleSuccess();
-							}
-
-
-							@Override
-							public void handleFailed(Throwable throwable) {
-								setActivePersistenceSyncState(PersistenceSyncState.ERROR);
-								mSchoolModel.setSchoolItems(schoolModelItems);
-								outerDataHandlerListener.handleFailed(throwable);
-							}
-						});
-						setActivePersistenceSyncState(PersistenceSyncState.ENABLED);
+						persistence = mRealmModule;
 						break;
 					case DB_FLOW:
+						persistence = mDbFlowModule;
+						break;
 					default:
 						mSchoolModel.setSchoolItems(schoolModelItems);
+				}
+				if(persistence != null) {
+					persistence.saveOrUpdateSchoolClass(schoolModelItems, new DataHandlerListener() {
+						@Override
+						public void handleSuccess() {
+							mSchoolModel.setSchoolItems(schoolModelItems);
+							outerDataHandlerListener.handleSuccess();
+						}
+
+
+						@Override
+						public void handleFailed(Throwable throwable) {
+							setActivePersistenceSyncState(PersistenceSyncState.ERROR);
+							mSchoolModel.setSchoolItems(schoolModelItems);
+							outerDataHandlerListener.handleFailed(throwable);
+						}
+					});
+					setActivePersistenceSyncState(PersistenceSyncState.ENABLED);
 				}
 				break;
 			case DISABLED:
 				mSchoolModel.setSchoolItems(schoolModelItems);
 		}
 
-	}
-
-
-	private void updateModelFromRealm() {
-		//loadni model z realmu (+ umozni na plusko load z API + pri zapnute synchronizaci ukladej load z API do realmu).
 	}
 }
