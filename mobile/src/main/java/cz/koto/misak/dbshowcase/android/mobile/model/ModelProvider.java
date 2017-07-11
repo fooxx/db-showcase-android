@@ -72,6 +72,7 @@ public class ModelProvider extends SettingsStorage {
 
 	@Override
 	protected void setActivePersistenceSyncState(PersistenceSyncState persistenceSyncState) {
+		Timber.d("PERSISTENCE STATE %s", persistenceSyncState);
 		super.setActivePersistenceSyncState(persistenceSyncState);
 		mPersistenceSyncState = persistenceSyncState;
 	}
@@ -318,18 +319,18 @@ public class ModelProvider extends SettingsStorage {
 						@Override
 						public void handleSuccess() {
 							mSchoolModel.setSchoolItems(schoolModelItems);
+							setActivePersistenceSyncState(PersistenceSyncState.ENABLED);
 							outerDataHandlerListener.handleSuccess();
 						}
 
 
 						@Override
 						public void handleFailed(Throwable throwable) {
-							setActivePersistenceSyncState(PersistenceSyncState.ERROR);
 							mSchoolModel.setSchoolItems(schoolModelItems);
+							setActivePersistenceSyncState(PersistenceSyncState.ERROR);
 							outerDataHandlerListener.handleFailed(throwable);
 						}
 					});
-					setActivePersistenceSyncState(PersistenceSyncState.ENABLED);
 				}
 				break;
 			case DISABLED:

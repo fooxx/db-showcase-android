@@ -34,7 +34,7 @@ public abstract class SettingsStorage {
 
 
 	protected PersistenceType getActivePersistenceType() {
-		return PersistenceType.getPersistenceTypeForString(mPrefs.getString(KEY_PERSISTENCE_TYPE, PersistenceType.REALM.name()));
+		return PersistenceType.getPersistenceTypeForString(mPrefs.getString(KEY_PERSISTENCE_TYPE, PersistenceType.DB_FLOW.name()));
 	}
 
 

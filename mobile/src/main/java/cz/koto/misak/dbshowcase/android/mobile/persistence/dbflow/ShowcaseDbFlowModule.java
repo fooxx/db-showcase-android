@@ -24,7 +24,6 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.model.StudentD
 import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.model.StudentDbFlowEntity_Table;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.model.TeacherDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.listener.DataSaveSuccessListener;
-import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Single;
@@ -157,7 +156,7 @@ public class ShowcaseDbFlowModule implements ShowcasePersistence {
 				List<StudentDbFlowEntity> persistenceStudentModel = new ArrayList<>();
 
 				for(SchoolClassInterface schoolClass : schoolModel) {
-					if(schoolClass instanceof SchoolClassRealmEntity) {
+					if(schoolClass instanceof SchoolClassDbFlowEntity) {
 						persistenceClassModel.add((SchoolClassDbFlowEntity) schoolClass);
 						persistenceStudentModel.addAll(((SchoolClassDbFlowEntity) schoolClass).getStudentList());
 						persistenceTeacherModel.addAll(((SchoolClassDbFlowEntity) schoolClass).getTeacherList());
