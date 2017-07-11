@@ -30,8 +30,8 @@ public class SchoolModelDbFlowGenerator {
 			teacherList.add(teacher);
 			teacherIdList.add(teacher.getId());
 		}
-		//schoolClass.setTeacherIdRealmList(teacherIdList);
-		//schoolClass.setTeacherRealmList(teacherList);
+		schoolClass.setTeacherList(teacherList);
+		schoolClass.setTeacherIdList(teacherIdList);
 
 
 		List<StudentDbFlowEntity> studentList = new ArrayList<>();
@@ -42,8 +42,8 @@ public class SchoolModelDbFlowGenerator {
 			studentList.add(student);
 			studentIdList.add(student.getId());
 		}
-		//schoolClass.setStudentIdRealmList(studentIdList);
-		//schoolClass.setStudentList(studentList);
+		schoolClass.setStudentList(studentList);
+		schoolClass.setStudentIdList(studentIdList);
 
 		return schoolClass;
 	}
