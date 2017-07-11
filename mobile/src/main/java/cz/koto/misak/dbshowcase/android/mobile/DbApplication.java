@@ -102,6 +102,13 @@ public class DbApplication extends MultiDexApplication {
 	}
 
 
+	@Override
+	public void onTerminate() {
+		FlowManager.destroy();
+		super.onTerminate();
+	}
+
+
 	public NetComponent getNetComponent() {
 		return mNetComponent;
 	}

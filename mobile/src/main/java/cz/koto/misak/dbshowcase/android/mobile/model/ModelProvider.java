@@ -7,7 +7,8 @@ import java.util.List;
 import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.api.DbShowcaseAPIClient;
 import cz.koto.misak.dbshowcase.android.mobile.model.utility.SchoolModelComposer;
-import cz.koto.misak.dbshowcase.android.mobile.model.utility.SchoolModelGenerator;
+import cz.koto.misak.dbshowcase.android.mobile.model.utility.SchoolModelDbFlowGenerator;
+import cz.koto.misak.dbshowcase.android.mobile.model.utility.SchoolModelRealmGenerator;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceSyncState;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceType;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.ShowcasePersistence;
@@ -243,12 +244,12 @@ public class ModelProvider extends SettingsStorage {
 	public final void addRandomSchoolClass(DataHandlerListener resultListener) {
 		switch(mPersistenceType) {
 			case REALM:
-				Single<SchoolClassRealmEntity> s = Single.fromCallable(() -> SchoolModelGenerator.generateSchoolClassRealmEntity(mSchoolModel.getTeachersCount(),
+				Single<? extends SchoolClassInterface> realmSchoolClass = Single.fromCallable(() -> SchoolModelDbFlowGenerator.generateSchoolClassDbFlowEntity(mSchoolModel.getTeachersCount(),
 						mSchoolModel.getStudentsCount(), mSchoolModel.getSchoolClassCount()))
 						.subscribeOn(Schedulers.computation())
 						.observeOn(AndroidSchedulers.mainThread());
 
-				s.subscribe((schoolClassRealmEntity, throwable) -> {
+				realmSchoolClass.subscribe((schoolClassRealmEntity, throwable) -> {
 					if(schoolClassRealmEntity != null) {
 						addSchoolClass(schoolClassRealmEntity, resultListener);
 					}
@@ -256,8 +257,21 @@ public class ModelProvider extends SettingsStorage {
 
 				break;
 			case DB_FLOW:
+				Single<? extends SchoolClassInterface> dbFlowSchoolClass = Single.fromCallable(() -> SchoolModelRealmGenerator.generateSchoolClassRealmEntity(mSchoolModel.getTeachersCount(),
+						mSchoolModel.getStudentsCount(), mSchoolModel.getSchoolClassCount()))
+						.subscribeOn(Schedulers.computation())
+						.observeOn(AndroidSchedulers.mainThread());
+
+				dbFlowSchoolClass.subscribe((schoolClassRealmEntity, throwable) -> {
+					if(schoolClassRealmEntity != null) {
+						addSchoolClass(schoolClassRealmEntity, resultListener);
+					}
+				});
+
+				break;
 			default:
-				Timber.e("Adding school class NOT implemented for %s yet!", mPersistenceType);
+				Timber.e("Adding random school class NOT implemented for %s yet!", mPersistenceType);
+				resultListener.handleFailed(new RuntimeException("Adding random school class NOT implemented for specified type!"));
 		}
 	}
 
@@ -266,7 +280,7 @@ public class ModelProvider extends SettingsStorage {
 		switch(mPersistenceType) {
 			case REALM:
 				if(schoolClass instanceof SchoolClassRealmEntity) {
-					StudentRealmEntity s = SchoolModelGenerator.getRandomStudent(null);
+					StudentRealmEntity s = SchoolModelRealmGenerator.getRandomStudent(null);
 					mRealmModule.addStudentToClass((SchoolClassRealmEntity) schoolClass, s, resultListener);
 				} else {
 					if(resultListener != null) {
@@ -311,13 +325,12 @@ public class ModelProvider extends SettingsStorage {
 	}
 
 
-	private final void addSchoolClass(SchoolClassRealmEntity re, DataHandlerListener resultListener) {
+	private final <T extends SchoolClassInterface> void addSchoolClass(T re, DataHandlerListener resultListener) {
 		List<SchoolClassInterface> ret = new ArrayList<>();
 		ret.addAll(mSchoolModel.getSchoolItems());
 		ret.add(re);
 		setSchoolModel(ret, resultListener);
 	}
-
 
 	private void setSchoolModel(List<? extends SchoolClassInterface> schoolModelItems, DataHandlerListener outerDataHandlerListener) {
 		switch(mPersistenceSyncState) {
