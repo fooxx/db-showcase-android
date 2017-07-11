@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'realm-android'//REALM.IO
 
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 // App ID base (package name)
 final APPLICATION_ID = 'cz.koto.misak.dbshowcase.android'
 // Last Git tag name on current branch

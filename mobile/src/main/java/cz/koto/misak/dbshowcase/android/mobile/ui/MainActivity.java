@@ -13,7 +13,9 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceType;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseActivity;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationManager;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationProvider;
+import cz.koto.misak.dbshowcase.android.mobile.utility.ApplicationEvent;
 import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
+import cz.koto.misak.dbshowcase.android.mobile.utility.EventsUtilityKt;
 import cz.koto.misak.keystorecompat.KeystoreCompat;
 
 
@@ -42,6 +44,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 		super.onCreate(savedInstanceState);
 
 		mNavigationManager.restore(savedInstanceState);
+
+		EventsUtilityKt.getApplicationEvents().subscribe(applicationEvent -> {
+			if(ApplicationEvent.StateUpdateRequest.INSTANCE.equals(applicationEvent)) {
+				updateToolbar();
+			}
+		});
+
 		updateToolbar();
 
 		if(savedInstanceState == null)

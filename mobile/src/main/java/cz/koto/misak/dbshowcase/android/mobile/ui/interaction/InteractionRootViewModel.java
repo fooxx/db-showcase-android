@@ -14,6 +14,8 @@ import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolModel;
 import cz.koto.misak.dbshowcase.android.mobile.ui.StateListener;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseViewModel;
+import cz.koto.misak.dbshowcase.android.mobile.utility.ApplicationEvent;
+import cz.koto.misak.dbshowcase.android.mobile.utility.EventsUtilityKt;
 import io.reactivex.Observable;
 import me.tatarka.bindingcollectionadapter2.OnItemBind;
 
@@ -61,6 +63,7 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 		refreshCardItemList();
 		schoolModel.set(ModelProvider.get().getSchoolModel());
 		setContent();
+		EventsUtilityKt.getApplicationEvents().onNext(ApplicationEvent.StateUpdateRequest.INSTANCE);
 	}
 
 
@@ -69,6 +72,7 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 		schoolModel.set(ModelProvider.get().getSchoolModel());
 		refreshCardItemList();
 		setContent();
+		EventsUtilityKt.getApplicationEvents().onNext(ApplicationEvent.StateUpdateRequest.INSTANCE);
 	}
 
 
