@@ -13,6 +13,8 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceSyncState;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceType;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.ShowcasePersistence;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.ShowcaseDbFlowModule;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.model.SchoolClassDbFlowEntity;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.model.StudentDbFlowEntity;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.preference.SettingsStorage;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
@@ -244,7 +246,7 @@ public class ModelProvider extends SettingsStorage {
 	public final void addRandomSchoolClass(DataHandlerListener resultListener) {
 		switch(mPersistenceType) {
 			case REALM:
-				Single<? extends SchoolClassInterface> realmSchoolClass = Single.fromCallable(() -> SchoolModelDbFlowGenerator.generateSchoolClassDbFlowEntity(mSchoolModel.getTeachersCount(),
+				Single<? extends SchoolClassInterface> realmSchoolClass = Single.fromCallable(() -> SchoolModelRealmGenerator.generateSchoolClassRealmEntity(mSchoolModel.getTeachersCount(),
 						mSchoolModel.getStudentsCount(), mSchoolModel.getSchoolClassCount()))
 						.subscribeOn(Schedulers.computation())
 						.observeOn(AndroidSchedulers.mainThread());
@@ -257,14 +259,14 @@ public class ModelProvider extends SettingsStorage {
 
 				break;
 			case DB_FLOW:
-				Single<? extends SchoolClassInterface> dbFlowSchoolClass = Single.fromCallable(() -> SchoolModelRealmGenerator.generateSchoolClassRealmEntity(mSchoolModel.getTeachersCount(),
+				Single<? extends SchoolClassInterface> dbFlowSchoolClass = Single.fromCallable(() -> SchoolModelDbFlowGenerator.generateSchoolClassDbFlowEntity(mSchoolModel.getTeachersCount(),
 						mSchoolModel.getStudentsCount(), mSchoolModel.getSchoolClassCount()))
 						.subscribeOn(Schedulers.computation())
 						.observeOn(AndroidSchedulers.mainThread());
 
-				dbFlowSchoolClass.subscribe((schoolClassRealmEntity, throwable) -> {
-					if(schoolClassRealmEntity != null) {
-						addSchoolClass(schoolClassRealmEntity, resultListener);
+				dbFlowSchoolClass.subscribe((schoolClassDbFlowEntity, throwable) -> {
+					if(schoolClassDbFlowEntity != null) {
+						addSchoolClass(schoolClassDbFlowEntity, resultListener);
 					}
 				});
 
@@ -289,8 +291,17 @@ public class ModelProvider extends SettingsStorage {
 				}
 				break;
 			case DB_FLOW:
+				if(schoolClass instanceof SchoolClassDbFlowEntity) {
+					StudentDbFlowEntity s = SchoolModelDbFlowGenerator.getRandomStudent(null);
+					mDbFlowModule.addStudentToClass((SchoolClassDbFlowEntity) schoolClass, s, resultListener);
+				} else {
+					if(resultListener != null) {
+						resultListener.handleFailed(new RuntimeException("Attempt to mix database types in addRandomStudent!"));
+					}
+				}
+				break;
 			default:
-				Timber.e("Adding school class NOT implemented for %s yet!", mPersistenceType);
+				Timber.e("Adding student NOT implemented for %s yet!", mPersistenceType);
 		}
 	}
 

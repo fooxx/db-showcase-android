@@ -240,6 +240,29 @@ public class ShowcaseDbFlowModule implements ShowcasePersistence {
 	}
 
 
+	/**
+	 * Persist complete model to realm.
+	 * Realm will run that transaction on a background thread and report back when the transaction is done.
+	 *
+	 * @param schoolClass
+	 * @param student
+	 * @param listener
+	 */
+	public void addStudentToClass(SchoolClassDbFlowEntity schoolClass,
+								  StudentDbFlowEntity student,
+								  DataHandlerListener listener) {
+		Transaction transaction = FlowManager.getDatabase(DbFlowDatabase.class).beginTransactionAsync(new ITransaction() {
+			@Override
+			public void execute(DatabaseWrapper databaseWrapper) {
+				student.setSchoolClass(schoolClass);
+				student.save();
+			}
+		}).error((error, throwable) -> listener.handleFailed(throwable)).success(transaction1 -> listener.handleSuccess()).build();
+
+		transaction.execute();
+	}
+
+
 	@Provides
 	@Singleton
 	public ShowcaseDbFlowModule provideShowcaseDbFlowModule() {
@@ -249,5 +272,19 @@ public class ShowcaseDbFlowModule implements ShowcasePersistence {
 
 	public Single<List<SchoolClassDbFlowEntity>> getSchoolClass() {
 		return RXSQLite.rx(SQLite.select().from(SchoolClassDbFlowEntity.class)).queryList().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+	}
+
+
+	private void broadcastFail(DataHandlerListener listener, Throwable th) {
+		if(listener != null) {
+			listener.handleFailed(th);
+		}
+	}
+
+
+	private void broadcastSuccess(DataHandlerListener listener) {
+		if(listener != null) {
+			listener.handleSuccess();
+		}
 	}
 }
