@@ -204,19 +204,39 @@ public class ModelProvider extends SettingsStorage {
 
 
 	public final void initModelFromApi(DataHandlerListener resultListener) {
-		Maybe.zip(DbShowcaseAPIClient.getAPIService().realmClassList(),
-				DbShowcaseAPIClient.getAPIService().realmTeacherList(),
-				DbShowcaseAPIClient.getAPIService().realmStudentList(),
-				SchoolModelComposer::composeSchoolModel)
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(list -> {
-							setSchoolModel(list, resultListener);
-						},
-						throwable -> {
-							setActivePersistenceSyncState(PersistenceSyncState.ERROR);
-							resultListener.handleFailed(throwable);
-						});
+		switch(mPersistenceType) {
+			case REALM:
+				Maybe.zip(DbShowcaseAPIClient.getAPIService().realmClassList(),
+						DbShowcaseAPIClient.getAPIService().realmTeacherList(),
+						DbShowcaseAPIClient.getAPIService().realmStudentList(),
+						SchoolModelComposer::composeSchoolModel)
+						.subscribeOn(Schedulers.io())
+						.observeOn(AndroidSchedulers.mainThread())
+						.subscribe(list -> {
+									setSchoolModel(list, resultListener);
+								},
+								throwable -> {
+									setActivePersistenceSyncState(PersistenceSyncState.ERROR);
+									resultListener.handleFailed(throwable);
+								});
+				break;
+			case DB_FLOW:
+				Maybe.zip(DbShowcaseAPIClient.getAPIService().dbFlowClassList(),
+						DbShowcaseAPIClient.getAPIService().dbFlowTeacherList(),
+						DbShowcaseAPIClient.getAPIService().dbFlowStudentList(),
+						SchoolModelComposer::composeSchoolModel)
+						.subscribeOn(Schedulers.io())
+						.observeOn(AndroidSchedulers.mainThread())
+						.subscribe(list -> {
+									setSchoolModel(list, resultListener);
+								},
+								throwable -> {
+									setActivePersistenceSyncState(PersistenceSyncState.ERROR);
+									resultListener.handleFailed(throwable);
+								});
+				break;
+			default:
+		}
 	}
 
 
