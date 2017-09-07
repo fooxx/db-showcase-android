@@ -22,7 +22,7 @@ repositories {
 android
 		{
 			compileSdkVersion 26
-			buildToolsVersion "26.0.2"
+			buildToolsVersion "26.0.1"
 
 			defaultConfig
 					{
@@ -81,7 +81,7 @@ dependencies
 			compile "net.zetetic:android-database-sqlcipher:$SQL_CIPHER_VERSION@aar"
 			compile "com.github.Raizlabs.DBFlow:dbflow-rx2:$DBFLOW_VERSION"
 
-			final SUPPORT_LIB_VERSION = '26.0.1'
+			final SUPPORT_LIB_VERSION = '26.0.2'
 			compile "com.android.support:support-v4:$SUPPORT_LIB_VERSION"
 			compile "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION"
 			compile "com.android.support:recyclerview-v7:$SUPPORT_LIB_VERSION"
