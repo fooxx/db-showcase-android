@@ -14,6 +14,7 @@ public class InteractionNavigationManager {
 	public void switchToRoot() {
 		getNavigationManager().clearBackStack();
 		getNavigationManager().switchToFragment(InteractionRootFragment.newInstance(), false);
+		getNavigationManager().selectNavigationItem(0);
 	}
 
 

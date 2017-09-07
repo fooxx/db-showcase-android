@@ -33,7 +33,7 @@ android {
 						System.out.println(output.outputFile)
 						if(outputFile != null && outputFile.name.endsWith('.apk')) {
 							def fileName = outputFile.name + "-" + defaultConfig.versionName + "-" + defaultConfig.versionCode + "-" + date.format('yyyyMMdd') + ".apk"
-							output.outputFile = new File((String) outputFile.parent, (String) fileName)
+							//TODO output.outputFile = new File((String) outputFile.parent, (String) fileName)
 						}
 				}
 			}

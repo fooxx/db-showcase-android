@@ -10,7 +10,7 @@ import cz.kinst.jakub.viewmodelbinding.ViewModel;
 import cz.kinst.jakub.viewmodelbinding.ViewModelActivity;
 
 
-public abstract class BaseActivity<T extends ViewDataBinding, S extends ViewModel<T>> extends ViewModelActivity<T, S> implements SnackbarProvider {
+public abstract class BaseActivity<T extends ViewDataBinding, S extends ViewModel> extends ViewModelActivity<T, S> implements SnackbarProvider {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

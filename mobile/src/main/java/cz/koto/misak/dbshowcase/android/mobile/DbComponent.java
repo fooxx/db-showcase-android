@@ -2,6 +2,7 @@ package cz.koto.misak.dbshowcase.android.mobile;
 
 import javax.inject.Singleton;
 
+import cz.koto.misak.dbshowcase.android.mobile.persistence.dbflow.ShowcaseDbFlowModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmConfigModule;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmConfigurationDefault;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmModule;
@@ -13,7 +14,8 @@ import io.realm.RealmConfiguration;
 @Singleton
 @Component(modules = {
         ShowcaseRealmConfigModule.class,
-        ShowcaseRealmModule.class})
+		ShowcaseRealmModule.class,
+		ShowcaseDbFlowModule.class})
 public interface DbComponent {
 
     void inject(MainViewModel mainActivityViewModel);
@@ -23,4 +25,6 @@ public interface DbComponent {
     RealmConfiguration provideRealmConfiguration();
 
     ShowcaseRealmModule provideShowcaseRealmLoadModule();
+
+	ShowcaseDbFlowModule provideShowcaseDbFlowModule();
 }

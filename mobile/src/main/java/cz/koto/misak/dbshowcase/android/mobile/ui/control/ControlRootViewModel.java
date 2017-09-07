@@ -35,34 +35,21 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 	public final ObservableLong dbSize = new ObservableLong();
 	public final ObservableBoolean androidSecurityAvailable = new ObservableBoolean(false);
 	public final ObservableBoolean androidSecuritySelectable = new ObservableBoolean(false);
-	private boolean userEventSwitchSecurity = true;
+	public final ObservableBoolean userEventSwitchSecurity = new ObservableBoolean(ModelProvider.get().isPersistenceEncrypted());
 
 
 	@Override
 	public void onViewAttached(boolean firstAttachment) {
 		super.onViewAttached(firstAttachment);
-		updateToolbar();
 		dbSize.set(ModelProvider.get().getDbSizeInBytes());
 
 
 		setVisibility();
 		AndroidVersionUtilityKt.runSinceKitKat(() -> {
-			getBinding().settingsAndroidSecuritySwitch.setChecked(KeystoreCompat.INSTANCE.hasSecretLoadable());
-			getBinding().settingsAndroidSecuritySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-				if(isChecked) {
-					if(userEventSwitchSecurity) {
-						requestEncryption();
-					}
-				} else {
-					if(ModelProvider.get().isPersistenceEncrypted())
-						Toast.makeText(getContext(), R.string.settings_security_migration_to_open_not_implemented, Toast.LENGTH_SHORT).show();
 
-					getBinding().settingsAndroidSecuritySwitch.setChecked(KeystoreCompat.INSTANCE.hasSecretLoadable());
-					//ModelProvider.get().setPersistenceEncrypted(false);
-					//KeystoreCompat.INSTANCE.clearCredentials();
-				}
-				userEventSwitchSecurity = true;
-			});
+			androidSecuritySelectable.set(KeystoreCompat.INSTANCE.hasSecretLoadable());
+
+
 			return Unit.INSTANCE;
 		});
 	}
@@ -80,7 +67,6 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 	@Override
 	public void onResume() {
 		super.onResume();
-		updateToolbar();
 		dbSize.set(ModelProvider.get().getDbSizeInBytes());
 		String password = ModelProvider.get().getTemporaryPassword();
 		if(password != null) {
@@ -123,15 +109,15 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 				}, unit -> {
 					ModelProvider.get().setTemporaryPassword(null);
 					showSnackBar(ContextProvider.getString(R.string.settings_security_store_failed));
-					getBinding().settingsAndroidSecuritySwitch.setEnabled(true);
-					unCheckSwitchSecurityProgrammatically();
+					//TODO getBinding().settingsAndroidSecuritySwitch.setEnabled(true);
+					//unCheckSwitchSecurityProgrammatically();
 				}, () -> {
 					if(ModelProvider.get().getTemporaryPassword() == null) {
-						getBinding().settingsAndroidSecuritySwitch.setEnabled(true);
-						checkSwitchSecurityProgrammatically();
+						//TODO getBinding().settingsAndroidSecuritySwitch.setEnabled(true);
+						//checkSwitchSecurityProgrammatically();
 					} else {
-						getBinding().settingsAndroidSecuritySwitch.setEnabled(true);
-						unCheckSwitchSecurityProgrammatically();
+						//TODO getBinding().settingsAndroidSecuritySwitch.setEnabled(true);
+						//unCheckSwitchSecurityProgrammatically();
 					}
 				});
 	}
@@ -139,14 +125,26 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 
 	@Override
 	public void onCancelPassword() {
-		getBinding().settingsAndroidSecuritySwitch.setEnabled(true);
-		getBinding().settingsAndroidSecuritySwitch.setChecked(false);
+		userEventSwitchSecurity.set(false);
+	}
+
+
+	public void onCheckedChanged(boolean checked) {
+		if(checked) {
+			if(!ModelProvider.get().isPersistenceEncrypted())
+				requestEncryption();
+		} else {
+			if(ModelProvider.get().isPersistenceEncrypted())
+				Toast.makeText(getContext(), R.string.settings_security_migration_to_open_not_implemented, Toast.LENGTH_SHORT).show();
+
+			refreshCheckbox();
+		}
 	}
 
 
 	public void deleteModel() {
 		if(ModelProvider.get().deleteModel())
-			getNavigationManager().getControlNavigationManager().switchToRoot();
+			getNavigationManager().getInteractionNavigationManager().switchToRoot();
 	}
 
 
@@ -155,20 +153,9 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 	}
 
 
-	private void checkSwitchSecurityProgrammatically() {
-		userEventSwitchSecurity = false;
-		getBinding().settingsAndroidSecuritySwitch.setChecked(true);
-	}
-
-
-	private void unCheckSwitchSecurityProgrammatically() {
-		userEventSwitchSecurity = false;
-		getBinding().settingsAndroidSecuritySwitch.setChecked(false);
-	}
-
-
 	private void requestEncryption() {
-		getBinding().settingsAndroidSecuritySwitch.setEnabled(false);
+		//TODO getBinding().settingsAndroidSecuritySwitch.setEnabled(false);
+
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
 		DialogPasswordBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.dialog_password, null, false);
 		dialogBuilder.setView(binding.getRoot());
@@ -184,5 +171,10 @@ public class ControlRootViewModel extends BaseViewModel<FragmentControlRootBindi
 			androidSecuritySelectable.set(KeystoreCompat.INSTANCE.isSecurityEnabled());
 			return Unit.INSTANCE;
 		});
+	}
+
+
+	private void refreshCheckbox() {
+		userEventSwitchSecurity.set(ModelProvider.get().isPersistenceEncrypted());
 	}
 }

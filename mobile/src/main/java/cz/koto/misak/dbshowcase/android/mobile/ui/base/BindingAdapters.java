@@ -1,7 +1,9 @@
 package cz.koto.misak.dbshowcase.android.mobile.ui.base;
 
 import android.databinding.BindingAdapter;
+import android.support.annotation.DrawableRes;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import cz.koto.misak.dbshowcase.android.mobile.utility.FileUtils;
@@ -37,5 +39,11 @@ public class BindingAdapters {
 	@BindingAdapter("humanReadableByteCount")
 	public static void setHumanReadableByteCount(TextView textView, long byteCount) {
 		textView.setText(FileUtils.humanReadableByteCount(byteCount, true));
+	}
+
+
+	@BindingAdapter("drawable")
+	public static void setImageDrawable(ImageView view, @DrawableRes int resource) {
+		view.setImageResource(resource);
 	}
 }

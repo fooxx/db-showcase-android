@@ -9,7 +9,7 @@ import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
 
 
-public abstract class BaseFragment<T extends ViewDataBinding, S extends ViewModel<T>> extends ViewModelFragment<T, S> implements SnackbarProvider {
+public abstract class BaseFragment<T extends ViewDataBinding, S extends ViewModel> extends ViewModelFragment<T, S> implements SnackbarProvider {
 
 	@Override
 	public void showSnackBar(String text) {

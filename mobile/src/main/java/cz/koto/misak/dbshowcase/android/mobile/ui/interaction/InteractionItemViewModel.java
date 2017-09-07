@@ -17,26 +17,36 @@ import cz.koto.misak.dbshowcase.android.mobile.model.SchoolClassInterface;
 import cz.koto.misak.dbshowcase.android.mobile.model.StudentInterface;
 import cz.koto.misak.dbshowcase.android.mobile.model.TeacherInterface;
 import io.reactivex.Observable;
-import me.tatarka.bindingcollectionadapter.BaseItemViewSelector;
-import me.tatarka.bindingcollectionadapter.ItemView;
-import me.tatarka.bindingcollectionadapter.ItemViewSelector;
+import me.tatarka.bindingcollectionadapter2.OnItemBind;
 import timber.log.Timber;
+
+//import me.tatarka.bindingcollectionadapter.BaseItemViewSelector;
+//import me.tatarka.bindingcollectionadapter.ItemView;
+//import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 
 
 public class InteractionItemViewModel extends BaseObservable implements InteractionCard {
 
-	public final ItemViewSelector<StudentItemViewModel> studentItemView = new BaseItemViewSelector<StudentItemViewModel>() {
-		@Override
-		public void select(ItemView itemView, int position, StudentItemViewModel item) {
-			itemView.set(BR.studentViewModel, item.getPagerLayoutResource());
-		}
-	};
-	public final ItemViewSelector<TeacherItemViewModel> teacherItemView = new BaseItemViewSelector<TeacherItemViewModel>() {
-		@Override
-		public void select(ItemView itemView, int position, TeacherItemViewModel item) {
-			itemView.set(BR.teacherViewModel, item.getPagerLayoutResource());
-		}
-	};
+//	public final ItemViewSelector<StudentItemViewModel> studentItemView = new BaseItemViewSelector<StudentItemViewModel>() {
+//		@Override
+//		public void select(ItemView itemView, int position, StudentItemViewModel item) {
+//			itemView.set(BR.studentViewModel, item.getPagerLayoutResource());
+//		}
+//	};
+
+	public final OnItemBind<StudentItemViewModel> studentItemView = (itemBinding, position, item) -> itemBinding.set(BR.studentViewModel, item.getPagerLayoutResource());
+
+//	public final ItemViewSelector<TeacherItemViewModel> teacherItemView = new BaseItemViewSelector<TeacherItemViewModel>() {
+//		@Override
+//		public void select(ItemView itemView, int position, TeacherItemViewModel item) {
+//			itemView.set(BR.teacherViewModel, item.getPagerLayoutResource());
+//		}
+//	};
+
+	public final OnItemBind<TeacherItemViewModel> teacherItemView = (itemBinding, position, item) -> itemBinding.set(BR.teacherViewModel, item.getPagerLayoutResource());
+
+
+
 	public final ListScrollController listScrollController = new ListScrollController();
 	Context modelContext;
 	private SchoolClassInterface mSchoolModelItem;

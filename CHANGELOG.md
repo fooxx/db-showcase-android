@@ -1,3 +1,14 @@
+## 2.0.0
+Require at least Android Studio 3.0 Canary 5!
+### Features
+* Add working example of db-flow implementation
+* Add ability to switch Realm & DBFlow at runtime in the app
+
+### Enhancement
+* Remove retrolamda library
+
+
+
 ## 1.3.1
 ### Bug fixing
 * Fix situation after first uninstall/install cycle. If the realm file is not deleted after uninstall,

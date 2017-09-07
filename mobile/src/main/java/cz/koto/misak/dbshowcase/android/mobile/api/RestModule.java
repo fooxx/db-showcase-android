@@ -2,6 +2,7 @@ package cz.koto.misak.dbshowcase.android.mobile.api;
 
 import android.support.annotation.NonNull;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -22,6 +23,7 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.utility.RealmSt
 import dagger.Module;
 import dagger.Provides;
 import io.realm.RealmList;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -40,12 +42,28 @@ public class RestModule {
      *
      * @return
      */
+    @DbShowcaseLoggingInterceptor
     @Provides
     @NonNull
-    public static HttpLoggingInterceptor provideHttpLoggingInterceptor() {
+    public static Interceptor provideHttpLoggingInterceptor() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         return logging;
+    }
+
+
+    /**
+     * Ensure logging of okhttp3.OkHttpClient
+     * Add this always as the last interceptor!
+     *
+     * @return
+     */
+    @DbShowcaseStethoInterceptor
+    @Provides
+    @NonNull
+    public static Interceptor provideStethoInterceptor() {
+        return new StethoInterceptor();
+
     }
 
 
@@ -73,13 +91,14 @@ public class RestModule {
 
     @Provides
     @Singleton
-    OkHttpClient.Builder provideOkHttpClientBuilder(HttpLoggingInterceptor httpLoggingInterceptor){
+    OkHttpClient.Builder provideOkHttpClientBuilder(@DbShowcaseStethoInterceptor Interceptor stethoInterceptor,
+                                                    @DbShowcaseLoggingInterceptor Interceptor httpLoggingInterceptor) {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.connectTimeout(TIMEOUT, TimeUnit.SECONDS);
         client.readTimeout(TIMEOUT, TimeUnit.SECONDS);
         client.writeTimeout(TIMEOUT, TimeUnit.SECONDS);
         if(BuildConfig.DEBUG) {
-            client.addInterceptor(httpLoggingInterceptor);
+            client.addInterceptor(httpLoggingInterceptor).addNetworkInterceptor(stethoInterceptor);
         }
 
         return client;

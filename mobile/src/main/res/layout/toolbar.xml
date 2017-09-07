@@ -25,6 +25,7 @@
 		android:ellipsize="end"
 		android:textColor="@color/theme_primary_light"
 		android:textAppearance="@style/TextAppearance.AppCompat.Title"
+		android:text="@{viewModel.storageType}"
 		tools:text="Realm" />
 
 	<LinearLayout

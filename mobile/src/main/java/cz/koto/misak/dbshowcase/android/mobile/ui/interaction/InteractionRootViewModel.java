@@ -1,41 +1,44 @@
 package cz.koto.misak.dbshowcase.android.mobile.ui.interaction;
 
-import android.databinding.Bindable;
+import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
+import android.databinding.ObservableList;
+import android.view.LayoutInflater;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cz.kinst.jakub.view.SimpleStatefulLayout;
+import cz.kinst.jakub.view.StatefulLayout;
 import cz.koto.misak.dbshowcase.android.mobile.BR;
+import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.model.DataHandlerListener;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolModel;
 import cz.koto.misak.dbshowcase.android.mobile.ui.StateListener;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseViewModel;
+import cz.koto.misak.dbshowcase.android.mobile.utility.ApplicationEvent;
+import cz.koto.misak.dbshowcase.android.mobile.utility.EventsUtilityKt;
 import io.reactivex.Observable;
-import me.tatarka.bindingcollectionadapter.BaseItemViewSelector;
-import me.tatarka.bindingcollectionadapter.ItemView;
-import me.tatarka.bindingcollectionadapter.ItemViewSelector;
+import me.tatarka.bindingcollectionadapter2.OnItemBind;
 
 
 public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentInteractionRootBinding>
 		implements DataHandlerListener, StateListener {
 
-	public final ItemViewSelector<InteractionCard> cardItemView = new BaseItemViewSelector<InteractionCard>() {
-		@Override
-		public void select(ItemView itemView, int position, InteractionCard item) {
-			itemView.set(BR.viewModel, item.getPagerLayoutResource());
-		}
-	};
 
-	ObservableField<SchoolModel> schoolModel = new ObservableField<>();
-	private List<InteractionCard> mCardItemList;
 
+	public final OnItemBind<InteractionCard> cardItemView = (itemBinding, position, item) -> itemBinding.set(BR.viewModel, item.getPagerLayoutResource());
+
+
+	public final ObservableField<SchoolModel> schoolModel = new ObservableField<>();
+	public final ObservableList<InteractionCard> cardItemList = new ObservableArrayList<>();
+
+	public StatefulLayout.StateController stateController = null;
 
 	@Override
 	public void onViewModelCreated() {
 		super.onViewModelCreated();
-		getBinding().stateful.showProgress();
+		stateController = StatefulLayout.StateController.create()
+				.withState(SimpleStatefulLayout.State.PROGRESS, LayoutInflater.from(getActivity()).inflate(R.layout.include_progress, null))
+				.build();
 		ModelProvider.get().loadModel(this);
 	}
 
@@ -43,61 +46,58 @@ public class InteractionRootViewModel extends BaseViewModel<cz.koto.misak.dbshow
 	@Override
 	public void onViewAttached(boolean firstAttachment) {
 		super.onViewAttached(firstAttachment);
-		updateToolbar();
 	}
 
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		getBinding().stateful.showProgress();
+		setProgress();
 		ModelProvider.get().loadModel(this);
-		notifyPropertyChanged(BR.cardItemList);
-		updateToolbar();
+		refreshCardItemList();
 	}
 
 
 	@Override
 	public void handleSuccess() {
-		getBinding().stateful.showContent();
+		refreshCardItemList();
 		schoolModel.set(ModelProvider.get().getSchoolModel());
-		notifyPropertyChanged(BR.cardItemList);
-		updateToolbar();
+		setContent();
+		EventsUtilityKt.getApplicationEvents().onNext(ApplicationEvent.StateUpdateRequest.INSTANCE);
 	}
 
 
 	@Override
 	public void handleFailed(Throwable throwable) {
-		getBinding().stateful.showContent();
 		schoolModel.set(ModelProvider.get().getSchoolModel());
-		notifyPropertyChanged(BR.cardItemList);
-		updateToolbar();
+		refreshCardItemList();
+		setContent();
+		EventsUtilityKt.getApplicationEvents().onNext(ApplicationEvent.StateUpdateRequest.INSTANCE);
 	}
 
 
 	@Override
 	public void setProgress() {
-		getBinding().stateful.showProgress();
+		stateController.setState(SimpleStatefulLayout.State.PROGRESS);
 	}
 
 
 	@Override
 	public void setContent() {
-		getBinding().stateful.showContent();
+		stateController.setState(SimpleStatefulLayout.State.CONTENT);
 	}
 
 
-	@Bindable
-	public List<? extends InteractionCard> getCardItemList() {
+	public void refreshCardItemList() {
 		ModelProvider modelProvider = ModelProvider.get();
 		if(modelProvider.getSchoolModel() != null || !modelProvider.getSchoolModel().getSchoolItems().isEmpty()) {
-			mCardItemList = Observable.fromIterable(modelProvider.getSchoolModel().getSchoolItems())
+			cardItemList.clear();
+			cardItemList.addAll(Observable.fromIterable(modelProvider.getSchoolModel().getSchoolItems())
 					.map(item -> InteractionItemViewModel.getInstance(getContext(), item))
-					.toList().blockingGet();
+					.toList().blockingGet());
+			cardItemList.add(InteractionAddCardViewModel.getInstance(this, this, this));
+
 		}
-		if(mCardItemList == null) mCardItemList = new ArrayList<>();
-		mCardItemList.add(InteractionAddCardViewModel.getInstance(this, this, this));
-		return mCardItemList;
 	}
 
 

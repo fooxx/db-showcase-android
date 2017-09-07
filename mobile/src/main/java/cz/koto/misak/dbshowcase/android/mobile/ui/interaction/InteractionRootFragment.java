@@ -1,8 +1,8 @@
 package cz.koto.misak.dbshowcase.android.mobile.ui.interaction;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
-import cz.kinst.jakub.viewmodelbinding.ViewModelBindingConfig;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.FragmentInteractionRootBinding;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseFragment;
@@ -20,7 +20,9 @@ public class InteractionRootFragment extends BaseFragment<FragmentInteractionRoo
 
 
 	@Override
-	public ViewModelBindingConfig<InteractionRootViewModel> getViewModelBindingConfig() {
-		return new ViewModelBindingConfig<>(R.layout.fragment_interaction_root, InteractionRootViewModel.class);
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		setupViewModel(R.layout.fragment_interaction_root, InteractionRootViewModel.class);
+		super.onCreate(savedInstanceState);
 	}
+
 }

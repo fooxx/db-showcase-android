@@ -1,5 +1,6 @@
 package cz.koto.misak.dbshowcase.android.mobile.ui;
 
+import android.databinding.Bindable;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
@@ -7,7 +8,6 @@ import cz.kinst.jakub.viewmodelbinding.ViewModel;
 import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.DbKeystoreCompatConfig;
 import cz.koto.misak.dbshowcase.android.mobile.R;
-import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
 import cz.koto.misak.dbshowcase.android.mobile.model.SchoolModel;
 import cz.koto.misak.keystorecompat.KeystoreCompat;
@@ -16,12 +16,16 @@ import cz.koto.misak.keystorecompat.utility.IntentUtilityKt;
 import kotlin.Unit;
 
 
-public class MainViewModel extends ViewModel<ActivityMainBinding> {
+public class MainViewModel extends ViewModel {
 
 
 	public final ObservableBoolean progress = new ObservableBoolean(false);
 	public final ObservableField<SchoolModel> schoolModel = new ObservableField<>();
 	public final int FORCE_SIGNUP_REQUEST = 1111;
+	public ObservableField<String> storageType = new ObservableField<>();
+	public ObservableField<Integer> storageTypeIcon = new ObservableField<>(R.drawable.ic_database_black_24dp);
+	public ObservableField<String> storageState = new ObservableField<>();
+	public ObservableField<Integer> storageStateIcon = new ObservableField<>();
 
 
 	@Override
@@ -63,6 +67,18 @@ public class MainViewModel extends ViewModel<ActivityMainBinding> {
 	@Override
 	public void onViewModelDestroyed() {
 		super.onViewModelDestroyed();
+	}
+
+
+	@Bindable
+	public boolean isStorageTypeAvailable() {
+		return !storageType.get().isEmpty();
+	}
+
+
+	@Bindable
+	public boolean isStorageStateAvailable() {
+		return !storageState.get().isEmpty();
 	}
 
 

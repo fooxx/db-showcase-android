@@ -1,7 +1,7 @@
 package cz.koto.misak.dbshowcase.android.mobile;
 
-import android.app.Application;
 import android.os.StrictMode;
+import android.support.multidex.MultiDexApplication;
 
 import com.facebook.stetho.Stetho;
 import com.raizlabs.android.dbflow.config.FlowConfig;
@@ -17,7 +17,7 @@ import io.realm.Realm;
 import timber.log.Timber;
 
 
-public class DbApplication extends Application {
+public class DbApplication extends MultiDexApplication {
 
 	private static DbApplication sInstance;
 
@@ -49,7 +49,7 @@ public class DbApplication extends Application {
 //					.detectLeakedClosableObjects()
 					.detectAll()
 					.penaltyLog()
-					.penaltyDeath()
+					//.penaltyDeath()
 					.build());
 		}
 
@@ -99,6 +99,13 @@ public class DbApplication extends Application {
 		 * INIT DB FLOW
 		 */
 		FlowManager.init(new FlowConfig.Builder(this).openDatabasesOnInit(true).build());
+	}
+
+
+	@Override
+	public void onTerminate() {
+		FlowManager.destroy();
+		super.onTerminate();
 	}
 
 

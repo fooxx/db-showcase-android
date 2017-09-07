@@ -5,27 +5,31 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import cz.kinst.jakub.viewmodelbinding.ViewModelBindingConfig;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceSyncState;
+import cz.koto.misak.dbshowcase.android.mobile.persistence.PersistenceType;
 import cz.koto.misak.dbshowcase.android.mobile.ui.base.BaseActivity;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationManager;
 import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationProvider;
+import cz.koto.misak.dbshowcase.android.mobile.utility.ApplicationEvent;
 import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
+import cz.koto.misak.dbshowcase.android.mobile.utility.EventsUtilityKt;
 import cz.koto.misak.keystorecompat.KeystoreCompat;
 
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements NavigationProvider {
 
 	public static final int FORCE_ENCRYPTION_REQUEST_M = 1112;
-	private NavigationManager mNavigationManager = new NavigationManager(this, R.id.content);
+	private NavigationManager mNavigationManager = new NavigationManager(this, R.id.content) {
+		@Override
+		public void selectNavigationItem(int itemId) {
+			getBinding().navigation.getMenu().getItem(itemId).setChecked(true);
 
+		}
+	};
 
-	@Override
-	public ViewModelBindingConfig<MainViewModel> getViewModelBindingConfig() {
-		return new ViewModelBindingConfig<>(R.layout.activity_main, MainViewModel.class);
-	}
 
 
 	@Override
@@ -36,9 +40,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setupViewModel(R.layout.activity_main, MainViewModel.class);
 		super.onCreate(savedInstanceState);
 
 		mNavigationManager.restore(savedInstanceState);
+
+		EventsUtilityKt.getApplicationEvents().subscribe(applicationEvent -> {
+			if(ApplicationEvent.StateUpdateRequest.INSTANCE.equals(applicationEvent)) {
+				updateToolbar();
+			}
+		});
+
+		updateToolbar();
 
 		if(savedInstanceState == null)
 			getNavigationManager().getInteractionNavigationManager().switchToRoot();
@@ -74,7 +87,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		mNavigationManager.onSaveInstanceState(outState);
 	}
 
 
@@ -115,5 +127,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
 	}
 
+
+	public void updateToolbar() {
+		setSupportActionBar(getBinding().toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setTitle("");
+
+		PersistenceType activePersistenceType = ModelProvider.get().getActivePersistenceType();
+		PersistenceSyncState activePersistenceSyncState = ModelProvider.get().getActivePersistenceSyncState();
+		getViewModel().storageType.set(activePersistenceType == null ? "-" : ContextProvider.getString(activePersistenceType.getStringRes()));
+		getViewModel().storageState.set(activePersistenceSyncState == null ? null : ContextProvider.getString(activePersistenceSyncState.getDescRes()));
+		getViewModel().storageTypeIcon.set(activePersistenceType == null ? null : activePersistenceType.getIconRes());
+		getViewModel().storageStateIcon.set(activePersistenceSyncState == null ? null : activePersistenceSyncState.getIconRes());
+	}
 
 }

@@ -3,7 +3,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	>
 	<data>
-		<import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+		<import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 		<variable
 			name="studentViewModel"
 			type="cz.koto.misak.dbshowcase.android.mobile.ui.interaction.StudentItemViewModel" />
