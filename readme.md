@@ -65,6 +65,10 @@ adb pull /data/data/cz.koto.misak.dbshowcase.android.debug/files/default.realm
 
 ## Open to implement
 
+- **Paper**
+https://github.com/pilgr/Paper
+NoSQL object database using efficient Kryoserialization. Class structure handled automatically.
+
 - **ObjectBox**
 https://github.com/greenrobot/ObjectBox
 NoSQL object database from the team of GreenRobot.
