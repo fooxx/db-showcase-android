@@ -3,11 +3,11 @@
 ![DbShowcase](./mobile/src/main/res/mipmap-hdpi/ic_launcher.png "DbShowcase") <a href="https://play.google.com/store/apps/details?id=cz.koto.misak.dbshowcase.android"><img src="./extras/banner/google-play-badge.png" height="72"/></a>
 
 ```
-Unfortunatelly SecurityShowcase was removed from GooglePlay by google because it violates the deceptive device settings changes policy. 
+Unfortunatelly DBShowcase & SecurityShowcase were removed from GooglePlay by google because it violates the deceptive device settings changes policy. 
 
 This is caused by usage BIND_DEVICE_ADMIN for pre-Lollipop Android version.
 
-I have been currently working on change of the KeystoreCompat & SecurityShowcase to fulfill device settings.
+I have been currently working on change of the KeystoreCompat & SecurityShowcase & DBShowcase to fulfill device settings.
 KeystoreCompat will be also written in more component way (user will be able to include API version separatedly)
 ```
 
