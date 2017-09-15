@@ -53,6 +53,7 @@ Look for my notes from Android meetup:<br/>
 [ ![STRV](./extras/talks/STRV-Black_small.png) ](https://www.strv.com/)<br/>
 [Android Developer Meetup 11/2016 pdf](./extras/talks/realm.meetup.11-2016.pdf)<br/>
 [Android Developer Meetup 11/2016 Google slides](https://docs.google.com/presentation/d/1kT0RNL0JYa1TZ2Vs9Ft34XAIS5ej3DEpecz7RnXXXQ8/edit?usp=sharing)<br/>
+[Android Developer Meetup 11/2016 video](https://www.youtube.com/watch?v=NdrVjNNq4hc&t=100s)
 
 ### Inspect unencrypted data with Stetho/Chrome
 chrome://inspect/#devices
