@@ -13,7 +13,7 @@
 	<!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
 	<!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
 
-	<uses-sdk tools:overrideLibrary="cz.koto.misak.keystorecompat" />
+	<uses-sdk tools:overrideLibrary="cz.koto.keystorecompat" />
 
 	<application
 		android:name=".DbApplication"

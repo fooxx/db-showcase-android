@@ -63,13 +63,9 @@ dependencies
 
 			compile("org.jetbrains.kotlin:kotlin-stdlib:1.1.4-3")
 
-			compile('cz.koto.misak:android-keystore-compat:1.1.0') {
+			compile('cz.koto:android-keystore-compat:1.2.0') {
 				exclude group: 'com.android.support'
 			}
-//			compile project(':android-keystore-compat')
-//			compile(name: "android-keystore-compat-release", ext: "aar") {
-//				exclude group: 'com.android.support'
-//			}
 
 			final DBFLOW_VERSION = '4.0.4'
 			annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$DBFLOW_VERSION"
