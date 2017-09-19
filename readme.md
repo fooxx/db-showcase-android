@@ -7,7 +7,7 @@ Unfortunatelly DBShowcase & SecurityShowcase were removed from GooglePlay by goo
 
 This is caused by usage BIND_DEVICE_ADMIN for pre-Lollipop Android version.
   
-I have been currently working on change of the new version of SecurityShowcase to fulfill device settings:
+I have been currently working on change of the new version of DBShowcase to fulfill device settings:
 Developer must explain to users why you are requesting the ‘android.permission.BIND_DEVICE_ADMIN’ in his app. 
 Apps must provide accurate disclosure of their functionality and should perform as reasonably expected by the user. 
 Any changes to device settings must be made with the user's knowledge and consent and be easily reversible by the user.
