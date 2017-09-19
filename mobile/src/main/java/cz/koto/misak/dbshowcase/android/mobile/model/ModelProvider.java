@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.koto.keystorecompat.KeystoreCompat;
 import cz.koto.misak.dbshowcase.android.mobile.DbApplication;
 import cz.koto.misak.dbshowcase.android.mobile.api.DbShowcaseAPIClient;
 import cz.koto.misak.dbshowcase.android.mobile.model.utility.SchoolModelComposer;
@@ -20,7 +21,6 @@ import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.ShowcaseRealmMo
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.SchoolClassRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.persistence.realm.model.StudentRealmEntity;
 import cz.koto.misak.dbshowcase.android.mobile.utility.ByteUtility;
-import cz.koto.misak.keystorecompat.KeystoreCompat;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;

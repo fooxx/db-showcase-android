@@ -1,6 +1,6 @@
 package cz.koto.misak.dbshowcase.android.mobile;
 
-import cz.koto.misak.keystorecompat.KeystoreCompatConfig;
+import cz.koto.keystorecompat.KeystoreCompatConfig;
 
 
 public class DbKeystoreCompatConfig extends KeystoreCompatConfig {

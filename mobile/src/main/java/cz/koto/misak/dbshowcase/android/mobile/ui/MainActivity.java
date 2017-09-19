@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import cz.koto.keystorecompat.KeystoreCompat;
 import cz.koto.misak.dbshowcase.android.mobile.R;
 import cz.koto.misak.dbshowcase.android.mobile.databinding.ActivityMainBinding;
 import cz.koto.misak.dbshowcase.android.mobile.model.ModelProvider;
@@ -16,7 +17,6 @@ import cz.koto.misak.dbshowcase.android.mobile.ui.navigation.NavigationProvider;
 import cz.koto.misak.dbshowcase.android.mobile.utility.ApplicationEvent;
 import cz.koto.misak.dbshowcase.android.mobile.utility.ContextProvider;
 import cz.koto.misak.dbshowcase.android.mobile.utility.EventsUtilityKt;
-import cz.koto.misak.keystorecompat.KeystoreCompat;
 
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements NavigationProvider {

@@ -65,6 +65,7 @@ dependencies
 
 			compile('cz.koto:android-keystore-compat:1.2.0') {
 				exclude group: 'com.android.support'
+				exclude group: 'org.jetbrains.kotlin'
 			}
 
 			final DBFLOW_VERSION = '4.0.4'
