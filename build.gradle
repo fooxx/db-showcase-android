@@ -21,7 +21,7 @@ buildscript {
 		apollo_graphql_version = '0.3.0'
 		daggerVersion = "2.10"
 		androidStatefulLayoutSimpleVersion = "2.0.5"
-		tatarkaVersion = "2.1.0"
+		tatarkaVersion = "2.2.0"
 		stethoVersion = "1.5.0"
 		leakCanaryVersion = "1.5.1"
 

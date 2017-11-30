@@ -19,86 +19,92 @@ repositories {
 	mavenCentral()
 }
 android {
-			compileSdkVersion compile_sdk_version
-			buildToolsVersion build_tools_version
+	compileSdkVersion compile_sdk_version
+	buildToolsVersion build_tools_version
 
-			dataBinding.enabled = true
+	dataBinding.enabled = true
 
-			defaultConfig
-					{
-						applicationId "cz.koto.misak.dbshowcase.android"
-						minSdkVersion min_sdk_version
-						targetSdkVersion compile_sdk_version
-						versionCode GIT_TAG_COUNT
-						versionName GIT_TAG_NAME
-						aaptOptions.cruncherEnabled false
-						multiDexEnabled true
-						resValue "string", "app_name", "DBShowcase"
-						testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-						vectorDrawables.useSupportLibrary = true
-					}
-
-			lintOptions {
-				abortOnError false
+	defaultConfig
+			{
+				applicationId "cz.koto.misak.dbshowcase.android"
+				minSdkVersion min_sdk_version
+				targetSdkVersion compile_sdk_version
+				versionCode GIT_TAG_COUNT
+				versionName GIT_TAG_NAME
+				aaptOptions.cruncherEnabled false
+				multiDexEnabled true
+				resValue "string", "app_name", "DBShowcase"
+				testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+				vectorDrawables.useSupportLibrary = true
 			}
 
+	sourceSets {
+		main.java.srcDirs += 'src/main/kotlin'
+		main.java.srcDirs += 'src/debug/kotlin'
+		server.java.srcDirs += 'src/server/kotlin'
+		mock.java.srcDirs += 'src/mock/kotlin'
+	}
 
-			flavorDimensions "env"
-			//https://developer.android.com/studio/build/gradle-plugin-3-0-0-migration.html
-			productFlavors {
-				mock {
-					dimension = "env"
-					applicationIdSuffix ".mock"
-					versionNameSuffix "-mock"
-					resValue "string", "app_name", "DBShowMock"
-					buildConfigField "String", "REST_BASE_URL", "\"http://dummy.com/\""
-				}
-
-				server {
-					dimension = "env"
-					resValue "string", "app_name", "DBShow"
-					buildConfigField "String", "REST_BASE_URL", "\"https://kotopeky.cz/\""
-				}
-			}
+	lintOptions {
+		abortOnError false
+	}
 
 
-
-			buildTypes {
-
-				debug {
-					buildConfigField "boolean", "LOGS", "true"
-					applicationIdSuffix ".debug"
-					versionNameSuffix "-debug"
-					aaptOptions.cruncherEnabled true
-					// Disable fabric build ID generation for debug builds
-					ext.enableCrashlytics = false
-					// Only use this flag on builds you don't proguard or upload to beta-by-crashlytics
-					ext.alwaysUpdateBuildId = false
-				}
-
-				release {
-					buildConfigField "boolean", "LOGS", "false"
-
-					signingConfig signingConfigs.release
-					zipAlignEnabled true
-					minifyEnabled true
-					shrinkResources true
-
-					proguardFile 'proguard-rules/proguard-square-retrofit2.pro'
-					proguardFile 'proguard-rules/proguard-square-leakcanary.pro'
-					proguardFile 'proguard-rules/proguard-square-okio.pro'
-					proguardFile 'proguard-rules/proguard-glide.pro'
-					proguardFile 'proguard-rules/proguard-gson.pro'
-					proguardFile 'proguard-rules/proguard-square-okhttp3.pro'
-					proguardFile 'proguard-rules/proguard-support-design.pro'
-					proguardFile 'proguard-rules/proguard-support-v7-appcompat.pro'
-					proguardFile 'proguard-rules/proguard-support-v7-cardview.pro'
-					proguardFile 'proguard-rules/proguard-realm.pro'
-					proguardFile 'proguard-rules/proguard-reactive.pro'
-					proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-				}
-			}
+	flavorDimensions "env"
+	productFlavors {
+		mock {
+			dimension = "env"
+			applicationIdSuffix ".mock"
+			versionNameSuffix "-mock"
+			resValue "string", "app_name", "DBShowMock"
+			buildConfigField "String", "REST_BASE_URL", "\"http://dummy.com/\""
 		}
+
+		server {
+			dimension = "env"
+			resValue "string", "app_name", "DBShow"
+			buildConfigField "String", "REST_BASE_URL", "\"https://kotopeky.cz/\""
+		}
+	}
+
+
+
+	buildTypes {
+
+		debug {
+			buildConfigField "boolean", "LOGS", "true"
+			applicationIdSuffix ".debug"
+			versionNameSuffix "-debug"
+			aaptOptions.cruncherEnabled true
+			// Disable fabric build ID generation for debug builds
+			ext.enableCrashlytics = false
+			// Only use this flag on builds you don't proguard or upload to beta-by-crashlytics
+			ext.alwaysUpdateBuildId = false
+		}
+
+		release {
+			buildConfigField "boolean", "LOGS", "false"
+
+			signingConfig signingConfigs.release
+			zipAlignEnabled true
+			minifyEnabled true
+			shrinkResources true
+
+			proguardFile 'proguard-rules/proguard-square-retrofit2.pro'
+			proguardFile 'proguard-rules/proguard-square-leakcanary.pro'
+			proguardFile 'proguard-rules/proguard-square-okio.pro'
+			proguardFile 'proguard-rules/proguard-glide.pro'
+			proguardFile 'proguard-rules/proguard-gson.pro'
+			proguardFile 'proguard-rules/proguard-square-okhttp3.pro'
+			proguardFile 'proguard-rules/proguard-support-design.pro'
+			proguardFile 'proguard-rules/proguard-support-v7-appcompat.pro'
+			proguardFile 'proguard-rules/proguard-support-v7-cardview.pro'
+			proguardFile 'proguard-rules/proguard-realm.pro'
+			proguardFile 'proguard-rules/proguard-reactive.pro'
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		}
+	}
+}
 
 
 dependencies

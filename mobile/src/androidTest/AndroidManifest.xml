@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="cz.koto.misak.dbshowcase.android.mobile">
+	package="cz.koto.dbshowcase.android.mobile">
 
-    <uses-sdk android:targetSdkVersion="23" android:minSdkVersion="16"
+	<uses-sdk
+		android:targetSdkVersion="26" android:minSdkVersion="16"
         tools:overrideLibrary="android.support.test.uiautomator.v18"/>
 
 </manifest>
