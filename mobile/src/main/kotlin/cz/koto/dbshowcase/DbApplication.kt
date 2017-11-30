@@ -2,10 +2,9 @@ package cz.koto.dbshowcase
 
 import android.app.Application
 import android.os.StrictMode
-import cz.koto.dbshowcase.android.mobile.BuildConfig
 import timber.log.Timber
 
-class DBApplication : Application() {
+class DbApplication : Application() {
 
 
 	override fun onCreate() {
