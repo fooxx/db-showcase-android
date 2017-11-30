@@ -1,5 +1,4 @@
 <resources>
-	<string name="app_name">Db Show</string>
 	<string name="app_title">Android DB Showcase</string>
 	<string name="placeholder_empty">Empty</string>
 	<string name="placeholder_offline">You are offline.\n\nEnable your internet connection and press reload.</string>

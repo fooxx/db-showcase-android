@@ -5,8 +5,6 @@ apply plugin: 'realm-android'//REALM.IO
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-// App ID base (package name)
-final APPLICATION_ID = 'cz.koto.misak.dbshowcase.android'
 // Last Git tag name on current branch
 final GIT_TAG_NAME = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
 // Total number of tags in the app
@@ -20,43 +18,88 @@ repositories {
 	}
 	mavenCentral()
 }
-android
-		{
+android {
 			compileSdkVersion compile_sdk_version
 			buildToolsVersion build_tools_version
 
+			dataBinding.enabled = true
+
 			defaultConfig
 					{
-						applicationId APPLICATION_ID
-						minSdkVersion 16
-						targetSdkVersion 26
+						applicationId "cz.koto.misak.dbshowcase.android"
+						minSdkVersion min_sdk_version
+						targetSdkVersion compile_sdk_version
 						versionCode GIT_TAG_COUNT
 						versionName GIT_TAG_NAME
+						aaptOptions.cruncherEnabled false
 						multiDexEnabled true
+						resValue "string", "app_name", "DBShowcase"
+						testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+						vectorDrawables.useSupportLibrary = true
 					}
-
 
 			lintOptions {
 				abortOnError false
 			}
 
-			dataBinding {
-				enabled = true
+
+			flavorDimensions "env"
+			//https://developer.android.com/studio/build/gradle-plugin-3-0-0-migration.html
+			productFlavors {
+				mock {
+					dimension = "env"
+					applicationIdSuffix ".mock"
+					versionNameSuffix "-mock"
+					resValue "string", "app_name", "DBShowMock"
+					buildConfigField "String", "REST_BASE_URL", "\"http://dummy.com/\""
+				}
+
+				server {
+					dimension = "env"
+					resValue "string", "app_name", "DBShow"
+					buildConfigField "String", "REST_BASE_URL", "\"https://kotopeky.cz/\""
+				}
 			}
 
-			compileOptions {
-				sourceCompatibility JavaVersion.VERSION_1_8
-				targetCompatibility JavaVersion.VERSION_1_8
-			}
 
 
 			buildTypes {
+
+				debug {
+					buildConfigField "boolean", "LOGS", "true"
+					applicationIdSuffix ".debug"
+					versionNameSuffix "-debug"
+					aaptOptions.cruncherEnabled true
+					// Disable fabric build ID generation for debug builds
+					ext.enableCrashlytics = false
+					// Only use this flag on builds you don't proguard or upload to beta-by-crashlytics
+					ext.alwaysUpdateBuildId = false
+				}
+
 				release {
-					minifyEnabled false
+					buildConfigField "boolean", "LOGS", "false"
+
+					signingConfig signingConfigs.release
+					zipAlignEnabled true
+					minifyEnabled true
+					shrinkResources true
+
+					proguardFile 'proguard-rules/proguard-square-retrofit2.pro'
+					proguardFile 'proguard-rules/proguard-square-leakcanary.pro'
+					proguardFile 'proguard-rules/proguard-square-okio.pro'
+					proguardFile 'proguard-rules/proguard-glide.pro'
+					proguardFile 'proguard-rules/proguard-gson.pro'
+					proguardFile 'proguard-rules/proguard-square-okhttp3.pro'
+					proguardFile 'proguard-rules/proguard-support-design.pro'
+					proguardFile 'proguard-rules/proguard-support-v7-appcompat.pro'
+					proguardFile 'proguard-rules/proguard-support-v7-cardview.pro'
+					proguardFile 'proguard-rules/proguard-realm.pro'
+					proguardFile 'proguard-rules/proguard-reactive.pro'
 					proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 				}
 			}
 		}
+
 
 dependencies
 		{
